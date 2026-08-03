@@ -1,0 +1,799 @@
+<title>다시, 봄 — 무자녀 돌싱 모임</title>
+<style>
+  :root {
+    --ink: #12141c;
+    --ink-2: #1b1f2c;
+    --ink-3: #232838;
+    --text: #eef0f5;
+    --text-dim: #9aa1b3;
+    --gold: #d1a05c;
+    --gold-soft: #d1a05c2e;
+    --sage: #7c9a8e;
+    --line: #ffffff17;
+    --paper: #f6f3ee;
+    --paper-2: #ffffff;
+    --charcoal: #262a35;
+    --charcoal-dim: #6b7180;
+    --line-l: #26283013;
+
+    /* spacing scale */
+    --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+    --s-5: 20px; --s-6: 28px; --s-7: 40px; --s-8: 56px;
+    --s-9: 80px; --s-10: 104px;
+
+    /* type scale */
+    --fs-2xs: 12px; --fs-xs: 13px; --fs-sm: 14px; --fs-base: 15.5px;
+    --fs-md: 17.5px; --fs-lg: 20px; --fs-xl: clamp(24px, 3vw, 32px);
+    --fs-hero: clamp(34px, 5.2vw, 56px);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: var(--paper); --surface: var(--paper-2); --surface-2: #efe9df;
+      --fg: var(--charcoal); --fg-dim: var(--charcoal-dim);
+      --rule: var(--line-l); --accent: #b9793f; --accent-ink: #ffffff;
+      --tag-bg: #7c9a8e1f; --tag-fg: #4d6b60;
+      --shadow: 0 1px 2px #26283010, 0 10px 28px -14px #2628301f;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: var(--ink); --surface: var(--ink-2); --surface-2: var(--ink-3);
+      --fg: var(--text); --fg-dim: var(--text-dim);
+      --rule: var(--line); --accent: var(--gold); --accent-ink: #23180a;
+      --tag-bg: #7c9a8e22; --tag-fg: #a9c4b9;
+      --shadow: 0 1px 2px #00000030, 0 14px 34px -16px #00000066;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: var(--paper); --surface: var(--paper-2); --surface-2: #efe9df;
+    --fg: var(--charcoal); --fg-dim: var(--charcoal-dim);
+    --rule: var(--line-l); --accent: #b9793f; --accent-ink: #ffffff;
+    --tag-bg: #7c9a8e1f; --tag-fg: #4d6b60;
+    --shadow: 0 1px 2px #26283010, 0 10px 28px -14px #2628301f;
+  }
+  :root[data-theme="dark"] {
+    --bg: var(--ink); --surface: var(--ink-2); --surface-2: var(--ink-3);
+    --fg: var(--text); --fg-dim: var(--text-dim);
+    --rule: var(--line); --accent: var(--gold); --accent-ink: #23180a;
+    --tag-bg: #7c9a8e22; --tag-fg: #a9c4b9;
+    --shadow: 0 1px 2px #00000030, 0 14px 34px -16px #00000066;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard Variable", "Malgun Gothic", "Segoe UI", sans-serif;
+    font-size: var(--fs-base);
+    line-height: 1.7;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+
+  a { color: inherit; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 800; letter-spacing: -0.01em; line-height: 1.32; }
+  p { margin: 0; }
+
+  ::selection { background: var(--gold-soft); }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  /* nav */
+  header.nav {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: var(--s-4) 32px; max-width: 1080px; margin: 0 auto; gap: var(--s-6); }
+  .brand { display: flex; align-items: baseline; gap: 7px; font-weight: 800; font-size: var(--fs-md); letter-spacing: -0.01em; white-space: nowrap; }
+  .brand .dot { color: var(--accent); }
+  .nav-links { display: flex; gap: var(--s-6); font-size: var(--fs-sm); color: var(--fg-dim); }
+  .nav-links a { text-decoration: none; transition: color .15s ease; }
+  .nav-links a:hover { color: var(--fg); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+    padding: 11px 20px; border-radius: 3px; font-size: var(--fs-sm); font-weight: 700;
+    background: var(--accent); color: var(--accent-ink); text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform .15s ease, filter .15s ease, border-color .15s ease;
+  }
+  .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .btn.ghost { background: transparent; color: var(--fg); border-color: var(--rule); }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.sm { padding: 8px 16px; font-size: var(--fs-xs); }
+
+  /* hero */
+  .hero { position: relative; padding: var(--s-10) 0 var(--s-9); overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .hero::before {
+    content: ""; position: absolute; inset: -22% -10% auto -10%; height: 460px;
+    background: radial-gradient(closest-side, var(--gold-soft), transparent 72%);
+    filter: blur(6px);
+    animation: glow 10s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } }
+  @keyframes glow { 0%, 100% { opacity: .5; transform: translateY(0); } 50% { opacity: .85; transform: translateY(16px); } }
+  .eyebrow {
+    position: relative; display: inline-flex; align-items: center; gap: var(--s-2);
+    font-size: var(--fs-2xs); letter-spacing: .09em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: var(--s-5);
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); }
+  .hero h1 { position: relative; font-size: var(--fs-hero); line-height: 1.24; max-width: 15ch; letter-spacing: -0.015em; }
+  .hero p.lead { position: relative; margin: var(--s-5) 0 var(--s-7); font-size: var(--fs-md); line-height: 1.75; color: var(--fg-dim); max-width: 44ch; }
+  .hero-ctas { position: relative; display: flex; gap: var(--s-3); flex-wrap: wrap; align-items: center; }
+  .badges { position: relative; display: flex; gap: var(--s-5); margin-top: var(--s-8); flex-wrap: wrap; padding-top: var(--s-6); border-top: 1px solid var(--rule); }
+  .badge { display: flex; align-items: center; gap: var(--s-2); font-size: var(--fs-xs); color: var(--fg-dim); }
+  .badge .dot2 { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex: none; }
+  .stats { position: relative; display: flex; gap: var(--s-8); margin-top: var(--s-8); flex-wrap: wrap; }
+  .stat b { display: block; font-size: 30px; font-weight: 800; letter-spacing: -0.01em; }
+  .stat span { font-size: var(--fs-xs); color: var(--fg-dim); }
+
+  section { padding: var(--s-9) 0; }
+  section.tight { padding: var(--s-8) 0; }
+  section + section { border-top: 1px solid var(--rule); }
+  .head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--s-6); margin-bottom: var(--s-8); flex-wrap: wrap; }
+  .head h2 { font-size: var(--fs-xl); }
+  .head p { margin: var(--s-3) 0 0; color: var(--fg-dim); font-size: var(--fs-sm); line-height: 1.7; max-width: 48ch; }
+  .kicker { display: block; font-size: var(--fs-2xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--s-3); }
+
+  /* value props */
+  .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .value { background: var(--bg); padding: var(--s-7) var(--s-6); }
+  .value .num { font-size: var(--fs-xs); color: var(--accent); font-weight: 700; margin-bottom: var(--s-4); }
+  .value h3 { font-size: var(--fs-lg); margin-bottom: var(--s-3); line-height: 1.4; }
+  .value p { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); }
+
+  /* safety grid */
+  .safety { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+  .safety .item { padding: var(--s-5) 0 0; border-top: 2px solid var(--rule); }
+  .safety .item.on { border-top-color: var(--accent); }
+  .safety h3 { font-size: var(--fs-sm); margin-bottom: var(--s-2); }
+  .safety p { font-size: var(--fs-xs); line-height: 1.7; color: var(--fg-dim); }
+
+  /* counseling */
+  .counsel { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+  .counsel-note {
+    display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-6);
+    padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--accent);
+    border-radius: 4px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim);
+  }
+  .counsel-note b { color: var(--fg); font-weight: 700; }
+
+  /* event cards */
+  .events { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  .card {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+    padding: var(--s-6); box-shadow: var(--shadow);
+    transition: transform .18s ease, border-color .18s ease;
+    display: flex; flex-direction: column;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-3); }
+  .tag { display: inline-block; font-size: var(--fs-2xs); font-weight: 700; padding: 4px 10px; border-radius: 2px; background: var(--tag-bg); color: var(--tag-fg); }
+  .price { font-size: var(--fs-2xs); color: var(--fg-dim); }
+  .price b { color: var(--fg); font-weight: 700; }
+  .card h3 { font-size: var(--fs-md); margin: var(--s-4) 0 var(--s-2); line-height: 1.4; }
+  .card p { font-size: var(--fs-sm); line-height: 1.7; color: var(--fg-dim); margin: 0 0 var(--s-5); flex: 1; }
+  .card .meta { display: flex; justify-content: space-between; font-size: var(--fs-2xs); color: var(--fg-dim); border-top: 1px dashed var(--rule); padding-top: var(--s-4); }
+
+  /* schedule */
+  .sched-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+  .sched-table th { text-align: left; font-size: var(--fs-2xs); text-transform: uppercase; letter-spacing: .06em; color: var(--fg-dim); font-weight: 700; padding: 0 var(--s-3) var(--s-4) 0; border-bottom: 1px solid var(--rule); }
+  .sched-table td { padding: var(--s-5) var(--s-3) var(--s-5) 0; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+  .sched-table tr:last-child td { border-bottom: none; }
+  .ev-name { font-family: -apple-system, "Apple SD Gothic Neo", sans-serif; font-weight: 600; }
+  .ev-sub { display: block; font-size: var(--fs-2xs); color: var(--fg-dim); font-family: -apple-system, sans-serif; margin-top: 2px; }
+  .pill { font-size: var(--fs-2xs); font-weight: 700; padding: 4px 11px; border-radius: 99px; white-space: nowrap; }
+  .pill.open { background: var(--tag-bg); color: var(--tag-fg); }
+  .pill.soon { background: var(--gold-soft); color: var(--accent); }
+  .pill.full { background: var(--rule); color: var(--fg-dim); }
+  .scroll-x { overflow-x: auto; }
+
+  /* testimonials */
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  .quote { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: var(--s-6); display: flex; flex-direction: column; }
+  .quote p { font-size: var(--fs-sm); line-height: 1.75; margin: 0 0 var(--s-5); flex: 1; }
+  .quote footer { font-size: var(--fs-xs); color: var(--fg-dim); display: flex; justify-content: space-between; border-top: 1px solid var(--rule); padding-top: var(--s-4); }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s-5); }
+  .step { position: relative; padding-top: var(--s-2); }
+  .step .n { font-size: var(--fs-xs); font-weight: 800; color: var(--accent); margin-bottom: var(--s-3); }
+  .step h3 { font-size: var(--fs-base); margin-bottom: var(--s-2); line-height: 1.4; display: flex; align-items: baseline; gap: var(--s-2); flex-wrap: wrap; }
+  .step .dur { font-size: var(--fs-2xs); color: var(--fg-dim); font-weight: 400; }
+  .step p { font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
+  .step:not(:last-child)::after {
+    content: ""; position: absolute; top: 13px; left: 100%; width: 20px; height: 1px;
+    background: var(--rule); margin-left: -10px; display: none;
+  }
+  @media (min-width: 900px) { .step:not(:last-child)::after { display: block; } }
+
+  /* guidelines */
+  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4) var(--s-8); }
+  .rule-item { display: flex; gap: var(--s-3); align-items: flex-start; font-size: var(--fs-sm); line-height: 1.7; }
+  .rule-item .mark { color: var(--accent); font-weight: 800; flex: none; }
+
+  /* faq */
+  .faq { display: flex; flex-direction: column; }
+  .faq-item { padding: var(--s-6) 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 2fr 3fr; gap: var(--s-6); }
+  .faq-item:first-child { padding-top: 0; }
+  .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .faq-q { font-size: var(--fs-base); font-weight: 700; line-height: 1.5; }
+  .faq-q .q-mark { color: var(--accent); margin-right: var(--s-2); }
+  .faq-a { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); }
+
+  footer.site { padding: var(--s-8) 0 var(--s-6); }
+  .cta-panel {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+    padding: var(--s-8) var(--s-6); text-align: center; margin-bottom: var(--s-7);
+  }
+  .cta-panel h2 { font-size: var(--fs-xl); margin-bottom: var(--s-3); }
+  .cta-panel p { color: var(--fg-dim); margin: 0 0 var(--s-6); font-size: var(--fs-sm); }
+  .foot-bottom { display: flex; justify-content: space-between; align-items: center; font-size: var(--fs-xs); color: var(--fg-dim); flex-wrap: wrap; gap: var(--s-3); }
+  .foot-bottom .fine { max-width: 60ch; line-height: 1.7; }
+
+  @media (max-width: 900px) {
+    .safety { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .faq-item { grid-template-columns: 1fr; gap: var(--s-2); }
+  }
+  @media (max-width: 720px) {
+    .values, .events, .quotes, .counsel { grid-template-columns: 1fr; }
+    .safety, .steps { grid-template-columns: 1fr; }
+    .rules { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .wrap { padding: 0 20px; }
+  }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* join modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    background: color-mix(in srgb, var(--ink) 55%, transparent);
+    backdrop-filter: blur(3px);
+    align-items: center; justify-content: center; padding: var(--s-5);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    position: relative; width: 100%; max-width: 460px; max-height: 88vh; overflow-y: auto;
+    background: var(--bg); color: var(--fg); border: 1px solid var(--rule); border-radius: 8px;
+    box-shadow: var(--shadow); padding: var(--s-7) var(--s-6) var(--s-6);
+    animation: modal-in .18s ease;
+  }
+  @media (prefers-reduced-motion: reduce) { .modal { animation: none; } }
+  @keyframes modal-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+  .modal-close {
+    position: absolute; top: var(--s-5); right: var(--s-5); width: 30px; height: 30px;
+    border-radius: 50%; border: 1px solid var(--rule); background: transparent; color: var(--fg-dim);
+    font-size: 16px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+  .modal .kicker { margin-bottom: var(--s-2); }
+  .modal h2 { font-size: var(--fs-lg); margin-bottom: var(--s-2); padding-right: var(--s-7); }
+  .modal > p.sub { font-size: var(--fs-sm); color: var(--fg-dim); margin: 0 0 var(--s-6); line-height: 1.7; }
+  .field { display: flex; flex-direction: column; gap: var(--s-2); margin-bottom: var(--s-5); }
+  .field label { font-size: var(--fs-xs); font-weight: 700; }
+  .field .hint { font-size: var(--fs-2xs); color: var(--fg-dim); font-weight: 400; }
+  .field input[type="text"], .field input[type="tel"], .field select {
+    width: 100%; font: inherit; font-size: var(--fs-sm); color: var(--fg);
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 4px;
+    padding: 10px 12px;
+  }
+  .field input::placeholder { color: var(--fg-dim); }
+  .field input:focus, .field select:focus { border-color: var(--accent); }
+  .check-row { display: flex; align-items: flex-start; gap: var(--s-3); font-size: var(--fs-xs); color: var(--fg-dim); line-height: 1.6; margin-bottom: var(--s-6); }
+  .check-row input { margin-top: 3px; accent-color: var(--accent); flex: none; }
+  .modal .btn { width: 100%; justify-content: center; padding: 12px 20px; }
+  .modal-success { text-align: center; padding: var(--s-6) 0 var(--s-3); }
+  .modal-success .mark { width: 44px; height: 44px; border-radius: 50%; background: var(--tag-bg); color: var(--tag-fg); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--s-5); font-size: 20px; }
+  .modal-success h2 { margin-bottom: var(--s-3); }
+  .modal-success p { font-size: var(--fs-sm); color: var(--fg-dim); line-height: 1.75; margin: 0 auto var(--s-6); max-width: 34ch; }
+  [hidden] { display: none !important; }
+</style>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">다시<span class="dot">,</span> 봄</div>
+    <nav class="nav-links">
+      <a href="#about">소개</a>
+      <a href="#safety">안전장치</a>
+      <a href="#counseling">상담</a>
+      <a href="#events">모임</a>
+      <a href="#schedule">일정</a>
+      <a href="#voices">후기</a>
+      <a href="#join">가입안내</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn" href="#join" data-modal-open="join">무료 가입하기</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">무자녀 돌싱을 위한 소모임 커뮤니티</div>
+    <h1>지난 계절은 지났고,<br>이제 다시, 봄입니다.</h1>
+    <p class="lead">아이 이야기를 하지 않아도 되는 자리, 서로의 사정을 굳이 설명하지 않아도 되는 사람들. 무자녀로 이혼을 경험한 분들이 부담 없이 만나 밥 먹고, 걷고, 웃는 소규모 모임입니다.</p>
+    <div class="hero-ctas">
+      <a class="btn" href="#join" data-modal-open="join">무료 가입하기</a>
+      <a class="btn ghost" href="#events">모임 둘러보기</a>
+    </div>
+    <div class="stats mono">
+      <div class="stat"><b>2,140</b><span>활동 회원</span></div>
+      <div class="stat"><b>96</b><span>월 평균 모임 수</span></div>
+      <div class="stat"><b>34</b><span>평균 연령</span></div>
+      <div class="stat"><b>1.4일</b><span>평균 가입 승인 소요</span></div>
+    </div>
+    <div class="badges">
+      <div class="badge"><span class="dot2"></span>서류 기반 본인 인증</div>
+      <div class="badge"><span class="dot2"></span>운영진 2인 교차 검토</div>
+      <div class="badge"><span class="dot2"></span>비공개 신고 · 즉시 조치</div>
+      <div class="badge"><span class="dot2"></span>4~14인 소규모 정원</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Why Dasi-bom</span>
+        <h2>왜 &ldquo;다시, 봄&rdquo;인가요</h2>
+        <p>일반 소셜 모임 앱도, 재혼 전문 매칭업체도 아닙니다. 무자녀로 이혼을 경험한 사람이라는 특정한 상황에 맞춘, 조금 더 편한 온도의 커뮤니티입니다.</p>
+      </div>
+    </div>
+    <div class="values">
+      <div class="value">
+        <div class="num mono">01</div>
+        <h3>설명하지 않아도 되는 자리</h3>
+        <p>왜 이혼했는지, 아이는 왜 없는지 묻지 않는 것이 가입 시 동의하는 기본 규칙입니다. 이를 어기면 첫 위반은 경고, 재발 시 즉시 자격이 정지됩니다.</p>
+      </div>
+      <div class="value">
+        <div class="num mono">02</div>
+        <h3>서류 기반 본인 인증</h3>
+        <p>가족관계증명서(상세) 또는 이혼신고 확인서와 신분증 대조를 거친 회원만 활동할 수 있습니다. 미혼·기혼 상태이거나 서류가 확인되지 않으면 가입이 반려됩니다.</p>
+      </div>
+      <div class="value">
+        <div class="num mono">03</div>
+        <h3>관계의 방향은 본인이 정함</h3>
+        <p>연애, 재혼, 우정 중 어느 쪽도 강요하지 않습니다. 프로필에 &ldquo;친목만 희망&rdquo; 표시를 설정하면 다른 회원에게도 그대로 노출됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="safety" class="tight">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Trust &amp; Safety</span>
+        <h2>안전을 위한 네 가지 장치</h2>
+        <p>실명 기반 커뮤니티인 만큼, 신뢰와 개인정보 보호를 최우선 원칙으로 운영합니다.</p>
+      </div>
+    </div>
+    <div class="safety">
+      <div class="item on">
+        <h3>이중 서류 검토</h3>
+        <p>운영진 2인이 각각 독립적으로 서류를 검토하고, 결과가 일치할 때만 승인합니다. 위조가 의심되면 즉시 반려 및 재가입이 제한됩니다.</p>
+      </div>
+      <div class="item on">
+        <h3>단계적 정보 공개</h3>
+        <p>실명과 얼굴 사진은 기본 비공개이며, 모임 참여가 확정된 상대에게만 순차적으로 공개할 수 있습니다.</p>
+      </div>
+      <div class="item on">
+        <h3>즉시 신고 · 차단</h3>
+        <p>불편한 대화나 행동은 앱 내에서 즉시 신고할 수 있고, 접수 후 24시간 이내 운영진이 조치 결과를 안내합니다.</p>
+      </div>
+      <div class="item on">
+        <h3>데이터 최소 보관</h3>
+        <p>인증 서류는 승인 완료 즉시 파기하며, 탈퇴 시 활동 기록도 관련 법령이 정한 최소 기간 후 완전 삭제됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="counseling">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Care &amp; Counseling</span>
+        <h2>심리상담 서비스</h2>
+        <p>이혼 이후의 감정은 모임만으로 다 다뤄지지 않을 수 있습니다. &ldquo;다시, 봄&rdquo;은 자격을 갖춘 상담사와 연계해 회원 대상 상담 서비스를 함께 운영합니다.</p>
+      </div>
+    </div>
+    <div class="counsel">
+      <div class="card">
+        <div class="card-top"><span class="tag">개인상담</span><span class="price">회당 <b>8만원</b></span></div>
+        <h3>1:1 개별 심리상담</h3>
+        <p>임상심리사·전문상담사 자격을 갖춘 상담사와 1:1로 진행합니다. 이혼 후 상실감, 자존감 저하, 대인관계 어려움 등을 다루며 필요 시 장기 상담으로 연계됩니다.</p>
+        <div class="meta"><span>회당 50분</span><span>대면 · 화상 선택</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">그룹상담</span><span class="price">8주 <b>24만원</b></span></div>
+        <h3>이혼 후 회복 그룹상담</h3>
+        <p>6~8인 소그룹으로 8주간 진행되는 구조화 프로그램입니다. 비슷한 경험을 가진 사람들과 감정을 나누며 상실, 분노, 새로운 자기 정체성 형성 단계를 함께 밟습니다.</p>
+        <div class="meta"><span>주 1회 · 8주 과정</span><span>6~8인</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">온라인</span><span class="price">회당 <b>6만원</b></span></div>
+        <h3>화상 상담</h3>
+        <p>지방 거주 또는 시간이 맞지 않는 회원을 위한 비대면 상담입니다. 예약제로 운영되며, 상담 기록은 암호화되어 상담사 본인만 열람할 수 있습니다.</p>
+        <div class="meta"><span>회당 50분</span><span>평일 저녁 · 주말 오전</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">위기상담</span><span class="price"><b>무료</b></span></div>
+        <h3>24시간 위기상담 핫라인</h3>
+        <p>급격한 정서적 위기 상황에서 즉시 연결되는 상담 채널입니다. 전문 상담사가 상시 대기하며, 필요한 경우 정신건강복지센터 등 전문기관으로 연계합니다.</p>
+        <div class="meta"><span>연중무휴 · 즉시 연결</span><span>익명 이용 가능</span></div>
+      </div>
+    </div>
+    <div class="counsel-note">
+      <span>&mdash;</span>
+      <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 상담사는 별도의 비밀유지 의무를 지며, 예약은 앱 내 &ldquo;상담&rdquo; 탭에서 원하는 유형과 상담사를 선택해 진행합니다.</span>
+    </div>
+  </div>
+</section>
+
+<section id="events">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Gatherings</span>
+        <h2>모임 유형</h2>
+        <p>매주 다양한 소규모 모임이 열립니다. 인원을 4~14명으로 제한해 누구나 부담 없이 대화에 낄 수 있게 합니다.</p>
+      </div>
+      <a class="btn ghost sm" href="#schedule">전체 일정 보기</a>
+    </div>
+    <div class="events">
+      <div class="card">
+        <div class="card-top"><span class="tag">소셜 다이닝</span><span class="price">회비 <b>4.5만원</b></span></div>
+        <h3>평일 저녁 식사 모임</h3>
+        <p>퇴근 후 가볍게 밥 한 끼. 매회 새로운 조합으로 배정되며, 진행자가 대화 주제를 준비해 어색함을 줄입니다.</p>
+        <div class="meta"><span>수 · 목 저녁 7시</span><span>4~6인</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">액티비티</span><span class="price">회비 <b>1만원</b></span></div>
+        <h3>주말 러닝크루</h3>
+        <p>한강에서 5km 내외로 가볍게 달리고 근처 카페에서 마무리합니다. 체력 무관, 완주보다 대화가 목적입니다.</p>
+        <div class="meta"><span>토 오전 7시</span><span>6~10인</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">클래스</span><span class="price">회비 <b>7만원</b></span></div>
+        <h3>원데이 와인 클래스</h3>
+        <p>소믈리에와 함께하는 테이스팅 클래스. 정해진 테이블 배치와 활동지가 있어 낯가림이 있어도 참여하기 편합니다.</p>
+        <div class="meta"><span>격주 금 저녁 7시반</span><span>8인</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">토크</span><span class="price">회비 <b>무료</b></span></div>
+        <h3>북클럽 &mdash; 다시 쓰는 나</h3>
+        <p>매달 한 권, 이혼 이후의 삶과 자기 회복을 다루는 책을 함께 읽습니다. 온라인 사전 모임과 오프라인 본모임으로 나뉩니다.</p>
+        <div class="meta"><span>월 1회 일요일</span><span>5~7인</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">여행</span><span class="price">회비 <b>18만원~</b></span></div>
+        <h3>1박 2일 소모임 여행</h3>
+        <p>가까운 근교로 떠나는 짧은 여행. 숙소는 성별로 분리 배정하며, 일부 일정은 자유 참여로 부담을 줄입니다.</p>
+        <div class="meta"><span>분기 1회</span><span>10~14인</span></div>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">액티비티</span><span class="price">회비 <b>1만원</b></span></div>
+        <h3>주중 등산 모임</h3>
+        <p>서울 근교 코스 위주로 진행하며, 초보자 배려 코스와 상급 코스를 나누어 체력 부담 없이 참여할 수 있습니다.</p>
+        <div class="meta"><span>격주 일요일</span><span>6~10인</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule" class="tight">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">This Month</span>
+        <h2>이번 달 모임 일정</h2>
+        <p>선착순 마감이며, 가입 후 프로필 승인이 완료되면 신청할 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="scroll-x">
+      <table class="sched-table mono">
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th style="font-family: -apple-system, sans-serif;">모임</th>
+            <th style="font-family: -apple-system, sans-serif;">장소</th>
+            <th>회비</th>
+            <th>정원</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>08.06<br><span class="ev-sub">목</span></td>
+            <td><span class="ev-name">평일 저녁 식사 모임</span><span class="ev-sub">7:00 PM 시작 · 진행자 배정</span></td>
+            <td style="font-family: -apple-system, sans-serif;">성수동</td>
+            <td>4.5만</td>
+            <td>4 / 6</td>
+            <td><span class="pill open">모집중</span></td>
+          </tr>
+          <tr>
+            <td>08.09<br><span class="ev-sub">일</span></td>
+            <td><span class="ev-name">주중 등산 모임 · 초급</span><span class="ev-sub">난이도 하 · 3시간 코스</span></td>
+            <td style="font-family: -apple-system, sans-serif;">북한산</td>
+            <td>1만</td>
+            <td>7 / 10</td>
+            <td><span class="pill soon">마감임박</span></td>
+          </tr>
+          <tr>
+            <td>08.15<br><span class="ev-sub">토</span></td>
+            <td><span class="ev-name">주말 러닝크루</span><span class="ev-sub">5km · 페이스 자유</span></td>
+            <td style="font-family: -apple-system, sans-serif;">반포 한강공원</td>
+            <td>1만</td>
+            <td>5 / 8</td>
+            <td><span class="pill open">모집중</span></td>
+          </tr>
+          <tr>
+            <td>08.21<br><span class="ev-sub">금</span></td>
+            <td><span class="ev-name">원데이 와인 클래스</span><span class="ev-sub">소믈리에 진행</span></td>
+            <td style="font-family: -apple-system, sans-serif;">청담동</td>
+            <td>7만</td>
+            <td>8 / 8</td>
+            <td><span class="pill full">마감</span></td>
+          </tr>
+          <tr>
+            <td>08.30<br><span class="ev-sub">일</span></td>
+            <td><span class="ev-name">북클럽 &mdash; 다시 쓰는 나</span><span class="ev-sub">이번 달 선정도서 안내 예정</span></td>
+            <td style="font-family: -apple-system, sans-serif;">온라인 + 강남</td>
+            <td>무료</td>
+            <td>3 / 7</td>
+            <td><span class="pill open">모집중</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="voices">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Member Voices</span>
+        <h2>회원들의 이야기</h2>
+        <p>익명성을 위해 이니셜과 나이대만 표기합니다.</p>
+      </div>
+    </div>
+    <div class="quotes">
+      <div class="quote">
+        <p>&ldquo;처음엔 그냥 밥 한번 먹자는 마음으로 나갔는데, 아무도 캐묻지 않아서 오히려 마음이 편했어요. 그게 제일 좋았습니다.&rdquo;</p>
+        <footer><span>J.M.</span><span>30대 후반 · 다이닝 모임</span></footer>
+      </div>
+      <div class="quote">
+        <p>&ldquo;러닝크루에서 만난 사람들과 지금도 따로 연락해요. 연애 목적이 아니어도 진짜 친구가 생길 수 있더라고요.&rdquo;</p>
+        <footer><span>K.S.</span><span>40대 초반 · 러닝크루</span></footer>
+      </div>
+      <div class="quote">
+        <p>&ldquo;서류 인증 절차가 확실해서 처음부터 신뢰가 갔어요. 이상한 사람이 걸러진다는 느낌이 컸습니다.&rdquo;</p>
+        <footer><span>H.Y.</span><span>30대 중반 · 북클럽</span></footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="tight">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">How to Join</span>
+        <h2>가입 절차</h2>
+        <p>승인까지 평균 1~2일이 소요됩니다.</p>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="n mono">01</div>
+        <h3>본인 인증<span class="dur mono">약 5분</span></h3>
+        <p>휴대폰 본인인증 후, 이혼사실이 기재된 가족관계증명서(상세) 또는 이혼신고 확인서 1종을 업로드합니다. 자녀 유무 확인을 위해 자녀 항목이 포함된 서류만 인정되며, 파일은 승인 완료 즉시 파기됩니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">02</div>
+        <h3>프로필 작성<span class="dur mono">약 10분</span></h3>
+        <p>표시 이름(실명 비공개 가능), 나이대, 거주 지역, 관심 모임 3개 이상, 자기소개 200자를 작성합니다. 사진은 선택이며 흐림 처리 후 공개하는 옵션도 제공됩니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">03</div>
+        <h3>운영진 검토<span class="dur mono">1~2일</span></h3>
+        <p>서류 진위와 자기소개 내용을 운영진 2인이 독립적으로 교차 검토합니다. 홍보성 문구, 연락처 노출, 취지에 맞지 않는 프로필은 사유와 함께 반려되며 수정 후 재신청할 수 있습니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">04</div>
+        <h3>오리엔테이션<span class="dur mono">약 15분</span></h3>
+        <p>승인 후 커뮤니티 약속과 신고·차단 기능 사용법을 안내하는 짧은 온라인 가이드를 확인해야 모임 신청 권한이 열립니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">05</div>
+        <h3>첫 모임 신청</h3>
+        <p>원하는 모임에 선착순으로 신청합니다. 인원이 가장 적은 4인 소셜 다이닝으로 시작하는 것을 권장하며, 노쇼 시 다음 신청이 7일간 제한됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Ground Rules</span>
+        <h2>커뮤니티 약속</h2>
+        <p>모두가 편안한 자리를 위해 가입 시 아래 원칙에 동의합니다. 위반 시 경고 없이 자격이 정지될 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule-item"><span class="mark">&mdash;</span>이혼 사유나 자녀 유무에 대해 먼저 캐묻지 않습니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>모임 중 촬영한 사진은 당사자 동의 없이 공유하지 않습니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>연락처 교환은 서로 동의한 경우에만 이루어집니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>영업, 홍보, 종교 권유 목적의 참여는 즉시 탈퇴 조치됩니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>불편한 상황은 언제든 운영진에게 비공개로 신고할 수 있습니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>다른 회원의 경계를 존중하고, 거절은 그대로 받아들입니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>무단 노쇼가 2회 누적되면 한 달간 모임 신청이 제한됩니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>타 회원을 대상으로 한 상업적 접촉(보험, 영업 등)은 금지됩니다.</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="tight">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">FAQ</span>
+        <h2>자주 묻는 질문</h2>
+      </div>
+    </div>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">Q.</span>재혼이나 연애가 목적이 아니어도 가입할 수 있나요?</div>
+        <div class="faq-a">네. 프로필에서 &ldquo;친목만 희망&rdquo;으로 설정할 수 있으며, 이 표시는 다른 회원에게도 동일하게 노출되어 서로 목적을 미리 확인할 수 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">Q.</span>자녀가 있으면 가입이 불가능한가요?</div>
+        <div class="faq-a">네, &ldquo;다시, 봄&rdquo;은 무자녀 이혼 경험자만을 대상으로 합니다. 제출 서류에서 자녀 유무가 확인되지 않거나 자녀가 있는 경우 가입이 반려됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">Q.</span>지방 거주자도 참여할 수 있나요?</div>
+        <div class="faq-a">현재 오프라인 모임은 서울·수도권 위주로 운영됩니다. 북클럽 등 일부 모임은 온라인 참여를 지원하며, 지방 확대는 순차적으로 검토 중입니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">Q.</span>가입비나 월 회비가 있나요?</div>
+        <div class="faq-a">가입 및 회원 유지는 무료입니다. 각 모임 참가 시에만 식대·장소 대여료 수준의 회비가 발생하며, 모임 상세 페이지에 사전 공지됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">Q.</span>탈퇴는 어떻게 하나요?</div>
+        <div class="faq-a">설정 &gt; 계정 메뉴에서 즉시 탈퇴할 수 있습니다. 탈퇴 시 프로필은 즉시 비공개 처리되며, 활동 기록은 관련 법령이 정한 최소 보관 기간 후 완전히 삭제됩니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cta-panel">
+      <h2>이번 계절엔, 새로운 사람들과</h2>
+      <p>가입 심사는 무료이며 언제든 탈퇴할 수 있습니다.</p>
+      <a class="btn" href="#join" data-modal-open="join">지금 가입 신청하기</a>
+    </div>
+    <div class="foot-bottom">
+      <div class="brand" style="font-size: var(--fs-base);">다시<span class="dot">,</span> 봄</div>
+      <div class="fine">본 페이지는 데모용 목업이며 실제 서비스가 아닙니다. 실제 운영 시 개인정보 처리방침, 본인인증 절차, 회비 관련 법률 검토가 필요합니다.</div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="joinOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
+    <button class="modal-close" id="joinClose" type="button" aria-label="닫기">&times;</button>
+
+    <form id="joinForm">
+      <span class="kicker">Apply</span>
+      <h2 id="joinModalTitle">가입 신청하기</h2>
+      <p class="sub">아래 정보를 남겨주시면 본인 인증 절차를 안내해 드립니다. 승인까지 평균 1~2일이 소요됩니다.</p>
+
+      <div class="field">
+        <label for="jName">표시 이름 <span class="hint">실명 비공개 가능</span></label>
+        <input type="text" id="jName" placeholder="예: 봄날의곰" required>
+      </div>
+      <div class="field">
+        <label for="jAge">나이대</label>
+        <select id="jAge" required>
+          <option value="" disabled selected>선택해주세요</option>
+          <option>20대 후반</option>
+          <option>30대 초반</option>
+          <option>30대 후반</option>
+          <option>40대 초반</option>
+          <option>40대 후반 이상</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="jPhone">휴대폰 번호 <span class="hint">본인 인증용, 외부 노출 안 됨</span></label>
+        <input type="tel" id="jPhone" placeholder="010-0000-0000" required>
+      </div>
+      <div class="field">
+        <label for="jInterest">관심 모임</label>
+        <select id="jInterest">
+          <option value="">가장 관심 있는 모임 (선택)</option>
+          <option>소셜 다이닝</option>
+          <option>러닝크루</option>
+          <option>와인 클래스</option>
+          <option>북클럽</option>
+          <option>등산 모임</option>
+          <option>소모임 여행</option>
+        </select>
+      </div>
+
+      <label class="check-row">
+        <input type="checkbox" required>
+        <span>무자녀 이혼 사실을 서류로 인증하는 절차에 동의하며, 커뮤니티 약속을 준수하겠습니다.</span>
+      </label>
+
+      <button type="submit" class="btn">본인 인증 안내 받기</button>
+    </form>
+
+    <div class="modal-success" id="joinSuccess" hidden>
+      <div class="mark">&check;</div>
+      <h2>신청이 접수되었습니다</h2>
+      <p>입력하신 번호로 본인 인증 안내 메시지를 보내드립니다. (본 페이지는 데모이며 실제로 전송되지 않습니다)</p>
+      <button type="button" class="btn ghost" id="joinAgain">확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var overlay = document.getElementById('joinOverlay');
+    var form = document.getElementById('joinForm');
+    var success = document.getElementById('joinSuccess');
+    var lastFocus = null;
+
+    function openModal() {
+      lastFocus = document.activeElement;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      var first = form.querySelector('input, select');
+      if (first) first.focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      form.hidden = false;
+      success.hidden = true;
+      form.reset();
+      if (lastFocus) lastFocus.focus();
+    }
+
+    document.querySelectorAll('[data-modal-open="join"]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    document.getElementById('joinClose').addEventListener('click', closeModal);
+    document.getElementById('joinAgain').addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      form.hidden = true;
+      success.hidden = false;
+    });
+  })();
+</script>

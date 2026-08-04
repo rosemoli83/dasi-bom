@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>다시, 봄 · 앱 전환 기획서 v2.0</title>
+<style>
+  :root {
+    --bg: #12141c; --surface: #1b1f2c; --surface-2: #232838;
+    --fg: #eef0f5; --fg-dim: #9aa1b3; --rule: #ffffff17;
+    --accent: #d1a05c; --accent-soft: #d1a05c2e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Apple SD Gothic Neo", "Pretendard Variable", "Malgun Gothic", sans-serif;
+    line-height: 1.75; word-break: keep-all; display: flex;
+  }
+  .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  a { color: inherit; text-decoration: none; }
+
+  nav.toc {
+    width: 260px; flex: none; height: 100vh; position: sticky; top: 0;
+    overflow-y: auto; padding: 28px 20px; border-right: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  nav.toc h1 { font-size: 15px; margin: 0 0 4px; }
+  nav.toc .ver { font-size: 11px; color: var(--fg-dim); margin-bottom: 24px; display: block; }
+  nav.toc .grp { margin-bottom: 22px; }
+  nav.toc .grp-label { font-size: 10px; letter-spacing: .08em; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+  nav.toc a { display: block; font-size: 13px; color: var(--fg-dim); padding: 5px 0; }
+  nav.toc a:hover, nav.toc a.active { color: var(--fg); }
+  nav.toc a.disabled { opacity: .35; pointer-events: none; }
+
+  main { flex: 1; padding: 56px 64px 120px; max-width: 880px; }
+  .kicker { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  article { margin-bottom: 88px; }
+  article h2 { font-size: 28px; margin: 8px 0 20px; }
+  article > .lead { color: var(--fg-dim); font-size: 15px; margin-bottom: 32px; max-width: 60ch; }
+  h3 { font-size: 17px; margin: 36px 0 12px; }
+  p { font-size: 14.5px; color: #d6d9e2; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 12px 0 24px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { color: var(--fg-dim); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+
+  .principles { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 16px 0 28px; }
+  .principle { background: var(--bg); padding: 20px 22px; }
+  .principle .num { font-size: 12px; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
+  .principle h4 { margin: 0 0 6px; font-size: 15px; }
+  .principle p { margin: 0; font-size: 13.5px; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 16px 0 28px; }
+  .pcard { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; }
+  .pcard .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 2px; background: var(--accent-soft); color: var(--accent); margin-bottom: 8px; }
+  .pcard h4 { margin: 0 0 8px; font-size: 15px; }
+  .pcard p { margin: 0; font-size: 13px; }
+
+  .note { border-left: 2px solid var(--accent); background: var(--surface); padding: 14px 18px; font-size: 13px; color: var(--fg-dim); border-radius: 0 4px 4px 0; margin: 20px 0; }
+
+  /* screen demo: 왼쪽 설명 + 오른쪽 휴대폰 목업 */
+  .screen-demo { display: flex; flex-direction: row-reverse; gap: 40px; align-items: flex-start; margin: 24px 0 48px; }
+  .screen-demo .desc { flex: 1; min-width: 0; }
+  .screen-demo .desc .sid { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .screen-demo .desc h4 { margin: 0 0 10px; font-size: 17px; }
+  .screen-demo .desc ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: #d6d9e2; }
+  .screen-demo .desc li { margin-bottom: 8px; line-height: 1.65; }
+
+  .phone { flex: none; width: 216px; }
+  .phone-frame {
+    width: 216px; height: 452px; border-radius: 34px; background: #0c0e15;
+    border: 7px solid #2a2e3d; position: relative; overflow: hidden;
+    box-shadow: 0 24px 48px -24px #00000090;
+  }
+  .phone-notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 84px; height: 16px; background: #2a2e3d; border-radius: 0 0 10px 10px; z-index: 2;
+  }
+  .phone-screen { position: absolute; inset: 0; padding: 24px 10px 46px; display: flex; flex-direction: column; gap: 7px; }
+  .ph-bar { height: 8px; border-radius: 3px; background: #ffffff17; }
+  .ph-bar.w40 { width: 40%; } .ph-bar.w60 { width: 60%; } .ph-bar.w80 { width: 80%; } .ph-bar.full { width: 100%; }
+  .ph-title { height: 12px; border-radius: 3px; background: var(--accent-soft); width: 55%; margin-bottom: 4px; }
+  .ph-hero { height: 70px; border-radius: 8px; background: linear-gradient(135deg, var(--accent-soft), transparent); border: 1px solid var(--rule); margin-bottom: 2px; }
+  .ph-card { background: #1b1f2c; border: 1px solid #ffffff12; border-radius: 7px; padding: 8px; display: flex; flex-direction: column; gap: 5px; }
+  .ph-row { display: flex; gap: 6px; }
+  .ph-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); flex: none; }
+  .phone-tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 42px;
+    background: #151824; border-top: 1px solid #ffffff14; display: flex;
+  }
+  .phone-tabbar .tab { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #6b7180; }
+  .phone-tabbar .tab.active { color: var(--accent); font-weight: 700; }
+
+  .ph-header { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+  .ph-back { width: 14px; height: 14px; border-left: 2px solid #6b7180; border-bottom: 2px solid #6b7180; transform: rotate(45deg); flex: none; }
+  .ph-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .ph-dashed { flex: 1; border: 1.5px dashed #ffffff30; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .ph-dots { display: flex; gap: 5px; justify-content: center; }
+  .ph-dots span { width: 5px; height: 5px; border-radius: 50%; background: #ffffff2a; }
+  .ph-dots span.active { background: var(--accent); }
+  .ph-btn { height: 26px; border-radius: 6px; background: var(--accent-soft); border: 1px solid var(--accent); margin-top: auto; }
+  .ph-timeline { display: flex; flex-direction: column; gap: 0; flex: 1; }
+  .ph-tl-item { display: flex; gap: 8px; align-items: flex-start; }
+  .ph-tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); margin-top: 3px; flex: none; }
+  .ph-tl-item.pending .ph-tl-dot { background: #ffffff30; }
+  .ph-tl-line { width: 1px; flex: 1; background: #ffffff20; margin: 2px 0 2px 4.5px; min-height: 18px; }
+  .ph-slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .ph-slot { height: 18px; border-radius: 4px; background: #ffffff10; }
+  .ph-slot.on { background: var(--accent-soft); border: 1px solid var(--accent); }
+
+  @media (max-width: 720px) { .screen-demo { flex-direction: column; } .phone { align-self: center; } }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <h1>다시, 봄</h1>
+  <span class="ver mono">iOS·Android 앱 전환 기획서 · v2.0</span>
+
+  <div class="grp">
+    <div class="grp-label">PRODUCT</div>
+    <a href="#summary">1. 서비스 요약</a>
+    <a href="#goals" class="active">2. 목표·원칙</a>
+    <a href="#persona">3. 사용자·페르소나</a>
+    <a href="#brand">4. 브랜드·UX</a>
+  </div>
+  <div class="grp">
+    <div class="grp-label">STRUCTURE</div>
+    <a href="#ia">5. 정보구조(IA)</a>
+    <a href="#permission">6. 권한 체계</a>
+    <a href="#flows">7. 핵심 플로우</a>
+    <a href="#screens">8. 상세 화면설계</a>
+  </div>
+  <div class="grp">
+    <div class="grp-label">BUILD</div>
+    <a href="#data">9. 데이터 모델</a>
+    <a href="#api">10. API 설계</a>
+  </div>
+  <div class="grp">
+    <div class="grp-label">OPERATIONS</div>
+    <a href="#ops">11. 운영·신고</a>
+    <a href="#roadmap">12. 출시 로드맵</a>
+  </div>
+</nav>
+
+<main>
+
+  <article id="summary">
+    <span class="kicker">Product · 01</span>
+    <h2>1. 서비스 요약</h2>
+    <p class="lead">&ldquo;다시, 봄&rdquo;은 무자녀로 이혼을 경험한 사람들을 위한 서류 인증 기반 소모임 커뮤니티입니다. 기존 웹 랜딩 페이지를 <b style="color:var(--fg)">iOS·Android 네이티브 앱</b>으로 전환하여, 가입 심사부터 모임·상담 예약, 실시간 알림까지 하나의 앱 안에서 처리합니다.</p>
+
+    <h3>플랫폼 개요</h3>
+    <table>
+      <tr><th>항목</th><td>내용</td></tr>
+      <tr><td>대상 플랫폼</td><td>iOS 15+, Android 10+ (React Native 기반 크로스플랫폼)</td></tr>
+      <tr><td>배포 채널</td><td>App Store, Google Play (심사 정책상 &ldquo;성인 인증 커뮤니티&rdquo; 카테고리로 등록)</td></tr>
+      <tr><td>웹의 역할</td><td>기존 랜딩 페이지는 앱 설치 유도용 마케팅 페이지로 축소 전환</td></tr>
+    </table>
+
+    <h3>북극성 지표</h3>
+    <table>
+      <tr><th>지표</th><td>정의</td></tr>
+      <tr><td>WAU</td><td>주간 활동 회원 수 (모임 신청·참여·상담예약 중 1회 이상 행동)</td></tr>
+      <tr><td>승인 전환율</td><td>인증 서류 제출 → 최종 승인까지 도달한 비율</td></tr>
+      <tr><td>재참여율</td><td>첫 모임 참여 후 30일 내 두 번째 모임에 참여한 비율</td></tr>
+      <tr><td>푸시 도달률</td><td>모임 리마인드·승인 알림 등 푸시 발송 대비 실제 열람 비율</td></tr>
+    </table>
+  </article>
+
+  <article id="goals">
+    <span class="kicker">Product · 02</span>
+    <h2>2. 목표·원칙</h2>
+    <p class="lead">서비스가 지켜야 할 목표와, 그 목표를 실제 기능·정책으로 옮길 때 흔들리지 않을 원칙을 정의합니다.</p>
+
+    <h3>서비스 목표</h3>
+    <table>
+      <tr><th>구분</th><th>목표</th><th>측정 방식</th></tr>
+      <tr><td>신뢰</td><td>서류 미인증 회원의 활동을 0%로 유지</td><td>운영진 2인 교차 검토 통과율</td></tr>
+      <tr><td>안전</td><td>신고 접수 후 24시간 내 1차 조치 완료율 95%↑</td><td>신고 처리 로그</td></tr>
+      <tr><td>편안함</td><td>가입 후 30일 내 최소 1회 모임 참여율 60%↑</td><td>참여 퍼널 데이터</td></tr>
+      <tr><td>지속가능성</td><td>모임 회비·상담 수익으로 운영비 자체 충당</td><td>월별 정산</td></tr>
+    </table>
+
+    <h3>운영 원칙</h3>
+    <div class="principles">
+      <div class="principle">
+        <div class="num mono">01</div>
+        <h4>캐묻지 않는다</h4>
+        <p>이혼 사유, 자녀 유무의 배경을 먼저 묻지 않는 것을 서비스 차원의 기본값으로 설계합니다. UI, 알림 문구, 프로필 항목 어디에도 관련 유도 질문을 넣지 않습니다.</p>
+      </div>
+      <div class="principle">
+        <div class="num mono">02</div>
+        <h4>강요하지 않는다</h4>
+        <p>연애·재혼·우정 어느 방향도 기본값으로 설정하지 않습니다. 회원이 &ldquo;친목만 희망&rdquo;을 선택하면 매칭 알고리즘과 노출 UI 모두 이를 동일한 우선순위로 반영합니다.</p>
+      </div>
+      <div class="principle">
+        <div class="num mono">03</div>
+        <h4>단계적으로만 공개한다</h4>
+        <p>실명·얼굴·연락처는 기본 비공개이며, 모임 참여 확정 등 명확한 트리거가 있을 때만 순차 공개됩니다. 되돌릴 수 없는 공개는 만들지 않습니다.</p>
+      </div>
+      <div class="principle">
+        <div class="num mono">04</div>
+        <h4>검증은 사람이, 반복 작업은 시스템이</h4>
+        <p>서류 진위 판단처럼 맥락 판단이 필요한 일은 운영진 2인이 직접 처리하고, 마감·정원·알림 같은 반복 작업만 자동화합니다.</p>
+      </div>
+      <div class="principle">
+        <div class="num mono">05</div>
+        <h4>최소한만 보관한다</h4>
+        <p>인증 서류는 승인 즉시 파기, 활동 기록은 법정 최소 보관 기간 이후 완전 삭제를 기본 정책으로 합니다. &ldquo;나중에 쓸 수도 있으니 보관&rdquo;은 선택지에 없습니다.</p>
+      </div>
+    </div>
+
+    <div class="note">이 원칙들은 이후 STRUCTURE(정보구조·권한체계)와 BUILD(데이터 모델·API) 챕터의 설계 기준으로 그대로 이어집니다.</div>
+  </article>
+
+  <article id="persona">
+    <span class="kicker">Product · 03</span>
+    <h2>3. 사용자·페르소나</h2>
+    <p class="lead">핵심 타깃 두 유형을 기준으로 기능 우선순위를 정합니다.</p>
+    <div class="card-grid">
+      <div class="pcard">
+        <span class="tag">주 타깃</span>
+        <h4>J.M. · 30대 후반</h4>
+        <p>무자녀 이혼 3년차. 연애보다 부담 없는 인간관계가 먼저 필요. 서류 인증 절차의 신뢰도를 가입 결정 요인으로 봄.</p>
+      </div>
+      <div class="pcard">
+        <span class="tag">부 타깃</span>
+        <h4>K.S. · 40대 초반</h4>
+        <p>활동적인 모임(러닝·등산)을 통해 자연스러운 관계를 원함. 연애 목적 여부를 상대가 먼저 알 수 있길 바람.</p>
+      </div>
+    </div>
+  </article>
+
+  <article id="brand">
+    <span class="kicker">Product · 04</span>
+    <h2>4. 브랜드·UX</h2>
+    <p class="lead">&ldquo;지난 계절은 지났고, 다시 봄&rdquo;이라는 슬로건에 맞춰 차분하고 담백한 톤을 유지합니다.</p>
+    <table>
+      <tr><th>요소</th><th>방향</th></tr>
+      <tr><td>톤앤매너</td><td>담백함, 과장된 감성 문구 지양, 절제된 위로</td></tr>
+      <tr><td>컬러</td><td>다크 잉크 + 골드 포인트(신뢰·따뜻함), 라이트 모드는 페이퍼 톤</td></tr>
+      <tr><td>카피 원칙</td><td>&ldquo;아프셨죠&rdquo; 류의 동정 표현 대신 &ldquo;편안하게&rdquo; 중심 어휘 사용</td></tr>
+      <tr><td>앱 아이콘</td><td>&ldquo;다시, 봄&rdquo; 쉼표를 심볼화한 단색 골드 마크, 배경은 다크 잉크</td></tr>
+      <tr><td>스플래시</td><td>로고 + 슬로건 없이 마크만 1초 이내 노출 후 메인 탭 진입</td></tr>
+      <tr><td>다크모드</td><td>OS 설정 자동 연동, 앱 내 설정에서 라이트/다크 수동 전환 지원</td></tr>
+    </table>
+  </article>
+
+  <article id="ia">
+    <span class="kicker">Structure · 05</span>
+    <h2>5. 정보구조(IA)</h2>
+    <p class="lead">웹 랜딩 페이지의 단일 스크롤 섹션들을 앱의 <b style="color:var(--fg)">하단 탭바 4개 + 스택 네비게이션</b> 구조로 재편합니다. 비회원도 둘러볼 수 있는 정보와, 정회원만 접근 가능한 기능을 탭 단위가 아니라 화면 내 행동 단위로 분리합니다.</p>
+
+    <h3>하단 탭바 구조</h3>
+    <table>
+      <tr><th>탭</th><th>구성</th><th>웹 랜딩 대응 섹션</th></tr>
+      <tr><td><b>① 홈</b></td><td>슬로건, 활동 지표, 소개 3원칙, 안전장치, 후기, FAQ</td><td>Hero, #about, #safety, #voices, #faq</td></tr>
+      <tr><td><b>② 모임</b></td><td>모임 유형 목록, 이번 달 일정, 필터(요일·지역·유형)</td><td>#events, #schedule</td></tr>
+      <tr><td><b>③ 상담</b></td><td>상담 유형 4종, 상담사 프로필, 예약 캘린더</td><td>#counseling</td></tr>
+      <tr><td><b>④ 마이</b></td><td>가입 상태, 프로필, 신청 내역, 예약 내역, 설정, 신고</td><td>#join(가입 절차), 프로필 관련 미노출 영역</td></tr>
+    </table>
+
+    <h3>진입·인증 스택 (탭 밖)</h3>
+    <table>
+      <tr><th>화면</th><th>목적</th><th>공개범위</th></tr>
+      <tr><td>스플래시</td><td>앱 로딩, 세션 확인</td><td>전체</td></tr>
+      <tr><td>온보딩</td><td>서비스 3원칙 슬라이드 (최초 실행 1회)</td><td>비회원</td></tr>
+      <tr><td>가입 신청</td><td>표시이름·나이대·연락처·관심모임 입력</td><td>비회원</td></tr>
+      <tr><td>서류 업로드</td><td>가족관계증명서(상세)/이혼신고확인서 + 신분증 대조</td><td>신청중 전환 전</td></tr>
+      <tr><td>심사 대기</td><td>진행 상태 표시(제출됨 → 검토중 → 승인/반려)</td><td>신청중</td></tr>
+    </table>
+
+    <h3>회원 상태 단계</h3>
+    <table>
+      <tr><th>상태</th><th>접근 범위</th><th>전이 조건</th></tr>
+      <tr><td>비회원</td><td>홈·모임·상담 탭 열람, 신청·예약 불가, 마이 탭은 가입 유도만 표시</td><td>가입 신청 제출 시 &rarr; 신청중</td></tr>
+      <tr><td>신청중</td><td>마이 탭에서 심사 상태만 확인 가능</td><td>운영진 2인 교차 승인 시 &rarr; 정회원 / 반려 시 &rarr; 비회원(재신청 가능)</td></tr>
+      <tr><td>정회원</td><td>모임 신청, 상담 예약, 푸시 알림 수신, 프로필 공개범위 설정</td><td>약관 위반 시 &rarr; 정지회원</td></tr>
+      <tr><td>정지회원</td><td>앱 열람만 가능, 신청·예약·알림 전부 차단</td><td>제재 기간 만료 또는 이의 신청 승인 시 &rarr; 정회원</td></tr>
+    </table>
+
+    <h3>설계 원칙</h3>
+    <div class="principles">
+      <div class="principle">
+        <div class="num mono">01</div>
+        <h4>탭은 목적별로, 행동은 화면 내에서 분기</h4>
+        <p>모임·상담 탭은 비회원도 진입해 열람할 수 있으며, &ldquo;신청하기&rdquo;/&ldquo;예약하기&rdquo; 버튼만 회원 상태에 따라 가입 유도 화면으로 전환됩니다. 탭 자체를 잠그지 않습니다.</p>
+      </div>
+      <div class="principle">
+        <div class="num mono">02</div>
+        <h4>마이 탭이 곧 상태판</h4>
+        <p>웹의 &ldquo;#join 가입안내&rdquo; 섹션은 앱에서 마이 탭 안의 상태값(비회원/신청중/정회원)으로 상시 노출되어, 사용자가 자신의 진행 단계를 언제든 확인할 수 있습니다.</p>
+      </div>
+      <div class="principle">
+        <div class="num mono">03</div>
+        <h4>딥링크는 탭+화면 ID로 고정</h4>
+        <p>푸시 알림(모임 마감임박, 상담 예약 확정 등)은 항상 특정 탭의 특정 화면 ID로 딥링크되며, 세션이 없으면 로그인 후 원래 목적지로 복귀합니다.</p>
+      </div>
+    </div>
+
+    <div class="note">이 탭·화면 구조는 STRUCTURE 6장(권한 체계)의 접근 매트릭스, 8장의 D## 화면 ID와 1:1로 매핑됩니다.</div>
+  </article>
+
+  <article id="permission">
+    <span class="kicker">Structure · 06</span>
+    <h2>6. 권한 체계</h2>
+    <p class="lead">4장의 회원 상태(비회원·신청중·정회원·정지회원)를 실제 기능 접근 권한으로 매핑합니다.</p>
+
+    <h3>행동별 접근 매트릭스</h3>
+    <table>
+      <tr><th>행동</th><th>비회원</th><th>신청중</th><th>정회원</th><th>정지회원</th></tr>
+      <tr><td>홈·모임·상담 탭 열람</td><td>✔</td><td>✔</td><td>✔</td><td>✔</td></tr>
+      <tr><td>가입 신청서 제출</td><td>✔</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>심사 상태 조회(마이 탭)</td><td>&mdash;</td><td>✔</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>모임 신청</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>&mdash;</td></tr>
+      <tr><td>상담 예약</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>&mdash;</td></tr>
+      <tr><td>푸시 알림 수신</td><td>마케팅 알림만</td><td>심사 결과만</td><td>✔</td><td>공지만</td></tr>
+      <tr><td>프로필 공개범위 설정</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>열람만</td></tr>
+      <tr><td>신고 접수</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>✔</td></tr>
+      <tr><td>가입 서류 열람</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+      <tr><td>가입 서류 검토·승인</td><td colspan="4">운영자 웹 콘솔 전용 (2인 교차)</td></tr>
+      <tr><td>신고 조치</td><td colspan="4">운영자 웹 콘솔 전용</td></tr>
+    </table>
+
+    <h3>접근 제어 원칙</h3>
+    <p>정지회원은 앱 열람 권한만 유지하고 신청·예약 등 쓰기 행동은 전부 차단합니다. 인증 서류는 모바일 앱에서 열람 불가능하며, 별도의 운영자 웹 콘솔에서만 조회할 수 있어 단말 분실 시에도 서류가 노출되지 않습니다.</p>
+
+    <div class="note">운영자 콘솔 접근도 열람 즉시 감사 로그(누가·언제·어떤 서류를 열람했는지)가 남습니다. 앱 세션은 리프레시 토큰 회전 방식으로 관리하며, 기기 변경 시 재인증을 요구합니다.</div>
+  </article>
+
+  <article id="flows">
+    <span class="kicker">Structure · 07</span>
+    <h2>7. 핵심 플로우</h2>
+    <p class="lead">사용자가 실제로 밟게 되는 5가지 핵심 경로입니다. 모든 플로우는 스플래시에서 세션을 확인한 뒤 시작됩니다.</p>
+
+    <h3>최초 실행 플로우</h3>
+    <p>앱 설치 &rarr; 스플래시(세션 없음) &rarr; 온보딩 슬라이드(최초 1회) &rarr; 메인 탭(홈) 진입, 가입 여부와 무관하게 둘러보기 가능</p>
+
+    <h3>가입 플로우</h3>
+    <p>홈 또는 마이 탭 &ldquo;가입 신청&rdquo; 버튼 &rarr; 가입 신청 화면(표시이름·나이대·연락처·관심모임) &rarr; 제출 &rarr; 서류 업로드 화면(카메라·갤러리) &rarr; 운영진 2인 교차 검토(1~2일, 마이 탭에서 상태 실시간 표시) &rarr; 승인 푸시 알림 수신 시 정회원 전환 및 앱 내 오리엔테이션 / 반려 시 사유 푸시 안내 후 재신청 가능</p>
+
+    <h3>모임 참가 플로우</h3>
+    <p>모임 탭 열람 &rarr; 정회원 세션 확인 &rarr; 모임 신청 &rarr; 정원 내 확정 또는 대기 푸시 알림 &rarr; 인앱결제 또는 카드 결제로 회비 결제 &rarr; 모임 전일 리마인드 푸시 &rarr; 모임 당일 QR 체크인 &rarr; 종료 후 후기 작성 푸시 요청</p>
+
+    <h3>상담 예약 플로우</h3>
+    <p>상담 탭 열람 &rarr; 상담 유형 선택(개인·그룹·화상·위기) &rarr; 정회원 확인 &rarr; 상담사 및 시간 캘린더 선택 &rarr; 결제 &rarr; 예약 확정 푸시 알림 (상담 내용은 운영진과 공유되지 않는 별도 시스템에서 처리, 화상 상담은 앱 내 WebRTC 통화 화면으로 연결)</p>
+
+    <h3>신고 플로우</h3>
+    <p>모임 상세 또는 채팅 화면에서 신고 버튼 &rarr; 신고 사유 선택 및 제출(비공개) &rarr; 운영진 접수 확인 &rarr; 24시간 내 1차 조치 &rarr; 제재 단계 결정(11장) &rarr; 신고자에게 처리 결과 푸시 통보</p>
+  </article>
+
+  <article id="screens">
+    <span class="kicker">Structure · 08</span>
+    <h2>8. 상세 화면설계</h2>
+    <p class="lead">웹 랜딩 페이지의 콘텐츠를 화면 ID(D##) 단위로 분해합니다. 관리자 화면은 별도 웹 콘솔(A##)로 구축해 서류·신고 데이터가 모바일 단말에 남지 않도록 합니다.</p>
+
+    <h3>진입·인증 (D01~D06)</h3>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D01 &middot; 스플래시</div>
+        <h4>로고만 보여주고 1초 이내 다음 화면으로</h4>
+        <ul>
+          <li>로고 마크 단독 노출, 텍스트 없음</li>
+          <li>세션(리프레시 토큰) 유효성 확인</li>
+          <li>구버전인 경우 강제 업데이트 안내로 분기</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-center"><div class="ph-dot" style="width:40px;height:40px"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D02 &middot; 온보딩</div>
+        <h4>서비스 3원칙을 스와이프로 훑는 최초 1회 슬라이드</h4>
+        <ul>
+          <li>&ldquo;캐묻지 않는다&middot;강요하지 않는다&middot;단계적 공개&rdquo; 3장 구성</li>
+          <li>우측 상단 &ldquo;건너뛰기&rdquo;로 즉시 홈 진입 가능</li>
+          <li>재실행 시에는 다시 노출하지 않음</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-hero" style="flex:1"></div>
+            <div class="ph-dots"><span class="active"></span><span></span><span></span></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D03 &middot; 가입 신청</div>
+        <h4>필수 입력 4개와 약관 동의로 구성된 짧은 폼</h4>
+        <ul>
+          <li>표시이름, 나이대, 휴대폰번호, 관심모임(다중선택)</li>
+          <li>서류 인증 절차 동의 체크박스(필수)</li>
+          <li>제출 시 D04 본인 인증으로 이동</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-bar full"></div>
+            <div class="ph-bar full"></div>
+            <div class="ph-bar full"></div>
+            <div class="ph-row"><div class="ph-dot" style="width:14px;height:14px"></div><div class="ph-bar w60" style="align-self:center"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D04 &middot; 본인 인증</div>
+        <h4>PASS 연동으로 휴대폰 본인인증만 처리</h4>
+        <ul>
+          <li>통신사 선택 후 PASS 앱으로 전환</li>
+          <li>인증 완료 시 자동으로 D05로 복귀</li>
+          <li>실명은 인증 목적으로만 사용, 프로필에 비노출</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D05 &middot; 서류 업로드</div>
+        <h4>가이드 프레임에 맞춰 촬영, 단말에는 저장하지 않음</h4>
+        <ul>
+          <li>가족관계증명서(상세)/이혼신고확인서 + 신분증 대조</li>
+          <li>카메라 또는 갤러리에서 선택, 가이드 프레임 표시</li>
+          <li>업로드 즉시 서버로 전송, 로컬 캐시 미저장</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-dashed" style="flex:1"><div class="ph-dot" style="width:26px;height:26px"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D06 &middot; 심사 대기</div>
+        <h4>제출부터 승인까지 진행 상태를 실시간 타임라인으로</h4>
+        <ul>
+          <li>제출됨 &rarr; 검토중 &rarr; 승인/반려 3단계 표시</li>
+          <li>상태 변경 시 마이 탭 배지와 함께 실시간 갱신</li>
+          <li>결과는 화면과 푸시 알림으로 동시에 안내</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-timeline">
+              <div class="ph-tl-item"><div class="ph-tl-dot"></div><div class="ph-bar w60"></div></div>
+              <div class="ph-tl-line"></div>
+              <div class="ph-tl-item"><div class="ph-tl-dot"></div><div class="ph-bar w60"></div></div>
+              <div class="ph-tl-line"></div>
+              <div class="ph-tl-item pending"><div class="ph-tl-dot"></div><div class="ph-bar w40"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>메인 탭 (D10~D13)</h3>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D10 &middot; 홈</div>
+        <h4>활동 지표와 신뢰 근거를 먼저 보여주는 진입 화면</h4>
+        <ul>
+          <li>상단 히어로 배너: 슬로건 + 활동 회원·모임 수 등 핵심 지표</li>
+          <li>소개 3원칙(캐묻지 않는다·강요하지 않는다·단계적 공개) 카드</li>
+          <li>안전장치 4가지 요약, 회원 후기 캐러셀</li>
+          <li>하단 FAQ 진입 링크</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-hero"></div>
+            <div class="ph-bar w60"></div>
+            <div class="ph-bar w40"></div>
+            <div class="ph-card"><div class="ph-bar w80"></div><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w80"></div><div class="ph-bar w40"></div></div>
+          </div>
+          <div class="phone-tabbar">
+            <div class="tab active">홈</div><div class="tab">모임</div><div class="tab">상담</div><div class="tab">마이</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D11 &middot; 모임</div>
+        <h4>모임 유형을 카드로 훑고 바로 상세로 진입</h4>
+        <ul>
+          <li>요일·지역·유형 필터 바</li>
+          <li>모임 유형 카드(소셜다이닝·러닝크루·와인클래스 등), 회비·정원 표시</li>
+          <li>카드 탭 시 D20 모임 상세로 이동</li>
+          <li>비회원도 열람 가능, 신청 버튼만 가입 상태에 따라 분기</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-bar w40"></div>
+            <div class="ph-card"><div class="ph-bar w60"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div><div class="ph-bar w40"></div></div>
+          </div>
+          <div class="phone-tabbar">
+            <div class="tab">홈</div><div class="tab active">모임</div><div class="tab">상담</div><div class="tab">마이</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D12 &middot; 상담</div>
+        <h4>상담 유형 선택부터 예약 캘린더까지 한 화면에서</h4>
+        <ul>
+          <li>상담 유형 4종(개인·그룹·화상·위기) 카드, 위기상담은 상시 강조 노출</li>
+          <li>상담사 프로필 리스트 &rarr; 탭 시 D24 상담사 상세·예약으로 이동</li>
+          <li>예약 캘린더 미리보기(가능 슬롯 하이라이트)</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-row">
+              <div class="ph-card" style="flex:1"><div class="ph-bar w40"></div></div>
+              <div class="ph-card" style="flex:1"><div class="ph-bar w40"></div></div>
+            </div>
+            <div class="ph-card">
+              <div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w80"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div>
+            </div>
+            <div class="ph-card"><div class="ph-bar full"></div></div>
+          </div>
+          <div class="phone-tabbar">
+            <div class="tab">홈</div><div class="tab">모임</div><div class="tab active">상담</div><div class="tab">마이</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D13 &middot; 마이</div>
+        <h4>가입 상태가 항상 상단에 보이는 나의 현황판</h4>
+        <ul>
+          <li>상단 상태 배지: 비회원 &middot; 신청중 &middot; 정회원 &middot; 정지회원</li>
+          <li>프로필 요약, 공개범위 설정(D26) 진입</li>
+          <li>모임 신청 내역, 상담 예약 내역</li>
+          <li>설정, 신고 내역, 로그아웃</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div>
+            <div class="ph-card"><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+          </div>
+          <div class="phone-tabbar">
+            <div class="tab">홈</div><div class="tab">모임</div><div class="tab">상담</div><div class="tab active">마이</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>상세·행동 화면 (D20~D27)</h3>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D20 &middot; 모임 상세</div>
+        <h4>정원·회비를 먼저 보여주고 신청 버튼만 회원 상태로 분기</h4>
+        <ul>
+          <li>대표 이미지, 일시·장소·회비, 정원 현황 바</li>
+          <li>비회원은 &ldquo;신청하기&rdquo; 탭 시 D03 가입 신청으로 유도</li>
+          <li>정회원은 바로 D21 결제로 진행</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-hero"></div>
+            <div class="ph-bar w60"></div>
+            <div class="ph-card"><div class="ph-bar full"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D21 &middot; 모임 결제</div>
+        <h4>결제수단 선택과 금액 확인만 남긴 짧은 결제 화면</h4>
+        <ul>
+          <li>카드·간편결제 선택</li>
+          <li>회비·수수료 금액 확인</li>
+          <li>결제 완료 즉시 D20에서 신청 확정 상태로 갱신</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-bar w80"></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D22 &middot; QR 체크인</div>
+        <h4>모임 당일에만 활성화되는 QR 스캔 화면</h4>
+        <ul>
+          <li>모임 시작 전후 일정 시간에만 버튼 활성화</li>
+          <li>카메라로 현장 QR 스캔, 필요 시 위치 인증 병행</li>
+          <li>체크인 완료 시 D23 후기 작성 예약 알림 등록</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-dashed" style="flex:1"><div class="ph-dot" style="width:30px;height:30px;border-radius:6px"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D23 &middot; 후기 작성</div>
+        <h4>별점과 짧은 텍스트만 받는 부담 없는 후기 화면</h4>
+        <ul>
+          <li>5점 별점, 200자 이내 텍스트 후기</li>
+          <li>모임 종료 24시간 이내 푸시로 작성 유도</li>
+          <li>익명 처리 후 #voices 후기 영역에 노출 검토</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-row">
+              <div class="ph-dot" style="width:16px;height:16px"></div><div class="ph-dot" style="width:16px;height:16px"></div><div class="ph-dot" style="width:16px;height:16px"></div><div class="ph-dot" style="width:16px;height:16px"></div><div class="ph-dot" style="width:16px;height:16px"></div>
+            </div>
+            <div class="ph-card" style="flex:1"></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D24 &middot; 상담사 상세·예약</div>
+        <h4>프로필과 가능 시간 슬롯을 함께 보여주는 예약 화면</h4>
+        <ul>
+          <li>상담사 프로필, 자격, 소개</li>
+          <li>가능 시간 슬롯 그리드에서 직접 선택</li>
+          <li>슬롯 선택 시 즉시 잠금 후 결제로 이동</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div>
+            <div class="ph-slots">
+              <div class="ph-slot"></div><div class="ph-slot on"></div><div class="ph-slot"></div><div class="ph-slot"></div>
+              <div class="ph-slot"></div><div class="ph-slot"></div><div class="ph-slot on"></div><div class="ph-slot"></div>
+            </div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D25 &middot; 화상 상담 통화</div>
+        <h4>불필요한 요소를 뺀 1:1 WebRTC 통화 화면</h4>
+        <ul>
+          <li>상담사·내 화면 2분할, 하단 음소거·카메라·종료 컨트롤</li>
+          <li>녹화 기능 없음을 화면 내 문구로 고지</li>
+          <li>연결 불안정 시 자동 재연결, 실패 시 전화 상담으로 안내</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-hero" style="flex:2"></div>
+            <div class="ph-row" style="justify-content:center; gap:14px">
+              <div class="ph-dot" style="width:20px;height:20px"></div>
+              <div class="ph-dot" style="width:20px;height:20px"></div>
+              <div class="ph-dot" style="width:20px;height:20px; background:#e0665c66"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D26 &middot; 프로필 공개범위 설정</div>
+        <h4>항목별 토글로 실명·사진·연락처 공개 단계를 직접 결정</h4>
+        <ul>
+          <li>실명, 프로필 사진, 연락처를 각각 비공개/모임확정 시/전체공개로 설정</li>
+          <li>변경 즉시 저장, 되돌릴 수 없는 공개는 재확인 팝업</li>
+          <li>&ldquo;친목만 희망&rdquo; 토글도 이 화면에서 관리</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-bar w40" style="align-self:center"></div><div class="ph-dot" style="width:18px;height:18px;margin-left:auto"></div></div></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-bar w40" style="align-self:center"></div><div class="ph-dot" style="width:18px;height:18px;margin-left:auto"></div></div></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-bar w40" style="align-self:center"></div><div class="ph-dot" style="width:18px;height:18px;margin-left:auto"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D27 &middot; 신고</div>
+        <h4>대상과 사유만 고르면 되는 최소 입력 신고 화면</h4>
+        <ul>
+          <li>신고 대상(회원·모임·채팅) 자동 지정, 사유 목록에서 선택</li>
+          <li>상세 설명 선택 입력, 증빙 이미지 첨부 가능</li>
+          <li>제출 시 완전 익명 처리 안내 문구 노출</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card" style="flex:1"></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>운영자 웹 콘솔 (A01~A03)</h3>
+    <table>
+      <tr><th>ID</th><th>화면</th><th>비고</th></tr>
+      <tr><td>A01</td><td>가입 심사</td><td>운영진 2인 교차 검토 대시보드, 서류 열람은 이 콘솔에서만 가능</td></tr>
+      <tr><td>A02</td><td>신고 처리</td><td>제재 단계 적용, 처리 결과 발송</td></tr>
+      <tr><td>A03</td><td>모임·상담 운영</td><td>정원·회비·상담사 일정 관리, 푸시 발송</td></tr>
+    </table>
+
+    <div class="note">서류 원본은 D05에서 업로드 즉시 서버로 전송되고 단말 로컬에는 저장하지 않습니다. 열람은 A01 콘솔에서만 가능합니다.</div>
+  </article>
+
+  <article id="data">
+    <span class="kicker">Build · 09</span>
+    <h2>9. 데이터 모델</h2>
+    <p class="lead">인증 서류는 일반 회원 데이터와 분리 보관하고 심사 완료 즉시 파기하는 것을 전제로 설계합니다.</p>
+
+    <table>
+      <tr><th>엔터티</th><th>핵심 필드</th></tr>
+      <tr><td>User</td><td>user_id, status(비회원/신청중/정회원/정지), display_name, age_band, region, interests, visibility_level</td></tr>
+      <tr><td>Verification</td><td>verification_id, user_id, doc_type, file_token, reviewer1_id, reviewer2_id, result, purge_at</td></tr>
+      <tr><td>Meeting</td><td>meeting_id, type, date, location, fee, capacity, status</td></tr>
+      <tr><td>MeetingApplication</td><td>application_id, meeting_id, user_id, state(신청/확정/대기/노쇼), payment_state, checkin_at</td></tr>
+      <tr><td>CounselingBooking</td><td>booking_id, user_id, type(개인/그룹/화상/위기), counselor_id, scheduled_at, payment_state</td></tr>
+      <tr><td>Report</td><td>report_id, reporter_id, target_type, target_id, reason, state, result, handled_at</td></tr>
+      <tr><td>SanctionLog</td><td>log_id, user_id, level(경고/주의/일시정지/영구정지), reason, expires_at</td></tr>
+      <tr><td>AuditLog</td><td>log_id, actor_id, action, target_id, created_at</td></tr>
+      <tr><td>DeviceSession</td><td>device_id, user_id, platform(iOS/Android), refresh_token, push_token, app_version, last_active_at</td></tr>
+    </table>
+
+    <div class="note">Verification.file_token이 가리키는 원본 파일은 승인 완료 시 즉시 삭제되며, DB에는 결과값(승인/반려)만 남습니다. DeviceSession은 기기 변경·로그아웃 시 즉시 폐기되며, 서류 열람 권한과는 무관합니다.</div>
+  </article>
+
+  <article id="api">
+    <span class="kicker">Build · 10</span>
+    <h2>10. API 설계 개요</h2>
+    <p class="lead">도메인별 주요 엔드포인트입니다. 인증·심사 도메인은 운영자 권한 검사를 별도 미들웨어로 강제하며, 모든 앱 요청은 기기 세션 헤더를 함께 검증합니다.</p>
+
+    <table>
+      <tr><th>도메인</th><th>엔드포인트</th><th>핵심 처리</th></tr>
+      <tr><td>인증</td><td>POST /auth/login, POST /auth/refresh, POST /auth/device</td><td>리프레시 토큰 회전, 기기 등록·해지</td></tr>
+      <tr><td>가입</td><td>POST /apply, POST /verification/upload</td><td>중복 신청 방지, 파일 업로드 토큰화(단말 미저장)</td></tr>
+      <tr><td>심사</td><td>GET /admin/reviews, POST /admin/reviews/{id}/decision</td><td>2인 교차 승인 로직, 반려 사유 필수(운영자 콘솔 전용)</td></tr>
+      <tr><td>모임</td><td>GET /meetings, POST /meetings/{id}/apply, POST /meetings/{id}/checkin</td><td>정원 체크, 대기열, QR 체크인, 노쇼 처리</td></tr>
+      <tr><td>상담</td><td>GET /counseling/slots, POST /counseling/bookings, WS /counseling/{id}/call</td><td>상담사 일정 잠금, 결제 연동, WebRTC 시그널링</td></tr>
+      <tr><td>신고</td><td>POST /reports, POST /admin/reports/{id}/resolve</td><td>익명 처리, 제재 단계 자동 제안</td></tr>
+      <tr><td>프로필</td><td>PATCH /users/me, PATCH /users/me/visibility</td><td>단계적 공개범위 값 검증</td></tr>
+      <tr><td>푸시</td><td>POST /push/register, POST /admin/push/broadcast</td><td>기기별 토큰 등록, 딥링크 페이로드 포함</td></tr>
+    </table>
+
+    <h3>공통 요청 헤더</h3>
+    <table>
+      <tr><td class="mono">Authorization</td><td>Bearer 액세스 토큰</td></tr>
+      <tr><td class="mono">X-Device-Id</td><td>DeviceSession 식별자</td></tr>
+      <tr><td class="mono">X-App-Version</td><td>강제 업데이트 판단용 앱 버전</td></tr>
+    </table>
+
+    <h3>공통 응답 포맷</h3>
+    <table>
+      <tr><td class="mono">success</td><td>boolean</td></tr>
+      <tr><td class="mono">data</td><td>object | null</td></tr>
+      <tr><td class="mono">error</td><td>{ code, message } | null</td></tr>
+      <tr><td class="mono">requestId</td><td>추적용 요청 ID</td></tr>
+    </table>
+  </article>
+
+  <article id="ops">
+    <span class="kicker">Operations · 11</span>
+    <h2>11. 운영·신고</h2>
+    <p class="lead">신뢰가 핵심 자산인 서비스인 만큼, 심사와 제재 기준을 사전에 명문화합니다.</p>
+
+    <h3>가입 심사 기준</h3>
+    <p>서류 위조 의심, 자녀 유무 미확인, 미혼·기혼 상태, 홍보성 자기소개, 연락처 노출 시 반려합니다. 운영진 2인의 판단이 다르면 자동 승인되지 않고 3인 재검토로 넘어갑니다.</p>
+
+    <h3>제재 단계</h3>
+    <table>
+      <tr><th>단계</th><th>예시</th><th>조치</th></tr>
+      <tr><td>경고</td><td>이혼 사유·자녀 유무 캐묻기(1회)</td><td>안내 메시지 발송</td></tr>
+      <tr><td>주의</td><td>동의 없는 모임 사진 공유</td><td>경고 누적, 기능 일부 제한</td></tr>
+      <tr><td>일시정지</td><td>노쇼 2회 누적, 영업·홍보·종교 권유</td><td>7~30일 모임 신청 제한</td></tr>
+      <tr><td>영구정지</td><td>서류 위조, 성적 접근, 상업적 접촉 반복</td><td>계정 영구 정지 및 재가입 제한</td></tr>
+    </table>
+
+    <h3>신고 처리 SLA</h3>
+    <p>접수 후 24시간 이내 1차 조치 결과를 신고자에게 통보합니다. 위기상담 핫라인은 즉시 연결을 원칙으로 하며 별도 SLA를 적용하지 않습니다.</p>
+
+    <h3>스토어 심사 대응</h3>
+    <p>App Store·Google Play는 사용자 간 상호작용이 있는 앱에 차단·신고·24시간 내 조치 기능을 필수로 요구합니다(Apple 가이드라인 1.2). D27 신고 화면과 A02 콘솔은 이 요건을 충족하도록 설계되었으며, 심사 제출 시 데모 계정과 신고 처리 스크린샷을 함께 제출합니다.</p>
+  </article>
+
+  <article id="roadmap">
+    <span class="kicker">Operations · 12</span>
+    <h2>12. 출시 로드맵</h2>
+    <p class="lead">현재 랜딩 페이지는 데모 목업 상태이며, 네이티브 앱 개발부터 스토어 정식 출시까지 5단계로 진행합니다.</p>
+
+    <table>
+      <tr><th>단계</th><th>범위</th><th>완료 기준</th></tr>
+      <tr><td>0. 프로토타입 (현재)</td><td>웹 랜딩 페이지, 가입 신청 모달(데모)</td><td>기획서·플로우 확정, 디자인 시안 완료</td></tr>
+      <tr><td>1. 앱 개발 착수</td><td>D01~D13 화면 개발, 인증·세션, 서류 업로드·2인 교차 심사 백엔드</td><td>가입 신청 &rarr; 승인/반려까지 내부 빌드에서 실동작</td></tr>
+      <tr><td>2. 비공개 베타</td><td>TestFlight / Google Play 내부테스트, 모임 신청·결제·체크인, 상담 예약, 푸시</td><td>테스터 50명 대상 모임 참여~후기까지 무중단</td></tr>
+      <tr><td>3. 스토어 심사 제출</td><td>D27 신고, A02 콘솔, 개인정보처리방침·이용약관 정비</td><td>Apple 1.2/Google UGC 정책 요건 충족, 심사 통과</td></tr>
+      <tr><td>4. 정식 출시</td><td>App Store·Google Play 공개, 신고·제재 자동화, 감사 로그</td><td>신고 접수 24시간 SLA 실측 충족, 크래시율 1% 미만</td></tr>
+    </table>
+
+    <div class="note">각 단계는 화면 노출뿐 아니라 권한 검증, 빈 상태, 오류 처리, 재시도, 딥링크, 운영자 조치까지 정의되어야 완료로 간주합니다.</div>
+  </article>
+
+</main>
+</body>
+</html>

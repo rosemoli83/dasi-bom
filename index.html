@@ -195,6 +195,7 @@
   .card h3 { font-size: var(--fs-md); margin: var(--s-4) 0 var(--s-2); line-height: 1.4; }
   .card p { font-size: var(--fs-sm); line-height: 1.7; color: var(--fg-dim); margin: 0 0 var(--s-5); flex: 1; }
   .card .meta { display: flex; justify-content: space-between; font-size: var(--fs-2xs); color: var(--fg-dim); border-top: 1px dashed var(--rule); padding-top: var(--s-4); }
+  .counsel-cta { justify-content: center; margin-top: var(--s-5); }
 
   /* schedule */
   .sched-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
@@ -442,24 +443,28 @@
         <h3>1:1 개별 심리상담</h3>
         <p>임상심리사·전문상담사 자격을 갖춘 상담사와 1:1로 진행합니다. 이혼 후 상실감, 자존감 저하, 대인관계 어려움 등을 다루며 필요 시 장기 상담으로 연계됩니다.</p>
         <div class="meta"><span>회당 50분</span><span>대면 · 화상 선택</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="individual">신청하기</a>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">그룹상담</span><span class="price">8주 <b>24만원</b></span></div>
         <h3>이혼 후 회복 그룹상담</h3>
         <p>6~8인 소그룹으로 8주간 진행되는 구조화 프로그램입니다. 비슷한 경험을 가진 사람들과 감정을 나누며 상실, 분노, 새로운 자기 정체성 형성 단계를 함께 밟습니다.</p>
         <div class="meta"><span>주 1회 · 8주 과정</span><span>6~8인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="group">신청하기</a>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">온라인</span><span class="price">회당 <b>6만원</b></span></div>
         <h3>화상 상담</h3>
         <p>지방 거주 또는 시간이 맞지 않는 회원을 위한 비대면 상담입니다. 예약제로 운영되며, 상담 기록은 암호화되어 상담사 본인만 열람할 수 있습니다.</p>
         <div class="meta"><span>회당 50분</span><span>평일 저녁 · 주말 오전</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="video">신청하기</a>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">위기상담</span><span class="price"><b>무료</b></span></div>
         <h3>24시간 위기상담 핫라인</h3>
         <p>급격한 정서적 위기 상황에서 즉시 연결되는 상담 채널입니다. 전문 상담사가 상시 대기하며, 필요한 경우 정신건강복지센터 등 전문기관으로 연계합니다.</p>
         <div class="meta"><span>연중무휴 · 즉시 연결</span><span>익명 이용 가능</span></div>
+        <a class="btn sm ghost counsel-cta" href="#counseling" data-modal-open="counsel" data-program="crisis">지금 연결하기</a>
       </div>
     </div>
     <div class="counsel-note">
@@ -781,6 +786,61 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="counselOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="counselModalTitle">
+    <button class="modal-close" id="counselClose" type="button" aria-label="닫기">&times;</button>
+
+    <form id="counselForm">
+      <span class="kicker">Care &amp; Counseling</span>
+      <h2 id="counselModalTitle">상담 신청하기</h2>
+      <p class="sub">유형을 선택하면 진행 방식과 가능한 일정이 함께 표시됩니다. 상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</p>
+
+      <div class="field">
+        <label for="cName">표시 이름 <span class="hint">실명 비공개 가능</span></label>
+        <input type="text" id="cName" placeholder="예: 봄날의곰" required>
+      </div>
+      <div class="field">
+        <label for="cProgram">상담 프로그램</label>
+        <select id="cProgram" required>
+          <option value="individual">1:1 개별 심리상담 · 회당 8만원</option>
+          <option value="group">이혼 후 회복 그룹상담 · 8주 24만원</option>
+          <option value="video">화상 상담 · 회당 6만원</option>
+          <option value="crisis">24시간 위기상담 핫라인 · 무료</option>
+        </select>
+      </div>
+      <div class="field" id="cModeField">
+        <label for="cMode">진행 방식 <span class="hint">대면 · 온라인 여부</span></label>
+        <select id="cMode" required></select>
+      </div>
+      <div class="field" id="cDateField">
+        <label for="cDate">희망 날짜</label>
+        <input type="date" id="cDate" required>
+      </div>
+      <div class="field" id="cTimeField">
+        <label for="cTime">희망 시간대</label>
+        <select id="cTime" required></select>
+      </div>
+      <div class="field" id="cCrisisNote" hidden>
+        <p class="sub" style="margin:0">위기상담 핫라인은 예약이 필요 없습니다. 아래 연락처를 남겨주시면 상담사가 즉시 연결해 드립니다.</p>
+      </div>
+      <div class="field">
+        <label for="cPhone">연락처 <span class="hint">상담 확정 안내용, 외부 노출 안 됨</span></label>
+        <input type="tel" id="cPhone" placeholder="010-0000-0000" inputmode="numeric"
+          pattern="01[0-9]-?\d{3,4}-?\d{4}" title="'010-0000-0000' 형식으로 입력해주세요" required>
+      </div>
+
+      <button type="submit" class="btn" id="cSubmitBtn">상담 신청하기</button>
+    </form>
+
+    <div class="modal-success" id="counselSuccess" hidden>
+      <div class="mark">&check;</div>
+      <h2 id="counselSuccessTitle">신청이 접수되었습니다</h2>
+      <p id="counselSuccessText">입력하신 연락처로 상담 확정 안내를 보내드립니다. (본 페이지는 데모이며 실제로 전송되지 않습니다)</p>
+      <button type="button" class="btn ghost" id="counselAgain">확인</button>
+    </div>
+  </div>
+</div>
+
 <script>
   (function () {
     var navToggle = document.getElementById('navToggle');
@@ -847,6 +907,135 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      form.hidden = true;
+      success.hidden = false;
+    });
+  })();
+
+  (function () {
+    var programConfig = {
+      individual: {
+        label: '1:1 개별 심리상담',
+        scheduled: true,
+        modes: ['대면', '화상'],
+        times: ['평일 오전 10:00~12:00', '평일 오후 2:00~4:00', '평일 저녁 6:00~9:00', '주말 오전 10:00~12:00', '주말 오후 1:00~4:00']
+      },
+      group: {
+        label: '이혼 후 회복 그룹상담',
+        scheduled: true,
+        modes: ['대면(소그룹)'],
+        times: ['매주 화요일 저녁 7:30 시작 (8주 과정)', '매주 목요일 저녁 7:30 시작 (8주 과정)']
+      },
+      video: {
+        label: '화상 상담',
+        scheduled: true,
+        modes: ['화상'],
+        times: ['평일 저녁 7:00~9:00', '주말 오전 10:00~12:00']
+      },
+      crisis: {
+        label: '24시간 위기상담 핫라인',
+        scheduled: false
+      }
+    };
+
+    var overlay = document.getElementById('counselOverlay');
+    var form = document.getElementById('counselForm');
+    var success = document.getElementById('counselSuccess');
+    var successText = document.getElementById('counselSuccessText');
+    var programSelect = document.getElementById('cProgram');
+    var modeField = document.getElementById('cModeField');
+    var modeSelect = document.getElementById('cMode');
+    var dateField = document.getElementById('cDateField');
+    var dateInput = document.getElementById('cDate');
+    var timeField = document.getElementById('cTimeField');
+    var timeSelect = document.getElementById('cTime');
+    var crisisNote = document.getElementById('cCrisisNote');
+    var submitBtn = document.getElementById('cSubmitBtn');
+    var lastFocus = null;
+
+    dateInput.min = new Date().toISOString().slice(0, 10);
+
+    function fillOptions(select, values) {
+      select.innerHTML = '';
+      values.forEach(function (v) {
+        var opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        select.appendChild(opt);
+      });
+    }
+
+    function applyProgram(value) {
+      var cfg = programConfig[value];
+      if (cfg.scheduled) {
+        modeField.hidden = false;
+        dateField.hidden = false;
+        timeField.hidden = false;
+        crisisNote.hidden = true;
+        modeSelect.required = true;
+        dateInput.required = true;
+        timeSelect.required = true;
+        fillOptions(modeSelect, cfg.modes);
+        modeSelect.disabled = cfg.modes.length <= 1;
+        fillOptions(timeSelect, cfg.times);
+        submitBtn.textContent = '상담 신청하기';
+      } else {
+        modeField.hidden = true;
+        dateField.hidden = true;
+        timeField.hidden = true;
+        crisisNote.hidden = false;
+        modeSelect.required = false;
+        dateInput.required = false;
+        timeSelect.required = false;
+        submitBtn.textContent = '지금 연결하기';
+      }
+    }
+
+    programSelect.addEventListener('change', function () {
+      applyProgram(programSelect.value);
+    });
+
+    function openModal(program) {
+      lastFocus = document.activeElement;
+      if (program && programConfig[program]) programSelect.value = program;
+      applyProgram(programSelect.value);
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      var first = form.querySelector('input, select');
+      if (first) first.focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      form.hidden = false;
+      success.hidden = true;
+      form.reset();
+      applyProgram(programSelect.value);
+      if (lastFocus) lastFocus.focus();
+    }
+
+    document.querySelectorAll('[data-modal-open="counsel"]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal(btn.getAttribute('data-program'));
+      });
+    });
+
+    document.getElementById('counselClose').addEventListener('click', closeModal);
+    document.getElementById('counselAgain').addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var cfg = programConfig[programSelect.value];
+      successText.textContent = cfg.scheduled
+        ? '희망하신 일정으로 ' + cfg.label + ' 예약을 확인 중이며, 입력하신 연락처로 확정 안내를 보내드립니다. (본 페이지는 데모이며 실제로 전송되지 않습니다)'
+        : '입력하신 연락처로 상담사가 즉시 연결을 시도합니다. (본 페이지는 데모이며 실제로 전송되지 않습니다)';
       form.hidden = true;
       success.hidden = false;
     });

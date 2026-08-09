@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>다시, 봄 — 무자녀 돌싱 모임</title>
 <style>
   :root {
@@ -95,6 +100,16 @@
   .nav-links { display: flex; gap: var(--s-6); font-size: var(--fs-sm); color: var(--fg-dim); }
   .nav-links a { text-decoration: none; transition: color .15s ease; }
   .nav-links a:hover { color: var(--fg); }
+  .nav-toggle {
+    display: none; align-items: center; justify-content: center;
+    width: 36px; height: 36px; padding: 0; border-radius: 4px;
+    border: 1px solid var(--rule); background: transparent; color: var(--fg);
+    cursor: pointer; flex: none;
+  }
+  .nav-toggle svg { width: 18px; height: 18px; }
+  .nav-toggle .icon-close { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-open { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
   .btn {
     display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
     padding: 11px 20px; border-radius: 3px; font-size: var(--fs-sm); font-weight: 700;
@@ -246,7 +261,15 @@
     .values, .events, .quotes, .counsel { grid-template-columns: 1fr; }
     .safety, .steps { grid-template-columns: 1fr; }
     .rules { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
+    .nav-toggle { display: inline-flex; }
+    .nav-links {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; gap: 0; background: var(--bg);
+      border-bottom: 1px solid var(--rule); padding: var(--s-2) 32px var(--s-4);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: var(--s-3) 0; border-bottom: 1px solid var(--rule); }
+    .nav-links a:last-child { border-bottom: none; }
     .wrap { padding: 0 20px; }
   }
 
@@ -297,11 +320,13 @@
   .modal-success p { font-size: var(--fs-sm); color: var(--fg-dim); line-height: 1.75; margin: 0 auto var(--s-6); max-width: 34ch; }
   [hidden] { display: none !important; }
 </style>
+</head>
+<body>
 
 <header class="nav">
   <div class="nav-inner">
     <div class="brand">다시<span class="dot">,</span> 봄</div>
-    <nav class="nav-links">
+    <nav class="nav-links" id="navLinks">
       <a href="#about">소개</a>
       <a href="#safety">안전장치</a>
       <a href="#counseling">상담</a>
@@ -312,6 +337,10 @@
       <a href="#faq">FAQ</a>
     </nav>
     <a class="btn" href="#join" data-modal-open="join">무료 가입하기</a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="메뉴 열기">
+      <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
   </div>
 </header>
 
@@ -719,7 +748,8 @@
       </div>
       <div class="field">
         <label for="jPhone">휴대폰 번호 <span class="hint">본인 인증용, 외부 노출 안 됨</span></label>
-        <input type="tel" id="jPhone" placeholder="010-0000-0000" required>
+        <input type="tel" id="jPhone" placeholder="010-0000-0000" inputmode="numeric"
+          pattern="01[0-9]-?\d{3,4}-?\d{4}" title="'010-0000-0000' 형식으로 입력해주세요" required>
       </div>
       <div class="field">
         <label for="jInterest">관심 모임</label>
@@ -752,6 +782,31 @@
 </div>
 
 <script>
+  (function () {
+    var navToggle = document.getElementById('navToggle');
+    var navLinks = document.getElementById('navLinks');
+
+    function closeNav() {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', '메뉴 열기');
+    }
+    function openNav() {
+      navLinks.classList.add('open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', '메뉴 닫기');
+    }
+    navToggle.addEventListener('click', function () {
+      if (navLinks.classList.contains('open')) closeNav(); else openNav();
+    });
+    navLinks.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeNav);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) closeNav();
+    });
+  })();
+
   (function () {
     var overlay = document.getElementById('joinOverlay');
     var form = document.getElementById('joinForm');
@@ -797,3 +852,5 @@
     });
   })();
 </script>
+</body>
+</html>

@@ -494,21 +494,26 @@
   <article id="site-ia">
     <span class="kicker">Chapter 1 · Site · 07</span>
     <h2>1-7. 기존 홈페이지 구조에 반영</h2>
-    <p class="lead">위 내용을 실제 index.html 섹션 구조에 매핑합니다.</p>
+    <p class="lead">위 내용을 실제 index.html 섹션 구조에 매핑합니다. <b style="color:var(--fg)">2026-08-12 기준 정적 사이트(index.html)에 실제 반영 완료</b> — 이 문서와 사이트는 이후로도 함께 갱신합니다.</p>
 
     <table>
-      <tr><th>영역</th><th>변경 사항</th></tr>
-      <tr><td>가입 신청 모달</td><td>서류 항목에 혼인관계증명서&middot;가족관계증명서&middot;무자녀 확인 각서 구분 명시, 프리 인터뷰 일정 선택 단계 추가</td></tr>
-      <tr><td>비밀보장 서약 (신설)</td><td>가입 신청 마지막 단계에 NDA 동의 체크 항목 추가</td></tr>
-      <tr><td>#events (모임 유형)</td><td>카드에 &ldquo;정모&rdquo; 태그 추가, 상단에 &ldquo;정모 &middot; 번개&rdquo; 필터 탭 신설, 소셜다이닝&middot;시즌제 클럽 구분 표기</td></tr>
-      <tr><td>번개 목록 (신설)</td><td>#events 하단 또는 별도 섹션에 번개 카드 리스트 + &ldquo;번개 열기&rdquo; CTA 버튼</td></tr>
-      <tr><td>번개 상세 (신설)</td><td>참석자 목록(그룹 태그 포함) + 벙주 계좌번호 &middot; 정산 현황을 보여주는 상세 화면/모달. 해당 번개 참석자 로그인 시에만 노출</td></tr>
-      <tr><td>#schedule (이번 달 일정)</td><td>정모/번개 구분 컬럼 추가</td></tr>
-      <tr><td>마음 대나무숲 (신설)</td><td>익명 게시판 + 월간 음성 라디오 세션 안내 섹션, 네비게이션에 별도 진입점 추가</td></tr>
-      <tr><td>마이페이지 (신설)</td><td>내가 연 번개 &middot; 내가 보낼&middot;받을 정산 내역, 매너 온도 확인 영역</td></tr>
+      <tr><th>영역</th><th>변경 사항</th><th>반영 상태</th></tr>
+      <tr><td>가입 신청 모달</td><td>무자녀 확인 각서 서명 동의 + 비밀보장 서약(NDA) 동의를 체크박스 2단으로 분리, 관심 모임 선택지를 정모&middot;번개&middot;대나무숲&middot;상담으로 갱신</td><td>반영됨</td></tr>
+      <tr><td>비밀보장 서약 (신설)</td><td>가입 신청 마지막 단계에 NDA 동의 체크 항목 추가, 안전장치 섹션에 &ldquo;비밀보장 서약(NDA)&rdquo; 카드 신설</td><td>반영됨</td></tr>
+      <tr><td>구조 소개(#about)</td><td>기존 3개 가치 카드를 1-1장의 기반&middot;교류&middot;치유&middot;지원 인프라 4카드 구조로 교체</td><td>반영됨</td></tr>
+      <tr><td>안전장치(#safety)</td><td>매너 온도제&middot;삼진아웃 카드 신설, 이중 서류 검토 설명에 &ldquo;3인 재검토&rdquo; 규정 반영</td><td>반영됨</td></tr>
+      <tr><td>#events &rarr; 정모&middot;번개</td><td>소셜 다이닝 3종&middot;시즌제 클럽 4종을 실제 세부 프로그램명으로 교체, &ldquo;정모&rdquo;/&ldquo;시즌제&rdquo; 태그와 그룹 헤더로 구분</td><td>반영됨</td></tr>
+      <tr><td>번개 목록 (신설)</td><td>#events 하단에 번개 카드 리스트(벙주&middot;일시&middot;성사 인원) + 번개 개설 안내 카드 신설</td><td>반영됨</td></tr>
+      <tr><td>번개 상세(참석자&middot;정산 현황)</td><td>참석자 목록&middot;벙주 계좌번호&middot;정산 현황은 로그인 세션이 필요한 기능이라 정적 사이트에서는 보류</td><td>보류 &mdash; 실제 동작은 dasi-bom-app에서 구현됨</td></tr>
+      <tr><td>#schedule (이번 달 일정)</td><td>정모/번개 구분(구분 컬럼) 추가, 실제 세부 프로그램명으로 예시 갱신</td><td>반영됨</td></tr>
+      <tr><td>마음 대나무숲 (신설)</td><td>#bamboo 섹션 신설(익명 게시글 예시 + 월간 음성 라디오 안내), 네비게이션에 진입점 추가</td><td>반영됨</td></tr>
+      <tr><td>벙비 자동정산 (신설)</td><td>#settlement 섹션 신설 &mdash; 정산 흐름 4단계 + 1-5장과 동일한 차등정산 예시(식사비 9만원&middot;주류비 6만원)</td><td>반영됨</td></tr>
+      <tr><td>상담&middot;회복 여정</td><td>회복 여정 4단계 다이어그램 추가, 상담 카드를 4종&rarr;6종(트라우마 회복 세션&middot;경계 설정 워크숍 추가), 자기돌봄 프로그램 한 줄 안내</td><td>반영됨</td></tr>
+      <tr><td>커뮤니티 약속(그라운드 룰)</td><td>매너 온도 기준 미달 시 신청 제한, 정산 미이행 2회, 그라운드룰 위반 3회, NDA 위반 즉시 영구정지 규정을 항목으로 명시</td><td>반영됨</td></tr>
+      <tr><td>마이페이지 (신설)</td><td>내가 연 번개 &middot; 내가 보낼&middot;받을 정산 내역, 매너 온도 확인 영역은 로그인 세션이 필요해 정적 사이트에서는 보류</td><td>보류 &mdash; 실제 동작은 dasi-bom-app에서 구현됨</td></tr>
     </table>
 
-    <div class="note">정산 현황 페이지는 해당 번개 참석자만 접근할 수 있어야 하므로, 홈페이지 단계에서도 최소한 &ldquo;참석자 인증(가입 시 발급된 계정 로그인 등)&rdquo;은 필요합니다. 구체적인 인증 방식은 2장 앱의 세션 체계(2-6장)와 맞춰 설계합니다.</div>
+    <div class="note">번개 상세&middot;마이페이지처럼 로그인 세션이 필요한 기능은 정적 사이트(index.html)에서는 소개 수준으로만 반영하고, 실제 동작은 별도 프로그램(dasi-bom-app, Next.js)에서 이미 구현되어 있습니다. 정산 현황 접근 제한 등 구체적 인증 방식은 2장 앱의 세션 체계(2-6장)를 그대로 따릅니다.</div>
   </article>
 
   <article id="site-screens">

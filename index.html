@@ -157,18 +157,76 @@
   .kicker { display: block; font-size: var(--fs-2xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--s-3); }
 
   /* value props */
-  .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
   .value { background: var(--bg); padding: var(--s-7) var(--s-6); }
   .value .num { font-size: var(--fs-xs); color: var(--accent); font-weight: 700; margin-bottom: var(--s-4); }
+  .value .tag { margin-bottom: var(--s-3); }
   .value h3 { font-size: var(--fs-lg); margin-bottom: var(--s-3); line-height: 1.4; }
   .value p { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); }
 
   /* safety grid */
-  .safety { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+  .safety { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
   .safety .item { padding: var(--s-5) 0 0; border-top: 2px solid var(--rule); }
   .safety .item.on { border-top-color: var(--accent); }
   .safety h3 { font-size: var(--fs-sm); margin-bottom: var(--s-2); }
   .safety p { font-size: var(--fs-xs); line-height: 1.7; color: var(--fg-dim); }
+
+  /* meeting group headers (정모 · 번개) */
+  .mgroup-label { display: flex; align-items: center; gap: var(--s-3); margin: var(--s-8) 0 var(--s-5); }
+  .mgroup-label:first-child { margin-top: 0; }
+  .mgroup-label h3 { font-size: var(--fs-base); font-weight: 700; }
+  .mgroup-label .line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* 번개 (flash meetup) cards — dashed border to read as "member-hosted, informal" */
+  .flash-card {
+    border: 1.5px dashed var(--rule); border-radius: 6px; padding: var(--s-5) var(--s-6);
+    display: flex; justify-content: space-between; align-items: center; gap: var(--s-5); flex-wrap: wrap;
+  }
+  .flash-card + .flash-card { margin-top: var(--s-3); }
+  .flash-card .host { display: flex; align-items: center; gap: var(--s-3); }
+  .flash-avatar {
+    width: 36px; height: 36px; border-radius: 50%; background: var(--gold-soft); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; flex: none;
+  }
+  .flash-card h4 { font-size: var(--fs-sm); font-weight: 700; margin-bottom: 2px; }
+  .flash-card .sub { font-size: var(--fs-2xs); color: var(--fg-dim); }
+  .flash-open-card {
+    border: 1.5px dashed var(--rule); border-radius: 6px; padding: var(--s-6);
+    text-align: center; color: var(--fg-dim); font-size: var(--fs-sm);
+  }
+  .flash-open-card b { color: var(--fg); }
+
+  /* 마음 대나무숲 */
+  .bamboo { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  .bpost { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: var(--s-6); display: flex; flex-direction: column; }
+  .bpost .banon { display: flex; align-items: center; gap: var(--s-2); font-size: var(--fs-2xs); color: var(--fg-dim); margin-bottom: var(--s-4); }
+  .bpost .banon .blob { width: 22px; height: 22px; border-radius: 50%; background: var(--surface-2); flex: none; }
+  .bpost p { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); flex: 1; }
+  .bpost .bmeta { display: flex; justify-content: space-between; font-size: var(--fs-2xs); color: var(--fg-dim); border-top: 1px dashed var(--rule); padding-top: var(--s-4); margin-top: var(--s-5); }
+  .bamboo-note { display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-6); padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--sage); border-radius: 4px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
+  .bamboo-note b { color: var(--fg); font-weight: 700; }
+
+  /* 벙비 자동정산 */
+  .settle-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
+  .settle-flow { display: flex; flex-direction: column; gap: var(--s-5); }
+  .settle-step { display: flex; gap: var(--s-4); }
+  .settle-step .n { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--gold-soft); color: var(--accent); font-size: var(--fs-2xs); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .settle-step h4 { font-size: var(--fs-sm); font-weight: 700; margin-bottom: 2px; }
+  .settle-step p { font-size: var(--fs-xs); line-height: 1.7; color: var(--fg-dim); }
+  .settle-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: var(--s-6); box-shadow: var(--shadow); }
+  .settle-card .kicker { margin-bottom: var(--s-4); }
+  .settle-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin-bottom: var(--s-5); }
+  .settle-table th { text-align: left; font-size: var(--fs-2xs); color: var(--fg-dim); font-weight: 700; padding: 0 0 var(--s-3); border-bottom: 1px solid var(--rule); }
+  .settle-table td { padding: var(--s-3) 0; border-bottom: 1px solid var(--rule); }
+  .settle-table tr:last-child td { border-bottom: none; }
+  .settle-result { display: flex; justify-content: space-between; align-items: center; padding-top: var(--s-4); border-top: 1px dashed var(--rule); }
+  .settle-result .who { font-size: var(--fs-xs); color: var(--fg-dim); }
+  .settle-result b { font-size: var(--fs-lg); }
+  .settle-result + .settle-result { margin-top: var(--s-3); padding-top: var(--s-3); border-top: none; }
+
+  /* 회복 여정 4단계 */
+  .journey { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); margin-bottom: var(--s-7); }
+  .journey .step .n { color: var(--sage); }
 
   /* counseling */
   .counsel { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
@@ -255,13 +313,16 @@
 
   @media (max-width: 900px) {
     .safety { grid-template-columns: 1fr 1fr; }
-    .steps { grid-template-columns: 1fr 1fr; }
+    .steps, .journey { grid-template-columns: 1fr 1fr; }
     .faq-item { grid-template-columns: 1fr; gap: var(--s-2); }
+    .values { grid-template-columns: 1fr 1fr; }
+    .settle-wrap { grid-template-columns: 1fr; }
   }
   @media (max-width: 720px) {
-    .values, .events, .quotes, .counsel { grid-template-columns: 1fr; }
-    .safety, .steps { grid-template-columns: 1fr; }
+    .values, .events, .quotes, .counsel, .bamboo { grid-template-columns: 1fr; }
+    .safety, .steps, .journey { grid-template-columns: 1fr; }
     .rules { grid-template-columns: 1fr; }
+    .flash-card { flex-direction: column; align-items: flex-start; }
     .nav-toggle { display: inline-flex; }
     .nav-links {
       display: none; position: absolute; top: 100%; left: 0; right: 0;
@@ -330,8 +391,10 @@
     <nav class="nav-links" id="navLinks">
       <a href="#about">소개</a>
       <a href="#safety">안전장치</a>
+      <a href="#events">정모·번개</a>
+      <a href="#bamboo">대나무숲</a>
+      <a href="#settlement">벙비정산</a>
       <a href="#counseling">상담</a>
-      <a href="#events">모임</a>
       <a href="#schedule">일정</a>
       <a href="#voices">후기</a>
       <a href="#join">가입안내</a>
@@ -380,19 +443,24 @@
     </div>
     <div class="values">
       <div class="value">
-        <div class="num mono">01</div>
-        <h3>설명하지 않아도 되는 자리</h3>
-        <p>왜 이혼했는지, 아이는 왜 없는지 묻지 않는 것이 가입 시 동의하는 기본 규칙입니다. 이를 어기면 첫 위반은 경고, 재발 시 즉시 자격이 정지됩니다.</p>
+        <span class="tag">기반</span>
+        <h3>신뢰&middot;안전 관리</h3>
+        <p>가입 심사(서류&middot;각서&middot;동기 확인)와 비밀보장 서약, 매너 온도제로 &ldquo;안전이 먼저 확보된&rdquo; 다음에야 교류와 치유가 의미를 갖는다는 원칙으로 설계합니다.</p>
       </div>
       <div class="value">
-        <div class="num mono">02</div>
-        <h3>서류 기반 본인 인증</h3>
-        <p>가족관계증명서(상세) 또는 이혼신고 확인서와 신분증 대조를 거친 회원만 활동할 수 있습니다. 미혼·기혼 상태이거나 서류가 확인되지 않으면 가입이 반려됩니다.</p>
+        <span class="tag">교류</span>
+        <h3>정모&middot;번개&middot;대나무숲</h3>
+        <p>운영진이 여는 정모부터 회원이 직접 여는 번개, 프로필 없이 마음을 꺼내는 온라인 익명 공간까지 &mdash; 부담의 정도가 다른 여러 접점을 둡니다.</p>
       </div>
       <div class="value">
-        <div class="num mono">03</div>
-        <h3>관계의 방향은 본인이 정함</h3>
-        <p>연애, 재혼, 우정 중 어느 쪽도 강요하지 않습니다. 프로필에 &ldquo;친목만 희망&rdquo; 표시를 설정하면 다른 회원에게도 그대로 노출됩니다.</p>
+        <span class="tag">치유</span>
+        <h3>상담치료</h3>
+        <p>애도 작업 &middot; 자기이해(심리검사) &middot; 미해결과제 해결 &middot; 사전사후 측정으로 이어지는 회복 여정입니다. 모임과 동등한 무게를 가진 핵심 축으로 운영합니다.</p>
+      </div>
+      <div class="value">
+        <span class="tag">지원 인프라</span>
+        <h3>벙비 자동정산</h3>
+        <p>번개 모임비를 투명하게 1/n(또는 항목별 차등) 정산해, 돈 문제로 어렵게 만든 관계가 상하지 않도록 돕습니다.</p>
       </div>
     </div>
   </div>
@@ -410,7 +478,15 @@
     <div class="safety">
       <div class="item on">
         <h3>이중 서류 검토</h3>
-        <p>운영진 2인이 각각 독립적으로 서류를 검토하고, 결과가 일치할 때만 승인합니다. 위조가 의심되면 즉시 반려 및 재가입이 제한됩니다.</p>
+        <p>운영진 2인이 각각 독립적으로 서류를 검토합니다. 판단이 갈리면 3인째가 재검토하며, 위조가 의심되면 즉시 반려됩니다.</p>
+      </div>
+      <div class="item on">
+        <h3>비밀보장 서약(NDA)</h3>
+        <p>승인 후에는 커뮤니티 약속과 비밀보장 서약에 서명해야 정회원이 됩니다. 서약 위반이 확인되면 경고 없이 즉시 영구정지됩니다.</p>
+      </div>
+      <div class="item on">
+        <h3>매너 온도제</h3>
+        <p>모임 참여 후 상호 익명 평가로 매너 온도가 쌓입니다. 그라운드룰 위반이 3회 누적되면 경고&middot;주의&middot;일시정지 단계가 자동으로 적용됩니다.</p>
       </div>
       <div class="item on">
         <h3>단계적 정보 공개</h3>
@@ -418,11 +494,11 @@
       </div>
       <div class="item on">
         <h3>즉시 신고 · 차단</h3>
-        <p>불편한 대화나 행동은 앱 내에서 즉시 신고할 수 있고, 접수 후 24시간 이내 운영진이 조치 결과를 안내합니다.</p>
+        <p>불편한 대화나 행동, 모임&middot;게시글은 언제든 신고할 수 있고, 접수 후 운영진이 확인해 제재 단계를 적용합니다.</p>
       </div>
       <div class="item on">
         <h3>데이터 최소 보관</h3>
-        <p>인증 서류는 승인 완료 즉시 파기하며, 탈퇴 시 활동 기록도 관련 법령이 정한 최소 기간 후 완전 삭제됩니다.</p>
+        <p>인증 서류는 심사 목적으로만 열람되며, 탈퇴 시 활동 기록도 관련 법령이 정한 최소 기간 후 완전 삭제됩니다.</p>
       </div>
     </div>
   </div>
@@ -433,8 +509,30 @@
     <div class="head">
       <div>
         <span class="kicker">Care &amp; Counseling</span>
-        <h2>심리상담 서비스</h2>
-        <p>이혼 이후의 감정은 모임만으로 다 다뤄지지 않을 수 있습니다. &ldquo;다시, 봄&rdquo;은 자격을 갖춘 상담사와 연계해 회원 대상 상담 서비스를 함께 운영합니다.</p>
+        <h2>상담 &middot; 회복 여정</h2>
+        <p>모임이 &ldquo;다시 사람을 만나는 자리&rdquo;라면, 상담치료는 애도를 충분히 마치고 자신을 이해한 건강한 상태로 그 자리에 나갈 수 있도록 돕는 축입니다. 모임의 부속 기능이 아니라 동등한 무게를 가진 핵심 축으로 운영합니다.</p>
+      </div>
+    </div>
+    <div class="journey">
+      <div class="step">
+        <div class="n mono">01</div>
+        <h3>애도 작업</h3>
+        <p>부정&middot;분노&middot;타협&middot;우울&middot;수용의 애도 단계가 충분히 다뤄지도록 개인&middot;그룹상담에서 돕습니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">02</div>
+        <h3>자기 이해</h3>
+        <p>표준화된 성격&middot;심리검사(TCI, 애착유형 등)로 기질과 정서 상태를 먼저 파악합니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">03</div>
+        <h3>미해결과제 해결</h3>
+        <p>결혼생활 중 다루지 못한 감정&middot;갈등을 심층 상담에서 다뤄, 과거가 지금의 관계 방식에 반복적으로 영향을 주지 않도록 돕습니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">04</div>
+        <h3>사전&middot;사후 측정</h3>
+        <p>상담 시작과 종결 시점에 동일한 척도로 상태를 측정해 변화를 확인한 뒤 새로운 사람들을 만나도록 돕습니다.</p>
       </div>
     </div>
     <div class="counsel">
@@ -466,10 +564,24 @@
         <div class="meta"><span>연중무휴 · 즉시 연결</span><span>익명 이용 가능</span></div>
         <a class="btn sm ghost counsel-cta" href="#counseling" data-modal-open="counsel" data-program="crisis">지금 연결하기</a>
       </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">드롭인</span><span class="price">회당 <b>무료</b></span></div>
+        <h3>트라우마 회복 세션</h3>
+        <p>월 1~2회 상시 참여형 집단상담입니다. 8주 코호트인 그룹상담과 달리 특정 기수 없이 필요할 때 참여할 수 있습니다.</p>
+        <div class="meta"><span>월 1~2회 상시</span><span>드롭인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="trauma">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">워크숍</span><span class="price">회당 <b>3만원</b></span></div>
+        <h3>경계 설정(Boundaries) 워크숍</h3>
+        <p>건강한 거리 유지와 자존감 회복을 다루는 실습형 세션입니다. 자기이해&middot;미해결과제 단계의 실습을 확장합니다.</p>
+        <div class="meta"><span>월 1회 토 오후</span><span>6~10인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="boundaries">신청하기</a>
+      </div>
     </div>
     <div class="counsel-note">
       <span>&mdash;</span>
-      <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 상담사는 별도의 비밀유지 의무를 지며, 예약은 앱 내 &ldquo;상담&rdquo; 탭에서 원하는 유형과 상담사를 선택해 진행합니다.</span>
+      <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 심리검사&middot;사전사후측정 결과도 본인에게만 제공되며 모임 참여 여부와는 무관합니다. 자기돌봄 프로그램(감정 일기 챌린지, 인디펜던트 라이프 클래스)으로 일상도 함께 단단히 꾸려갈 수 있습니다.</span>
     </div>
   </div>
 </section>
@@ -479,47 +591,155 @@
     <div class="head">
       <div>
         <span class="kicker">Gatherings</span>
-        <h2>모임 유형</h2>
-        <p>매주 다양한 소규모 모임이 열립니다. 인원을 4~14명으로 제한해 누구나 부담 없이 대화에 낄 수 있게 합니다.</p>
+        <h2>정모 &middot; 번개</h2>
+        <p>운영진이 짜는 &ldquo;정모&rdquo;는 브랜드가 보증하는 공식 트랙, 회원이 직접 여는 &ldquo;번개&rdquo;는 진입장벽을 낮춘 저부담 트랙입니다. 두 트랙 모두 서류 인증을 마친 정회원만 개설&middot;참여할 수 있습니다.</p>
       </div>
       <a class="btn ghost sm" href="#schedule">전체 일정 보기</a>
     </div>
+
+    <div class="mgroup-label"><h3>정모 &middot; 소셜 다이닝</h3><span class="line"></span><span class="price">4~6인 &middot; 체험형 식사</span></div>
     <div class="events">
       <div class="card">
         <div class="card-top"><span class="tag">소셜 다이닝</span><span class="price">회비 <b>4.5만원</b></span></div>
-        <h3>평일 저녁 식사 모임</h3>
-        <p>퇴근 후 가볍게 밥 한 끼. 매회 새로운 조합으로 배정되며, 진행자가 대화 주제를 준비해 어색함을 줄입니다.</p>
-        <div class="meta"><span>수 · 목 저녁 7시</span><span>4~6인</span></div>
+        <h3>컬처 플레이스 테이스팅 투어</h3>
+        <p>전통시장 투어 후 각자 고른 재료로 공유 공간에서 요리하거나, 티(Tea) 오마카세&middot;향신료 공방을 방문하는 감각 체험형 다이닝입니다. 공통의 경험을 나누며 대화 주제가 자연스럽게 풍부해집니다.</p>
+        <div class="meta"><span>격주 토 오후 4시</span><span>4~6인</span></div>
       </div>
       <div class="card">
-        <div class="card-top"><span class="tag">액티비티</span><span class="price">회비 <b>1만원</b></span></div>
-        <h3>주말 러닝크루</h3>
-        <p>한강에서 5km 내외로 가볍게 달리고 근처 카페에서 마무리합니다. 체력 무관, 완주보다 대화가 목적입니다.</p>
-        <div class="meta"><span>토 오전 7시</span><span>6~10인</span></div>
+        <div class="card-top"><span class="tag">소셜 다이닝</span><span class="price">회비 <b>3.5만원</b></span></div>
+        <h3>나만의 소울푸드 공유 세션</h3>
+        <p>&ldquo;내 인생에서 가장 위로가 된 음식&rdquo;이나 시그니처 레시피를 직접 만들어 오거나 공유하는 스토리텔링 다이닝. 음식에 얽힌 사연을 나누며 자연스럽게 깊은 유대감이 형성됩니다.</p>
+        <div class="meta"><span>월 1회 일 오후 5시</span><span>4~6인</span></div>
       </div>
       <div class="card">
-        <div class="card-top"><span class="tag">클래스</span><span class="price">회비 <b>7만원</b></span></div>
-        <h3>원데이 와인 클래스</h3>
-        <p>소믈리에와 함께하는 테이스팅 클래스. 정해진 테이블 배치와 활동지가 있어 낯가림이 있어도 참여하기 편합니다.</p>
-        <div class="meta"><span>격주 금 저녁 7시반</span><span>8인</span></div>
+        <div class="card-top"><span class="tag">소셜 다이닝</span><span class="price">회비 <b>3만원</b></span></div>
+        <h3>디지털 디톡스 다이닝</h3>
+        <p>식사 시작 전 스마트폰을 반납하고, 보드게임&middot;질문 카드로 가볍고 유쾌한 대화를 유도합니다. 온전히 서로에게 집중하는 해방감과 안전한 심리적 거리감을 제공합니다.</p>
+        <div class="meta"><span>격주 수 저녁 7시</span><span>4~6인</span></div>
+      </div>
+    </div>
+
+    <div class="mgroup-label"><h3>정모 &middot; 시즌제 클럽</h3><span class="line"></span><span class="price">4~8주 &middot; 같은 사람들과 반복</span></div>
+    <div class="events">
+      <div class="card">
+        <div class="card-top"><span class="tag">시즌제 &middot; 신체 회복</span><span class="price">4~6주 <b>6만원</b></span></div>
+        <h3>보디 셰이프 &amp; 프렌들리</h3>
+        <p>주 1회 러닝&middot;클라이밍 + 홈트레이닝 인증 챌린지. 소그룹으로 함께 체력&middot;활력을 되찾고, 운동 후 건강한 식단&middot;브런치로 마무리합니다.</p>
+        <div class="meta"><span>주 1회 토 오전</span><span>6~8인</span></div>
       </div>
       <div class="card">
-        <div class="card-top"><span class="tag">토크</span><span class="price">회비 <b>무료</b></span></div>
-        <h3>북클럽 &mdash; 다시 쓰는 나</h3>
-        <p>매달 한 권, 이혼 이후의 삶과 자기 회복을 다루는 책을 함께 읽습니다. 온라인 사전 모임과 오프라인 본모임으로 나뉩니다.</p>
-        <div class="meta"><span>월 1회 일요일</span><span>5~7인</span></div>
+        <div class="card-top"><span class="tag">시즌제 &middot; 지적 교류</span><span class="price">6주 <b>4만원</b></span></div>
+        <h3>언스쿨링 북클럽</h3>
+        <p>경제&middot;철학&middot;1인가구 라이프&middot;심리학 등 시야를 넓히는 책을 읽고 토론합니다. 타인을 평가·조언하는 대신 책 속 주제로 자기 가치관을 자연스럽게 투영합니다.</p>
+        <div class="meta"><span>격주 화 저녁 8시</span><span>5~7인</span></div>
       </div>
       <div class="card">
-        <div class="card-top"><span class="tag">여행</span><span class="price">회비 <b>18만원~</b></span></div>
-        <h3>1박 2일 소모임 여행</h3>
-        <p>가까운 근교로 떠나는 짧은 여행. 숙소는 성별로 분리 배정하며, 일부 일정은 자유 참여로 부담을 줄입니다.</p>
-        <div class="meta"><span>분기 1회</span><span>10~14인</span></div>
+        <div class="card-top"><span class="tag">시즌제 &middot; 공간 자립</span><span class="price">4주 <b>5만원</b></span></div>
+        <h3>홈 스페이스 메이킹</h3>
+        <p>이혼 후 완전히 독립된 자신만의 공간을 새로 꾸미는 프로젝트. 가구 배치&middot;미니멀 라이프 팁과 비포&middot;애프터 공유로 심리적 안정감과 주체성을 키웁니다.</p>
+        <div class="meta"><span>주 1회 일 오후</span><span>5~7인</span></div>
       </div>
       <div class="card">
-        <div class="card-top"><span class="tag">액티비티</span><span class="price">회비 <b>1만원</b></span></div>
-        <h3>주중 등산 모임</h3>
-        <p>서울 근교 코스 위주로 진행하며, 초보자 배려 코스와 상급 코스를 나누어 체력 부담 없이 참여할 수 있습니다.</p>
-        <div class="meta"><span>격주 일요일</span><span>6~10인</span></div>
+        <div class="card-top"><span class="tag">시즌제 &middot; 기록과 사유</span><span class="price">6주 <b>4만원</b></span></div>
+        <h3>모먼트 아카이빙 글쓰기 클럽</h3>
+        <p>매주 에세이 프롬프트(예: &ldquo;나의 가장 오래된 습관&rdquo;)에 맞춰 짧은 글을 쓰고 낭독&middot;공유합니다. 감정을 객관화하고 깊은 공감대를 형성합니다.</p>
+        <div class="meta"><span>격주 목 저녁 8시</span><span>5~7인</span></div>
+      </div>
+    </div>
+
+    <div class="mgroup-label"><h3>번개 &middot; 지금 열려 있는 벙</h3><span class="line"></span><span class="price">회원 누구나 개설</span></div>
+    <div class="flash-card">
+      <div class="host">
+        <div class="flash-avatar">J</div>
+        <div><h4>평일 저녁 카페 번개</h4><span class="sub">벙주 J.K. &middot; 8.14(금) 저녁 7시 &middot; 홍대 스터디카페</span></div>
+      </div>
+      <span class="pill open">2/4명 &middot; 최소 2인 성사</span>
+    </div>
+    <div class="flash-card">
+      <div class="host">
+        <div class="flash-avatar">S</div>
+        <div><h4>주말 브런치 번개</h4><span class="sub">벙주 S.P. &middot; 8.16(일) 오전 11시 &middot; 성수동</span></div>
+      </div>
+      <span class="pill soon">3/4명 &middot; 마감임박</span>
+    </div>
+    <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>가입 후 번개 열기</b>는 정회원 전용입니다.</div>
+  </div>
+</section>
+
+<section id="bamboo">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Anonymous Space</span>
+        <h2>마음 대나무숲</h2>
+        <p>오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 편하게 마음을 나누는 익명 공간입니다.</p>
+      </div>
+    </div>
+    <div class="bamboo">
+      <div class="bpost">
+        <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
+        <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
+        <div class="bmeta"><span>댓글 6</span><span>공감 12</span></div>
+      </div>
+      <div class="bpost">
+        <div class="banon"><span class="blob"></span>익명 &middot; 어제</div>
+        <p>혼자인 일상이 이제야 조금씩 편해지는 것 같아요. 비슷한 시기 지나오신 분들 이야기가 궁금해요.</p>
+        <div class="bmeta"><span>댓글 9</span><span>공감 21</span></div>
+      </div>
+      <div class="bpost">
+        <div class="banon"><span class="blob" style="background: var(--gold-soft);"></span>운영진 &middot; 정기 음성 라디오</div>
+        <p>이번 달 마음 라디오는 &ldquo;애도, 서두르지 않아도 됩니다&rdquo;를 주제로 진행됩니다. 얼굴&middot;실명 노출 없이 목소리만으로 참여하세요.</p>
+        <div class="bmeta"><span>8.28(금) 저녁 9시</span><span>익명 참여</span></div>
+      </div>
+    </div>
+    <div class="bamboo-note">
+      <span>&mdash;</span>
+      <span><b>운영진도 작성자를 특별한 사유(신고 처리 등) 없이는 조회하지 않습니다.</b> 여기서 알게 된 이야기도 비밀보장 서약 대상이며, 위기 신호가 감지되는 글은 24시간 위기상담으로 즉시 안내됩니다.</span>
+    </div>
+  </div>
+</section>
+
+<section id="settlement" class="tight">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Split the Bill, Automatically</span>
+        <h2>벙비 자동정산</h2>
+        <p>번개는 벙주가 비용을 먼저 결제하고, 끝난 뒤 참석자들에게 나눠 받습니다. &ldquo;누가 얼마 보냈는지&rdquo; 수기로 계산하고 독촉하는 부담을 없애는 것이 이 기능의 존재 이유입니다.</p>
+      </div>
+    </div>
+    <div class="settle-wrap">
+      <div class="settle-flow">
+        <div class="settle-step">
+          <div class="n mono">01</div>
+          <div><h4>참석 확정 &middot; 벙주 선결제</h4><p>노쇼&middot;불참자를 제외한 최종 참석자를 확정하고, 벙주가 현장에서 비용을 먼저 일괄 결제합니다.</p></div>
+        </div>
+        <div class="settle-step">
+          <div class="n mono">02</div>
+          <div><h4>항목별 비용 입력</h4><p>기본 1개 항목(전원 대상)에서 시작해 필요하면 &ldquo;항목 추가&rdquo;로 최대 5개까지, 항목마다 대상자를 체크합니다.</p></div>
+        </div>
+        <div class="settle-step">
+          <div class="n mono">03</div>
+          <div><h4>자동 계산 &middot; 정산 요청</h4><p>참석자별로 본인이 해당하는 항목만 합산해 벙주 계좌와 함께 얼마를 보내야 하는지 안내합니다.</p></div>
+        </div>
+        <div class="settle-step">
+          <div class="n mono">04</div>
+          <div><h4>송금 완료 체크</h4><p>참석자가 송금 후 직접 &ldquo;완료&rdquo;를 체크하면 벙주 화면에 실시간 정산 현황이 표시됩니다. 장기 미완료 건은 리마인드가 발송됩니다.</p></div>
+        </div>
+      </div>
+      <div class="settle-card">
+        <span class="kicker">Example &middot; 차등 정산</span>
+        <table class="settle-table mono">
+          <tr><th style="font-family:-apple-system,sans-serif;">항목</th><th style="font-family:-apple-system,sans-serif;">대상</th><th>금액</th><th>인당</th></tr>
+          <tr><td style="font-family:-apple-system,sans-serif;">식사비</td><td style="font-family:-apple-system,sans-serif;">전원(6명)</td><td>90,000원</td><td>15,000원</td></tr>
+          <tr><td style="font-family:-apple-system,sans-serif;">주류비</td><td style="font-family:-apple-system,sans-serif;">음주자만(4명)</td><td>60,000원</td><td>15,000원</td></tr>
+        </table>
+        <div class="settle-result">
+          <span class="who">음주자 1인 부담액 (식사비+주류비)</span><b class="mono">30,000원</b>
+        </div>
+        <div class="settle-result">
+          <span class="who">비음주자 1인 부담액 (식사비만)</span><b class="mono">15,000원</b>
+        </div>
       </div>
     </div>
   </div>
@@ -539,6 +759,7 @@
         <thead>
           <tr>
             <th>날짜</th>
+            <th style="font-family: -apple-system, sans-serif;">구분</th>
             <th style="font-family: -apple-system, sans-serif;">모임</th>
             <th style="font-family: -apple-system, sans-serif;">장소</th>
             <th>회비</th>
@@ -548,42 +769,47 @@
         </thead>
         <tbody>
           <tr>
-            <td>08.06<br><span class="ev-sub">목</span></td>
-            <td><span class="ev-name">평일 저녁 식사 모임</span><span class="ev-sub">7:00 PM 시작 · 진행자 배정</span></td>
-            <td style="font-family: -apple-system, sans-serif;">성수동</td>
-            <td>4.5만</td>
-            <td>4 / 6</td>
+            <td>08.14<br><span class="ev-sub">금</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><span class="tag">번개</span></td>
+            <td><span class="ev-name">평일 저녁 카페 번개</span><span class="ev-sub">벙주 J.K. · 선착순 확정</span></td>
+            <td style="font-family: -apple-system, sans-serif;">홍대 스터디카페</td>
+            <td>정산제</td>
+            <td>2 / 4</td>
             <td><span class="pill open">모집중</span></td>
           </tr>
           <tr>
-            <td>08.09<br><span class="ev-sub">일</span></td>
-            <td><span class="ev-name">주중 등산 모임 · 초급</span><span class="ev-sub">난이도 하 · 3시간 코스</span></td>
-            <td style="font-family: -apple-system, sans-serif;">북한산</td>
-            <td>1만</td>
-            <td>7 / 10</td>
+            <td>08.16<br><span class="ev-sub">토</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><span class="tag">시즌제</span></td>
+            <td><span class="ev-name">보디 셰이프 &amp; 프렌들리 1회차</span><span class="ev-sub">4~6주 과정 시작</span></td>
+            <td style="font-family: -apple-system, sans-serif;">반포 한강공원</td>
+            <td>6만</td>
+            <td>7 / 8</td>
             <td><span class="pill soon">마감임박</span></td>
           </tr>
           <tr>
-            <td>08.15<br><span class="ev-sub">토</span></td>
-            <td><span class="ev-name">주말 러닝크루</span><span class="ev-sub">5km · 페이스 자유</span></td>
-            <td style="font-family: -apple-system, sans-serif;">반포 한강공원</td>
-            <td>1만</td>
-            <td>5 / 8</td>
+            <td>08.16<br><span class="ev-sub">토</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><span class="tag">소셜다이닝</span></td>
+            <td><span class="ev-name">컬처 플레이스 테이스팅 투어</span><span class="ev-sub">전통시장 투어 + 요리</span></td>
+            <td style="font-family: -apple-system, sans-serif;">망원시장</td>
+            <td>4.5만</td>
+            <td>5 / 6</td>
             <td><span class="pill open">모집중</span></td>
           </tr>
           <tr>
             <td>08.21<br><span class="ev-sub">금</span></td>
-            <td><span class="ev-name">원데이 와인 클래스</span><span class="ev-sub">소믈리에 진행</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><span class="tag">소셜다이닝</span></td>
+            <td><span class="ev-name">디지털 디톡스 다이닝</span><span class="ev-sub">스마트폰 반납 후 시작</span></td>
             <td style="font-family: -apple-system, sans-serif;">청담동</td>
-            <td>7만</td>
-            <td>8 / 8</td>
+            <td>3만</td>
+            <td>6 / 6</td>
             <td><span class="pill full">마감</span></td>
           </tr>
           <tr>
             <td>08.30<br><span class="ev-sub">일</span></td>
-            <td><span class="ev-name">북클럽 &mdash; 다시 쓰는 나</span><span class="ev-sub">이번 달 선정도서 안내 예정</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><span class="tag">시즌제</span></td>
+            <td><span class="ev-name">언스쿨링 북클럽 1회차</span><span class="ev-sub">이번 달 선정도서 안내 예정</span></td>
             <td style="font-family: -apple-system, sans-serif;">온라인 + 강남</td>
-            <td>무료</td>
+            <td>4만</td>
             <td>3 / 7</td>
             <td><span class="pill open">모집중</span></td>
           </tr>
@@ -642,12 +868,12 @@
       <div class="step">
         <div class="n mono">03</div>
         <h3>운영진 검토<span class="dur mono">1~2일</span></h3>
-        <p>서류 진위와 자기소개 내용을 운영진 2인이 독립적으로 교차 검토합니다. 홍보성 문구, 연락처 노출, 취지에 맞지 않는 프로필은 사유와 함께 반려되며 수정 후 재신청할 수 있습니다.</p>
+        <p>서류 진위와 가입 동기를 운영진 2인이 독립적으로 교차 검토합니다. 두 사람의 판단이 갈리면 3인째가 재검토하며, 홍보성 문구·취지에 맞지 않는 프로필은 사유와 함께 반려됩니다.</p>
       </div>
       <div class="step">
         <div class="n mono">04</div>
-        <h3>오리엔테이션<span class="dur mono">약 15분</span></h3>
-        <p>승인 후 커뮤니티 약속과 신고·차단 기능 사용법을 안내하는 짧은 온라인 가이드를 확인해야 모임 신청 권한이 열립니다.</p>
+        <h3>서약 &amp; 오리엔테이션<span class="dur mono">약 15분</span></h3>
+        <p>승인 후 커뮤니티 약속과 비밀보장 서약(NDA)에 서명하고, 신고·차단 기능 사용법을 안내받아야 모임 신청 권한이 열립니다.</p>
       </div>
       <div class="step">
         <div class="n mono">05</div>
@@ -674,8 +900,12 @@
       <div class="rule-item"><span class="mark">&mdash;</span>영업, 홍보, 종교 권유 목적의 참여는 즉시 탈퇴 조치됩니다.</div>
       <div class="rule-item"><span class="mark">&mdash;</span>불편한 상황은 언제든 운영진에게 비공개로 신고할 수 있습니다.</div>
       <div class="rule-item"><span class="mark">&mdash;</span>다른 회원의 경계를 존중하고, 거절은 그대로 받아들입니다.</div>
-      <div class="rule-item"><span class="mark">&mdash;</span>무단 노쇼가 2회 누적되면 한 달간 모임 신청이 제한됩니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>무단 노쇼가 2회 누적되면 경고 단계로 자동 전환되며, 신청이 제한됩니다.</div>
       <div class="rule-item"><span class="mark">&mdash;</span>타 회원을 대상으로 한 상업적 접촉(보험, 영업 등)은 금지됩니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>매너 온도가 기준 미달이면 신규 모임 신청이 일시 제한됩니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>번개 정산 미이행이 2회 누적되면 일시정지 단계가 적용됩니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>위 그라운드 룰 위반이 3회 누적되면 자동으로 제재 단계가 상향됩니다.</div>
+      <div class="rule-item"><span class="mark">&mdash;</span>비밀보장 서약(NDA) 위반은 누적과 무관하게 즉시 영구정지됩니다.</div>
     </div>
   </div>
 </section>
@@ -708,6 +938,14 @@
       <div class="faq-item">
         <div class="faq-q"><span class="q-mark">Q.</span>탈퇴는 어떻게 하나요?</div>
         <div class="faq-a">설정 &gt; 계정 메뉴에서 즉시 탈퇴할 수 있습니다. 탈퇴 시 프로필은 즉시 비공개 처리되며, 활동 기록은 관련 법령이 정한 최소 보관 기간 후 완전히 삭제됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">Q.</span>번개는 아무나 열 수 있나요?</div>
+        <div class="faq-a">서류 인증을 마친 정회원이라면 누구나 열 수 있습니다. 다만 벙비 정산을 미이행해 제재 이력이 있는 경우, 제재 기간 동안은 번개 개설이 제한됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="q-mark">Q.</span>마음 대나무숲 글은 정말 익명인가요?</div>
+        <div class="faq-a">네. 다른 회원은 물론 운영진도 신고 처리 등 특별한 사유 없이는 작성자를 조회하지 않습니다. 다만 위기 신호가 감지되는 글은 24시간 위기상담으로 즉시 안내됩니다.</div>
       </div>
     </div>
   </div>
@@ -760,18 +998,21 @@
         <label for="jInterest">관심 모임</label>
         <select id="jInterest">
           <option value="">가장 관심 있는 모임 (선택)</option>
-          <option>소셜 다이닝</option>
-          <option>러닝크루</option>
-          <option>와인 클래스</option>
-          <option>북클럽</option>
-          <option>등산 모임</option>
-          <option>소모임 여행</option>
+          <option>정모 · 소셜 다이닝</option>
+          <option>정모 · 시즌제 클럽</option>
+          <option>번개(직접 개설)</option>
+          <option>마음 대나무숲</option>
+          <option>상담 · 회복 여정</option>
         </select>
       </div>
 
       <label class="check-row">
         <input type="checkbox" required>
-        <span>무자녀 이혼 사실을 서류로 인증하는 절차에 동의하며, 커뮤니티 약속을 준수하겠습니다.</span>
+        <span>무자녀 이혼 사실을 서류(혼인관계증명서·가족관계증명서)로 인증하고 무자녀 확인 각서에 서명하는 절차에 동의합니다.</span>
+      </label>
+      <label class="check-row">
+        <input type="checkbox" required>
+        <span>승인 후 커뮤니티 약속과 비밀보장 서약(NDA)에 서명하며, 위반 시 즉시 영구정지될 수 있음에 동의합니다.</span>
       </label>
 
       <button type="submit" class="btn">본인 인증 안내 받기</button>
@@ -806,6 +1047,8 @@
           <option value="group">이혼 후 회복 그룹상담 · 8주 24만원</option>
           <option value="video">화상 상담 · 회당 6만원</option>
           <option value="crisis">24시간 위기상담 핫라인 · 무료</option>
+          <option value="trauma">트라우마 회복 세션 · 무료</option>
+          <option value="boundaries">경계 설정(Boundaries) 워크숍 · 3만원</option>
         </select>
       </div>
       <div class="field" id="cModeField">
@@ -935,6 +1178,18 @@
       crisis: {
         label: '24시간 위기상담 핫라인',
         scheduled: false
+      },
+      trauma: {
+        label: '트라우마 회복 세션',
+        scheduled: true,
+        modes: ['대면(소그룹)'],
+        times: ['매월 첫째 주 토요일 오후 2:00', '매월 셋째 주 토요일 오후 2:00']
+      },
+      boundaries: {
+        label: '경계 설정(Boundaries) 워크숍',
+        scheduled: true,
+        modes: ['대면(소그룹)'],
+        times: ['매월 마지막 주 토요일 오후 2:00~5:00']
       }
     };
 

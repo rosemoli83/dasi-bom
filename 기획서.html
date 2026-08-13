@@ -111,55 +111,88 @@
   .ph-slot.on { background: var(--accent-soft); border: 1px solid var(--accent); }
 
   @media (max-width: 720px) { .screen-demo { flex-direction: column; } .phone { align-self: center; } }
+
+  /* ===== PPT-window presentation layer ===== */
+  html, body { height: 100%; }
+  body { display: block !important; }
+  .pptwrap { max-width: 1180px; margin: 32px auto 0; padding: 0 20px 60px; }
+  .pptwindow { border-radius: 14px; overflow: hidden; box-shadow: 0 30px 70px -30px #26283045, 0 2px 10px #26283015; border: 1px solid var(--rule); background: var(--surface); }
+  .pptbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--rule); }
+  .pptbar .dot3 { width: 11px; height: 11px; border-radius: 50%; }
+  .pptbar .dot3.r { background: #e0665c; } .pptbar .dot3.y { background: #e0b84c; } .pptbar .dot3.g { background: #6fbf73; }
+  .pptbar .fname { margin-left: 10px; font-size: 12.5px; color: var(--fg-dim); font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .pptbar .pptcount { margin-left: auto; font-size: 12px; color: var(--fg-dim); font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--surface); border: 1px solid var(--rule); border-radius: 20px; padding: 3px 12px; }
+
+  .deckviewport { position: relative; height: 78vh; min-height: 560px; overflow-y: auto; overflow-x: hidden; scroll-snap-type: y proximity; cursor: grab; background: var(--bg); }
+  .deckviewport.grabbing { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+  .deck { display: block; }
+
+  main, .deck { max-width: none; padding: 0; }
+  .deck > article.slide { max-width: 900px; margin: 0 auto; min-height: 100%; padding: 68px 56px 90px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: start; border-bottom: 1px dashed var(--rule); }
+  .deck > article.slide:last-child { border-bottom: none; }
+  .deck > article.slide h2 { margin-top: 0; }
+
+  .pptrail { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 5px; z-index: 5; }
+  .pptrail .d { width: 6px; height: 6px; border-radius: 50%; background: #26283022; cursor: pointer; transition: all .15s; flex: none; }
+  .pptrail .d.active { background: var(--accent); height: 15px; border-radius: 3px; }
+
+  .pptfoot { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; background: var(--surface-2); border-top: 1px solid var(--rule); }
+  .pptfoot .hint { font-size: 11.5px; color: var(--fg-dim); }
+  .pptfoot .navbtns { display: flex; gap: 8px; }
+  .pptfoot button { border: 1px solid var(--rule); background: var(--surface); color: var(--fg); border-radius: 7px; padding: 6px 14px; font-size: 12.5px; cursor: pointer; }
+  .pptfoot button:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .pptfoot button:disabled { opacity: .35; cursor: default; background: var(--surface); border-color: var(--rule); }
+
+  .toc-page { max-width: 900px; margin: 0 auto; min-height: 100%; padding: 68px 56px 90px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: start; border-bottom: 1px dashed var(--rule); }
+  .toc-page h1 { font-size: 15px; margin: 0 0 4px; }
+  .toc-page .ver { font-size: 12px; color: var(--fg-dim); margin-bottom: 30px; display: block; }
+  .toc-page .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 40px; }
+  .toc-page .toc-grp { margin-bottom: 4px; }
+  .toc-page .grp-label { font-size: 10px; letter-spacing: .08em; color: var(--accent); font-weight: 700; margin: 18px 0 8px; }
+  .toc-page a.toclink { display: block; font-size: 13.5px; color: var(--fg-dim); padding: 5px 0; cursor: pointer; text-decoration: none; }
+  .toc-page a.toclink:hover { color: var(--fg); }
+
+  @media (max-width: 720px) {
+    .deckviewport { height: 82vh; }
+    .deck > article.slide, .toc-page { padding: 44px 22px 60px; }
+    .pptrail { display: none; }
+    .toc-page .toc-grid { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
 
-<nav class="toc">
+
+
+<div class="pptwrap">
+  <div class="pptwindow">
+    <div class="pptbar">
+      <span class="dot3 r"></span><span class="dot3 y"></span><span class="dot3 g"></span>
+      <span class="fname">기획서.html — 다시, 봄</span>
+      <span class="pptcount"><span id="ppt-cur">1</span> / <span id="ppt-total">21</span></span>
+    </div>
+    <div class="deckviewport" id="deckviewport">
+      <div class="pptrail" id="pptrail"></div>
+      <div class="deck" id="deck">
+      <div class="toc-page">
   <h1>다시, 봄</h1>
-  <span class="ver mono">기획서 · v3.0</span>
+  <span class="ver mono">기획서 · v3.0 &middot; 목차</span>
+  <div class="toc-grid">
+    <div class="toc-grp"><div class="grp-label"></div>
+    </div>
+    <div class="toc-grp"><div class="grp-label"></div>
+    </div>
+    <div class="toc-grp"><div class="grp-label"></div>
+    </div>
+    <div class="toc-grp"><div class="grp-label"></div>
+    </div>
+    <div class="toc-grp"><div class="grp-label"></div>
+    </div>
+  </div>
+</div>
 
-  <div class="grp">
-    <div class="grp-label">CHAPTER 1 · 홈페이지 기획</div>
-    <a href="#site-overview">1-1. 기획 개요</a>
-    <a href="#site-trust">1-2. 가입 심사&middot;신뢰 관리</a>
-    <a href="#site-meetings">1-3. 모임 운영 체계</a>
-    <a href="#site-community">1-4. 온라인 소통 공간</a>
-    <a href="#site-settlement">1-5. 벙비 자동정산</a>
-    <a href="#site-counseling">1-6. 상담치료 연계</a>
-    <a href="#site-ia">1-7. 홈페이지 반영</a>
-    <a href="#site-screens">1-8. 화면설계</a>
-  </div>
-
-  <div class="grp">
-    <div class="grp-label">CHAPTER 2 · 앱 전환 · PRODUCT</div>
-    <a href="#summary">2-1. 서비스 요약</a>
-    <a href="#goals" class="active">2-2. 목표·원칙</a>
-    <a href="#persona">2-3. 사용자·페르소나</a>
-    <a href="#brand">2-4. 브랜드·UX</a>
-  </div>
-  <div class="grp">
-    <div class="grp-label">STRUCTURE</div>
-    <a href="#ia">2-5. 정보구조(IA)</a>
-    <a href="#permission">2-6. 권한 체계</a>
-    <a href="#flows">2-7. 핵심 플로우</a>
-    <a href="#screens">2-8. 상세 화면설계</a>
-  </div>
-  <div class="grp">
-    <div class="grp-label">BUILD</div>
-    <a href="#data">2-9. 데이터 모델</a>
-    <a href="#api">2-10. API 설계</a>
-  </div>
-  <div class="grp">
-    <div class="grp-label">OPERATIONS</div>
-    <a href="#ops">2-11. 운영·신고</a>
-    <a href="#roadmap">2-12. 출시 로드맵</a>
-  </div>
-</nav>
-
-<main>
-
-  <article id="site-overview">
+  <article id="site-overview" class="slide">
     <span class="kicker">Chapter 1 · Site · 01</span>
     <h2>1-1. 기획 개요</h2>
     <p class="lead">이 홈페이지는 &ldquo;다시, 봄&rdquo;의 첫 번째 실체입니다. 무자녀로 이혼을 경험한 사람들이 사유를 설명하지 않고도 편하게 사람을 만나고, 필요할 땐 전문 상담으로 회복을 돕는 자리를 <b style="color:var(--fg)">웹에서 먼저 검증</b>하는 것이 목적입니다. 2장의 앱 전환은 이 홈페이지가 실제로 동작을 검증한 &ldquo;다음 단계&rdquo;로 위치합니다.</p>
@@ -202,7 +235,7 @@
     <div class="note">이 구조는 &ldquo;캐묻지 않는다&middot;강요하지 않는다&rdquo;는 2장의 운영 원칙과 동일한 결로 이어집니다 &mdash; 안전도, 교류도, 치유도, 돈 문제도 서로를 불편하게 만들지 않는 방식으로 설계합니다.</div>
   </article>
 
-  <article id="site-trust">
+  <article id="site-trust" class="slide">
     <span class="kicker">Chapter 1 · Site · 02</span>
     <h2>1-2. 가입 심사&middot;신뢰 관리</h2>
     <p class="lead">안전하고 순수한 목적의 교류를 보장하기 위한 사전 검증과 상시 운영 통제 절차입니다. 이 장의 내용은 2장 앱의 가입 플로우(2-7장)&middot;제재 단계(2-11장)와 그대로 맞물리도록 설계합니다.</p>
@@ -235,7 +268,7 @@
     <div class="note">매너 온도제&middot;그라운드 룰&middot;삼진 아웃은 별도의 제재 체계가 아니라, 2-11장의 4단계(경고&middot;주의&middot;일시정지&middot;영구정지)를 촉발하는 신호로 통합 운영합니다. 제재 트랙이 여러 개로 나뉘면 회원이 자신의 상태를 파악하기 어려워지기 때문입니다.</div>
   </article>
 
-  <article id="site-meetings">
+  <article id="site-meetings" class="slide">
     <span class="kicker">Chapter 1 · Site · 03</span>
     <h2>1-3. 모임 운영 체계 &mdash; 정모 &middot; 번개</h2>
     <p class="lead">모임을 &ldquo;운영진이 짜는 정모&rdquo;와 &ldquo;회원이 직접 여는 번개&rdquo; 두 트랙으로 나눠 운영합니다. 정모는 브랜드 신뢰를 담당하고, 번개는 진입장벽을 낮춰 활동성을 높이는 보조 트랙입니다.</p>
@@ -331,7 +364,7 @@
     <div class="note">정모는 브랜드가 보증하는 &ldquo;공식 대표 트랙&rdquo;, 번개는 회원 자율에 맡기는 &ldquo;저부담 보조 트랙&rdquo;으로 역할을 분리합니다. 두 트랙 모두 서류 인증을 마친 정회원만 개설&middot;참여할 수 있으며, 신고&middot;차단 등 기존 안전장치(#safety)는 정모&middot;번개에 동일하게 적용되고 신고 대상 유형에 &ldquo;번개&rdquo;도 포함됩니다.</div>
   </article>
 
-  <article id="site-community">
+  <article id="site-community" class="slide">
     <span class="kicker">Chapter 1 · Site · 04</span>
     <h2>1-4. 온라인 소통 공간 &mdash; 마음 대나무숲</h2>
     <p class="lead">오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 훨씬 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 이혼 과정의 트라우마, 주변 시선, 1인 가구의 고충을 털어놓을 수 있는 익명 공간을 정모&middot;번개와는 별도로 둡니다.</p>
@@ -354,7 +387,7 @@
     <div class="note">마음 대나무숲은 상담(1-6장)으로 가기 전, 부담 없이 먼저 마음을 꺼내볼 수 있는 &ldquo;0단계&rdquo; 성격의 공간입니다. 전문적 개입이 필요한 내용이 반복되면 상담 배너로 자연스럽게 안내합니다.</div>
   </article>
 
-  <article id="site-settlement">
+  <article id="site-settlement" class="slide">
     <span class="kicker">Chapter 1 · Site · 05</span>
     <h2>1-5. 벙비 자동정산 시스템 (1/n 계산)</h2>
     <p class="lead">번개는 정모와 달리 사전에 회비가 정해지지 않고, 벙주가 현장에서 비용을 먼저 결제합니다. 모임이 끝난 뒤 벙주가 겪는 &ldquo;누가 얼마 보냈는지 수기로 계산하고 독촉하는 부담&rdquo;을 없애고, 돈 문제로 관계가 껄끄러워지는 상황 자체를 막는 것이 이 기능의 존재 이유입니다.</p>
@@ -414,7 +447,7 @@
     </table>
   </article>
 
-  <article id="site-counseling">
+  <article id="site-counseling" class="slide">
     <span class="kicker">Chapter 1 · Site · 06</span>
     <h2>1-6. 상담치료 &mdash; 애도&middot;자기이해&middot;회복</h2>
     <p class="lead">이혼은 상실 경험입니다. 모임(정모&middot;번개)이 &ldquo;다시 사람을 만나는 자리&rdquo;라면, 상담치료는 그 전에 <b style="color:var(--fg)">애도를 충분히 마치고 자신을 이해한 건강한 상태</b>로 그 자리에 나갈 수 있도록 돕는 축입니다. 이 서비스에서 상담은 모임의 부속 기능이 아니라, 모임과 동등한 무게를 가진 핵심 축입니다.</p>
@@ -491,7 +524,7 @@
     <div class="note">심리검사&middot;사전사후측정은 전적으로 선택 사항이며 모임 참여의 전제조건이 아닙니다. &ldquo;캐묻지 않는다&middot;강요하지 않는다&rdquo;는 1-1장의 원칙과 동일한 결로, 회복은 각자의 속도에 맡깁니다.</div>
   </article>
 
-  <article id="site-ia">
+  <article id="site-ia" class="slide">
     <span class="kicker">Chapter 1 · Site · 07</span>
     <h2>1-7. 기존 홈페이지 구조에 반영</h2>
     <p class="lead">위 내용을 실제 index.html 섹션 구조에 매핑합니다. <b style="color:var(--fg)">2026-08-12 기준 정적 사이트(index.html)에 실제 반영 완료</b> — 이 문서와 사이트는 이후로도 함께 갱신합니다.</p>
@@ -516,7 +549,7 @@
     <div class="note">번개 상세&middot;마이페이지처럼 로그인 세션이 필요한 기능은 정적 사이트(index.html)에서는 소개 수준으로만 반영하고, 실제 동작은 별도 프로그램(dasi-bom-app, Next.js)에서 이미 구현되어 있습니다. 정산 현황 접근 제한 등 구체적 인증 방식은 2장 앱의 세션 체계(2-6장)를 그대로 따릅니다.</div>
   </article>
 
-  <article id="site-screens">
+  <article id="site-screens" class="slide">
     <span class="kicker">Chapter 1 · Site · 08</span>
     <h2>1-8. 화면설계</h2>
     <p class="lead">1-3, 1-5, 1-6장에서 정리한 정모&middot;번개, 벙비 자동정산, 상담&middot;회복 여정을 모바일 화면(W##) 단위로 시각화합니다. 2장의 D## 화면과 구분하기 위해 &ldquo;W&rdquo; 접두를 사용합니다.</p>
@@ -708,7 +741,7 @@
     <div class="note">위 화면들은 홈페이지(반응형 웹) 기준 레이아웃입니다. 2장 앱 전환 시 D## 화면 체계로 그대로 흡수되며, 데이터 모델은 2-9장 확장 시 함께 정의합니다.</div>
   </article>
 
-  <article id="summary">
+  <article id="summary" class="slide">
     <span class="kicker">Ch.2 &middot; Product · 01</span>
     <h2>2-1. 서비스 요약</h2>
     <p class="lead">&ldquo;다시, 봄&rdquo;은 무자녀로 이혼을 경험한 사람들을 위한 서류 인증 기반 소모임 커뮤니티입니다. 기존 웹 랜딩 페이지를 <b style="color:var(--fg)">iOS·Android 네이티브 앱</b>으로 전환하여, 가입 심사부터 모임·상담 예약, 실시간 알림까지 하나의 앱 안에서 처리합니다.</p>
@@ -731,7 +764,7 @@
     </table>
   </article>
 
-  <article id="goals">
+  <article id="goals" class="slide">
     <span class="kicker">Ch.2 &middot; Product · 02</span>
     <h2>2-2. 목표·원칙</h2>
     <p class="lead">서비스가 지켜야 할 목표와, 그 목표를 실제 기능·정책으로 옮길 때 흔들리지 않을 원칙을 정의합니다.</p>
@@ -777,7 +810,7 @@
     <div class="note">이 원칙들은 이후 STRUCTURE(정보구조·권한체계)와 BUILD(데이터 모델·API) 챕터의 설계 기준으로 그대로 이어집니다.</div>
   </article>
 
-  <article id="persona">
+  <article id="persona" class="slide">
     <span class="kicker">Ch.2 &middot; Product · 03</span>
     <h2>2-3. 사용자·페르소나</h2>
     <p class="lead">핵심 타깃 두 유형을 기준으로 기능 우선순위를 정합니다.</p>
@@ -795,7 +828,7 @@
     </div>
   </article>
 
-  <article id="brand">
+  <article id="brand" class="slide">
     <span class="kicker">Ch.2 &middot; Product · 04</span>
     <h2>2-4. 브랜드·UX</h2>
     <p class="lead">&ldquo;지난 계절은 지났고, 다시 봄&rdquo;이라는 슬로건에 맞춰 차분하고 담백한 톤을 유지합니다.</p>
@@ -810,7 +843,7 @@
     </table>
   </article>
 
-  <article id="ia">
+  <article id="ia" class="slide">
     <span class="kicker">Ch.2 &middot; Structure · 05</span>
     <h2>2-5. 정보구조(IA)</h2>
     <p class="lead">웹 랜딩 페이지의 단일 스크롤 섹션들을 앱의 <b style="color:var(--fg)">하단 탭바 4개 + 스택 네비게이션</b> 구조로 재편합니다. 비회원도 둘러볼 수 있는 정보와, 정회원만 접근 가능한 기능을 탭 단위가 아니라 화면 내 행동 단위로 분리합니다.</p>
@@ -865,7 +898,7 @@
     <div class="note">이 탭·화면 구조는 STRUCTURE 6장(권한 체계)의 접근 매트릭스, 8장의 D## 화면 ID와 1:1로 매핑됩니다.</div>
   </article>
 
-  <article id="permission">
+  <article id="permission" class="slide">
     <span class="kicker">Ch.2 &middot; Structure · 06</span>
     <h2>2-6. 권한 체계</h2>
     <p class="lead">4장의 회원 상태(비회원·신청중·정회원·정지회원)를 실제 기능 접근 권한으로 매핑합니다.</p>
@@ -892,7 +925,7 @@
     <div class="note">운영자 콘솔 접근도 열람 즉시 감사 로그(누가·언제·어떤 서류를 열람했는지)가 남습니다. 앱 세션은 리프레시 토큰 회전 방식으로 관리하며, 기기 변경 시 재인증을 요구합니다.</div>
   </article>
 
-  <article id="flows">
+  <article id="flows" class="slide">
     <span class="kicker">Ch.2 &middot; Structure · 07</span>
     <h2>2-7. 핵심 플로우</h2>
     <p class="lead">사용자가 실제로 밟게 되는 5가지 핵심 경로입니다. 모든 플로우는 스플래시에서 세션을 확인한 뒤 시작됩니다.</p>
@@ -913,7 +946,7 @@
     <p>모임 상세 또는 채팅 화면에서 신고 버튼 &rarr; 신고 사유 선택 및 제출(비공개) &rarr; 운영진 접수 확인 &rarr; 24시간 내 1차 조치 &rarr; 제재 단계 결정(11장) &rarr; 신고자에게 처리 결과 푸시 통보</p>
   </article>
 
-  <article id="screens">
+  <article id="screens" class="slide">
     <span class="kicker">Ch.2 &middot; Structure · 08</span>
     <h2>2-8. 상세 화면설계</h2>
     <p class="lead">웹 랜딩 페이지의 콘텐츠를 화면 ID(D##) 단위로 분해합니다. 관리자 화면은 별도 웹 콘솔(A##)로 구축해 서류·신고 데이터가 모바일 단말에 남지 않도록 합니다.</p>
@@ -1381,7 +1414,7 @@
     <div class="note">서류 원본은 D05에서 업로드 즉시 서버로 전송되고 단말 로컬에는 저장하지 않습니다. 열람은 A01 콘솔에서만 가능합니다.</div>
   </article>
 
-  <article id="data">
+  <article id="data" class="slide">
     <span class="kicker">Ch.2 &middot; Build · 09</span>
     <h2>2-9. 데이터 모델</h2>
     <p class="lead">인증 서류는 일반 회원 데이터와 분리 보관하고 심사 완료 즉시 파기하는 것을 전제로 설계합니다.</p>
@@ -1402,7 +1435,7 @@
     <div class="note">Verification.file_token이 가리키는 원본 파일은 승인 완료 시 즉시 삭제되며, DB에는 결과값(승인/반려)만 남습니다. DeviceSession은 기기 변경·로그아웃 시 즉시 폐기되며, 서류 열람 권한과는 무관합니다.</div>
   </article>
 
-  <article id="api">
+  <article id="api" class="slide">
     <span class="kicker">Ch.2 &middot; Build · 10</span>
     <h2>2-10. API 설계 개요</h2>
     <p class="lead">도메인별 주요 엔드포인트입니다. 인증·심사 도메인은 운영자 권한 검사를 별도 미들웨어로 강제하며, 모든 앱 요청은 기기 세션 헤더를 함께 검증합니다.</p>
@@ -1435,7 +1468,7 @@
     </table>
   </article>
 
-  <article id="ops">
+  <article id="ops" class="slide">
     <span class="kicker">Ch.2 &middot; Operations · 11</span>
     <h2>2-11. 운영·신고</h2>
     <p class="lead">신뢰가 핵심 자산인 서비스인 만큼, 심사와 제재 기준을 사전에 명문화합니다.</p>
@@ -1460,7 +1493,7 @@
     <p>App Store·Google Play는 사용자 간 상호작용이 있는 앱에 차단·신고·24시간 내 조치 기능을 필수로 요구합니다(Apple 가이드라인 1.2). D27 신고 화면과 A02 콘솔은 이 요건을 충족하도록 설계되었으며, 심사 제출 시 데모 계정과 신고 처리 스크린샷을 함께 제출합니다.</p>
   </article>
 
-  <article id="roadmap">
+  <article id="roadmap" class="slide">
     <span class="kicker">Ch.2 &middot; Operations · 12</span>
     <h2>2-12. 출시 로드맵</h2>
     <p class="lead">현재 랜딩 페이지는 데모 목업 상태이며, 네이티브 앱 개발부터 스토어 정식 출시까지 5단계로 진행합니다.</p>
@@ -1477,6 +1510,83 @@
     <div class="note">각 단계는 화면 노출뿐 아니라 권한 검증, 빈 상태, 오류 처리, 재시도, 딥링크, 운영자 조치까지 정의되어야 완료로 간주합니다.</div>
   </article>
 
-</main>
+</div>
+      </div>
+    <div class="pptfoot">
+      <span class="hint">드래그하거나 스크롤 · 방향키(←/→, ↑/↓)로 이동</span>
+      <div class="navbtns"><button id="ppt-prev">‹ 이전</button><button id="ppt-next">다음 ›</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var viewport = document.getElementById('deckviewport');
+  var deck = document.getElementById('deck');
+  var pages = Array.prototype.slice.call(deck.children).filter(function(el){
+    return el.classList.contains('toc-page') || el.classList.contains('slide');
+  });
+  var total = pages.length;
+  document.getElementById('ppt-total').textContent = total;
+
+  var rail = document.getElementById('pptrail');
+  pages.forEach(function(_, i){
+    var d = document.createElement('div');
+    d.className = 'd' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', function(){ pages[i].scrollIntoView({behavior:'smooth', block:'start'}); });
+    rail.appendChild(d);
+  });
+  var dots = Array.prototype.slice.call(rail.children);
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        var idx = pages.indexOf(entry.target);
+        dots.forEach(function(d, i){ d.classList.toggle('active', i === idx); });
+        document.getElementById('ppt-cur').textContent = idx + 1;
+        document.getElementById('ppt-prev').disabled = idx === 0;
+        document.getElementById('ppt-next').disabled = idx === total - 1;
+      }
+    });
+  }, { root: viewport, threshold: 0.5 });
+  pages.forEach(function(p){ io.observe(p); });
+
+  function curIndex(){ return parseInt(document.getElementById('ppt-cur').textContent, 10) - 1; }
+  function goTo(i){ i = Math.max(0, Math.min(total - 1, i)); pages[i].scrollIntoView({behavior:'smooth', block:'start'}); }
+  document.getElementById('ppt-prev').addEventListener('click', function(){ goTo(curIndex() - 1); });
+  document.getElementById('ppt-next').addEventListener('click', function(){ goTo(curIndex() + 1); });
+
+  document.querySelectorAll('.toclink').forEach(function(a){
+    a.addEventListener('click', function(){
+      var target = document.getElementById(a.getAttribute('data-target'));
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (['ArrowRight','ArrowDown','PageDown'].indexOf(e.key) !== -1) { goTo(curIndex() + 1); e.preventDefault(); }
+    if (['ArrowLeft','ArrowUp','PageUp'].indexOf(e.key) !== -1) { goTo(curIndex() - 1); e.preventDefault(); }
+  });
+
+  // click-and-drag to scroll (mouse), like panning a presentation window
+  var isDown = false, startY = 0, startScroll = 0, moved = false;
+  viewport.addEventListener('mousedown', function(e){
+    if (e.target.closest('a, button, input, textarea')) return;
+    isDown = true; moved = false; startY = e.pageY; startScroll = viewport.scrollTop;
+    viewport.classList.add('grabbing');
+  });
+  window.addEventListener('mousemove', function(e){
+    if (!isDown) return;
+    var dy = e.pageY - startY;
+    if (Math.abs(dy) > 3) moved = true;
+    viewport.scrollTop = startScroll - dy;
+  });
+  window.addEventListener('mouseup', function(){
+    if (!isDown) return;
+    isDown = false;
+    viewport.classList.remove('grabbing');
+  });
+})();
+</script>
 </body>
 </html>

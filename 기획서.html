@@ -115,15 +115,15 @@
   /* ===== PPT-window presentation layer ===== */
   html, body { height: 100%; }
   body { display: block !important; }
-  .pptwrap { max-width: 1180px; margin: 32px auto 0; padding: 0 20px 60px; }
-  .pptwindow { border-radius: 14px; overflow: hidden; box-shadow: 0 30px 70px -30px #26283045, 0 2px 10px #26283015; border: 1px solid var(--rule); background: var(--surface); }
-  .pptbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--rule); }
+  .pptwrap { height: 100vh; display: flex; flex-direction: column; }
+  .pptwindow { flex: 1; display: flex; flex-direction: column; min-height: 0; background: var(--surface); }
+  .pptbar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--rule); flex: none; }
   .pptbar .dot3 { width: 11px; height: 11px; border-radius: 50%; }
   .pptbar .dot3.r { background: #e0665c; } .pptbar .dot3.y { background: #e0b84c; } .pptbar .dot3.g { background: #6fbf73; }
   .pptbar .fname { margin-left: 10px; font-size: 12.5px; color: var(--fg-dim); font-family: ui-monospace, Menlo, Consolas, monospace; }
   .pptbar .pptcount { margin-left: auto; font-size: 12px; color: var(--fg-dim); font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--surface); border: 1px solid var(--rule); border-radius: 20px; padding: 3px 12px; }
 
-  .deckviewport { position: relative; height: 78vh; min-height: 560px; overflow-y: auto; overflow-x: hidden; scroll-snap-type: y proximity; cursor: grab; background: var(--bg); }
+  .deckviewport { position: relative; flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; scroll-snap-type: y proximity; cursor: grab; background: var(--bg); }
   .deckviewport.grabbing { cursor: grabbing; scroll-snap-type: none; user-select: none; }
   .deck { display: block; }
 
@@ -153,7 +153,6 @@
   .toc-page a.toclink:hover { color: var(--fg); }
 
   @media (max-width: 720px) {
-    .deckviewport { height: 82vh; }
     .deck > article.slide, .toc-page { padding: 44px 22px 60px; }
     .pptrail { display: none; }
     .toc-page .toc-grid { grid-template-columns: 1fr; }

@@ -81,7 +81,7 @@
 
   a { color: inherit; }
   h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 800; letter-spacing: -0.01em; line-height: 1.32; }
-  p { margin: 0; }
+  p { margin: 0; text-align: justify; text-justify: inter-word; }
 
   ::selection { background: var(--gold-soft); }
 
@@ -196,6 +196,18 @@
   }
   .flash-open-card b { color: var(--fg); }
 
+  /* 모임 사진 공유 */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-5); }
+  .photo-card { aspect-ratio: 4/3; border-radius: 6px; background: linear-gradient(135deg, var(--gold-soft), var(--surface-2)); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; }
+  .photo-card svg { width: 24px; height: 24px; color: var(--accent); opacity: .55; }
+  .gallery-cap { margin-top: var(--s-2); font-size: var(--fs-2xs); color: var(--fg-dim); }
+  .photo-note { display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-6); padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--accent); border-radius: 4px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
+  .photo-note b { color: var(--fg); font-weight: 700; }
+
+  /* step divider (마음의 여정 3단계) */
+  .step-kicker { display: flex; align-items: center; gap: var(--s-3); margin-bottom: var(--s-3); }
+  .step-kicker .badge-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 800; flex: none; }
+
   /* 마음 대나무숲 */
   .bamboo { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
   .bpost { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: var(--s-6); display: flex; flex-direction: column; }
@@ -299,7 +311,7 @@
   .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
   .faq-q { font-size: var(--fs-base); font-weight: 700; line-height: 1.5; }
   .faq-q .q-mark { color: var(--accent); margin-right: var(--s-2); }
-  .faq-a { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); }
+  .faq-a { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); text-align: justify; text-justify: inter-word; }
 
   footer.site { padding: var(--s-8) 0 var(--s-6); }
   .cta-panel {
@@ -317,6 +329,7 @@
     .faq-item { grid-template-columns: 1fr; gap: var(--s-2); }
     .values { grid-template-columns: 1fr 1fr; }
     .settle-wrap { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 720px) {
     .values, .events, .quotes, .counsel, .bamboo { grid-template-columns: 1fr; }
@@ -390,13 +403,9 @@
     <div class="brand">다시<span class="dot">,</span> 봄</div>
     <nav class="nav-links" id="navLinks">
       <a href="#about">소개</a>
-      <a href="#safety">안전장치</a>
-      <a href="#events">정모·번개</a>
-      <a href="#bamboo">대나무숲</a>
-      <a href="#settlement">벙비정산</a>
-      <a href="#counseling">상담</a>
-      <a href="심리검사.html">자기이해 검사</a>
-      <a href="#schedule">일정</a>
+      <a href="#counseling">한 걸음 · 자기이해</a>
+      <a href="#bamboo">두 걸음 · 대나무숲</a>
+      <a href="#events">세 걸음 · 모임참여</a>
       <a href="#voices">후기</a>
       <a href="#join">가입안내</a>
       <a href="#faq">FAQ</a>
@@ -464,15 +473,11 @@
         <p>번개 모임비를 투명하게 1/n(또는 항목별 차등) 정산해, 돈 문제로 어렵게 만든 관계가 상하지 않도록 돕습니다.</p>
       </div>
     </div>
-  </div>
-</section>
 
-<section id="safety" class="tight">
-  <div class="wrap">
-    <div class="head">
+    <div class="head" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);">
       <div>
         <span class="kicker">Trust &amp; Safety</span>
-        <h2>안전을 위한 네 가지 장치</h2>
+        <h2>안전을 위한 여섯 가지 장치</h2>
         <p>실명 기반 커뮤니티인 만큼, 신뢰와 개인정보 보호를 최우선 원칙으로 운영합니다.</p>
       </div>
     </div>
@@ -509,9 +514,9 @@
   <div class="wrap">
     <div class="head">
       <div>
-        <span class="kicker">Care &amp; Counseling</span>
-        <h2>상담 &middot; 회복 여정</h2>
-        <p>모임이 &ldquo;다시 사람을 만나는 자리&rdquo;라면, 상담치료는 애도를 충분히 마치고 자신을 이해한 건강한 상태로 그 자리에 나갈 수 있도록 돕는 축입니다. 모임의 부속 기능이 아니라 동등한 무게를 가진 핵심 축으로 운영합니다.</p>
+        <div class="step-kicker"><span class="badge-num mono">1</span><span class="kicker" style="margin:0">Step 1 &middot; Self-Understanding</span></div>
+        <h2>한 걸음, 자기이해</h2>
+        <p>사람을 다시 만나기 전에, 먼저 나를 이해하는 시간입니다. 애도를 충분히 마치고 자신을 이해한 건강한 상태로 다음 걸음(대나무숲&middot;모임)을 내딛을 수 있도록 돕는 축이며, 모임의 부속 기능이 아니라 동등한 무게를 가진 핵심 축으로 운영합니다.</p>
       </div>
     </div>
     <div class="journey">
@@ -594,13 +599,46 @@
   </div>
 </section>
 
+<section id="bamboo">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="step-kicker"><span class="badge-num mono">2</span><span class="kicker" style="margin:0">Step 2 &middot; Anonymous Space</span></div>
+        <h2>두 걸음, 대나무숲에서</h2>
+        <p>오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 편하게 마음을 나누는 익명 공간이자, 세 번째 걸음인 모임으로 넘어가기 전 가볍게 서로를 느껴보는 자리입니다.</p>
+      </div>
+    </div>
+    <div class="bamboo">
+      <div class="bpost">
+        <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
+        <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
+        <div class="bmeta"><span>댓글 6</span><span>공감 12</span></div>
+      </div>
+      <div class="bpost">
+        <div class="banon"><span class="blob"></span>익명 &middot; 어제</div>
+        <p>혼자인 일상이 이제야 조금씩 편해지는 것 같아요. 비슷한 시기 지나오신 분들 이야기가 궁금해요.</p>
+        <div class="bmeta"><span>댓글 9</span><span>공감 21</span></div>
+      </div>
+      <div class="bpost">
+        <div class="banon"><span class="blob" style="background: var(--gold-soft);"></span>운영진 &middot; 정기 음성 라디오</div>
+        <p>이번 달 마음 라디오는 &ldquo;애도, 서두르지 않아도 됩니다&rdquo;를 주제로 진행됩니다. 얼굴&middot;실명 노출 없이 목소리만으로 참여하세요.</p>
+        <div class="bmeta"><span>8.28(금) 저녁 9시</span><span>익명 참여</span></div>
+      </div>
+    </div>
+    <div class="bamboo-note">
+      <span>&mdash;</span>
+      <span><b>운영진도 작성자를 특별한 사유(신고 처리 등) 없이는 조회하지 않습니다.</b> 여기서 알게 된 이야기도 비밀보장 서약 대상이며, 위기 신호가 감지되는 글은 24시간 위기상담으로 즉시 안내됩니다.</span>
+    </div>
+  </div>
+</section>
+
 <section id="events">
   <div class="wrap">
     <div class="head">
       <div>
-        <span class="kicker">Gatherings</span>
-        <h2>정모 &middot; 번개</h2>
-        <p>운영진이 짜는 &ldquo;정모&rdquo;는 브랜드가 보증하는 공식 트랙, 회원이 직접 여는 &ldquo;번개&rdquo;는 진입장벽을 낮춘 저부담 트랙입니다. 두 트랙 모두 서류 인증을 마친 정회원만 개설&middot;참여할 수 있습니다.</p>
+        <div class="step-kicker"><span class="badge-num mono">3</span><span class="kicker" style="margin:0">Step 3 &middot; Gatherings</span></div>
+        <h2>세 걸음, 함께 만나기</h2>
+        <p>운영진이 짜는 &ldquo;정모&rdquo;는 브랜드가 보증하는 공식 트랙, 회원이 직접 여는 &ldquo;번개&rdquo;는 진입장벽을 낮춘 저부담 트랙입니다. 두 트랙 모두 서류 인증을 마친 정회원만 개설&middot;참여할 수 있으며, 모임비 정산과 사진 공유까지 이 안에서 함께 이루어집니다.</p>
       </div>
       <a class="btn ghost sm" href="#schedule">전체 일정 보기</a>
     </div>
@@ -671,51 +709,22 @@
       <span class="pill soon">3/4명 &middot; 마감임박</span>
     </div>
     <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>가입 후 번개 열기</b>는 정회원 전용입니다.</div>
-  </div>
-</section>
 
-<section id="bamboo">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <span class="kicker">Anonymous Space</span>
-        <h2>마음 대나무숲</h2>
-        <p>오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 편하게 마음을 나누는 익명 공간입니다.</p>
-      </div>
+    <div class="mgroup-label"><h3>모임 사진 공유</h3><span class="line"></span><span class="price">참여 확정자만 열람</span></div>
+    <div class="gallery">
+      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
+      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
+      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
+      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
     </div>
-    <div class="bamboo">
-      <div class="bpost">
-        <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
-        <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
-        <div class="bmeta"><span>댓글 6</span><span>공감 12</span></div>
-      </div>
-      <div class="bpost">
-        <div class="banon"><span class="blob"></span>익명 &middot; 어제</div>
-        <p>혼자인 일상이 이제야 조금씩 편해지는 것 같아요. 비슷한 시기 지나오신 분들 이야기가 궁금해요.</p>
-        <div class="bmeta"><span>댓글 9</span><span>공감 21</span></div>
-      </div>
-      <div class="bpost">
-        <div class="banon"><span class="blob" style="background: var(--gold-soft);"></span>운영진 &middot; 정기 음성 라디오</div>
-        <p>이번 달 마음 라디오는 &ldquo;애도, 서두르지 않아도 됩니다&rdquo;를 주제로 진행됩니다. 얼굴&middot;실명 노출 없이 목소리만으로 참여하세요.</p>
-        <div class="bmeta"><span>8.28(금) 저녁 9시</span><span>익명 참여</span></div>
-      </div>
-    </div>
-    <div class="bamboo-note">
+    <div class="gallery-cap">컬처 플레이스 테이스팅 투어 &middot; 8.2(토) &middot; 참여자 5명 업로드</div>
+    <div class="photo-note">
       <span>&mdash;</span>
-      <span><b>운영진도 작성자를 특별한 사유(신고 처리 등) 없이는 조회하지 않습니다.</b> 여기서 알게 된 이야기도 비밀보장 서약 대상이며, 위기 신호가 감지되는 글은 24시간 위기상담으로 즉시 안내됩니다.</span>
+      <span><b>참여 확정자끼리만 앨범이 열리며, 당사자 동의 없는 사진은 올릴 수 없습니다.</b> 얼굴이 나온 사진은 업로드 시 자동 블러 처리되고, 원본 공개는 사진 속 당사자 전원이 동의해야 풀립니다. 커뮤니티 약속(&ldquo;모임 중 촬영한 사진은 동의 없이 공유하지 않습니다&rdquo;)이 그대로 적용됩니다.</span>
     </div>
-  </div>
-</section>
 
-<section id="settlement" class="tight">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <span class="kicker">Split the Bill, Automatically</span>
-        <h2>벙비 자동정산</h2>
-        <p>번개는 벙주가 비용을 먼저 결제하고, 끝난 뒤 참석자들에게 나눠 받습니다. &ldquo;누가 얼마 보냈는지&rdquo; 수기로 계산하고 독촉하는 부담을 없애는 것이 이 기능의 존재 이유입니다.</p>
-      </div>
-    </div>
+    <div class="mgroup-label" id="settlement" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); scroll-margin-top: 90px;"><h3>벙비 자동정산</h3><span class="line"></span><span class="price">전원&rarr;벙주 단방향 정산</span></div>
+    <p style="max-width:60ch; margin-bottom: var(--s-6);">번개는 벙주가 비용을 먼저 결제하고, 끝난 뒤 참석자들에게 나눠 받습니다. &ldquo;누가 얼마 보냈는지&rdquo; 수기로 계산하고 독촉하는 부담을 없애는 것이 이 기능의 존재 이유입니다.</p>
     <div class="settle-wrap">
       <div class="settle-flow">
         <div class="settle-step">
@@ -750,18 +759,9 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<section id="schedule" class="tight">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <span class="kicker">This Month</span>
-        <h2>이번 달 모임 일정</h2>
-        <p>선착순 마감이며, 가입 후 프로필 승인이 완료되면 신청할 수 있습니다.</p>
-      </div>
-    </div>
+    <div class="mgroup-label" id="schedule" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); scroll-margin-top: 90px;"><h3>이번 달 모임 일정</h3><span class="line"></span><span class="price">선착순 마감</span></div>
+    <p style="max-width:60ch; margin-bottom: var(--s-6);">가입 후 프로필 승인이 완료되면 신청할 수 있습니다.</p>
     <div class="scroll-x">
       <table class="sched-table mono">
         <thead>

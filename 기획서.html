@@ -968,7 +968,7 @@
       </div>
     </div>
 
-    <div class="note">데이터 모델에는 ChallengeProgress(회원별 스트릭&middot;활동 로그), MatchOptIn(옵트인 여부&middot;시점), MatchScore(회원 쌍별 궁합 점수&middot;근거) 엔터티 확장이 필요하며 2-9장에서 함께 정의합니다. 이 기능은 로그인 세션과 회원 간 상호작용이 필요해 정적 사이트(index.html)에는 소개 수준으로만 반영하고, 실제 동작은 로그인 기반 프로그램(dasi-bom-app)에서 구현합니다.</div>
+    <div class="note">이 장은 웹(홈페이지) 기준 설계입니다. 앱 버전 화면(D30~D32)&middot;데이터 모델(ChallengeProgress&middot;MatchOptIn&middot;MatchScore 등)&middot;API는 2-8&sim;2-10장에 정의되어 있으며, 기능&middot;조건&middot;궁합 산출 방식은 동일하고 알림 방식(사이트 배지 vs 푸시)과 진입 경로(마이페이지 하위 메뉴 vs 하단 탭바)만 기기에 따라 달라집니다. 로그인 세션과 회원 간 상호작용이 필요해 정적 사이트(index.html)에는 소개 수준으로만 반영하고, 실제 동작은 로그인 기반 프로그램(dasi-bom-app)에서 구현합니다.</div>
   </article>
 
   <article id="summary" class="slide">
@@ -1633,6 +1633,93 @@
       </div>
     </div>
 
+    <h3>매칭 시스템 (D30~D32)</h3>
+    <p>1-9장 &ldquo;10일 챌린지&middot;궁합 매칭&rdquo;의 앱 버전입니다. 기능&middot;조건&middot;궁합 산출 방식은 웹(1-9장, W11~W13)과 동일하며, 아래 표만큼만 기기 차이로 달라집니다.</p>
+    <table>
+      <tr><th>항목</th><th>웹(1-9장)</th><th>앱(D30~D32)</th></tr>
+      <tr><td>챌린지 완료 알림</td><td>사이트 접속 시 배지 노출</td><td>완료 즉시 푸시 알림 발송, 탭하면 D31로 딥링크</td></tr>
+      <tr><td>매칭 탭 진입</td><td>마이페이지 하위 메뉴</td><td>하단 탭바에 &ldquo;매칭&rdquo; 탭이 옵트인 시에만 동적으로 추가(2-5장 딥링크 원칙)</td></tr>
+      <tr><td>관심 표시 알림</td><td>다음 접속 시 확인</td><td>상호 매칭 성사 시 즉시 푸시 알림</td></tr>
+    </table>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D30 &middot; 챌린지 진행 현황</div>
+        <h4>10일 스트릭을 홈 화면 위젯처럼 상시 확인</h4>
+        <ul>
+          <li>연속 활동 일수와 남은 일수를 타임라인으로 표시(W11과 동일 구성)</li>
+          <li>활동 인정 시 즉시 반영, 완료 시 푸시 알림 + 매칭 탭 활성화</li>
+          <li>마이 탭(D13) 상단에도 진행 배지를 상시 노출</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-timeline">
+              <div class="ph-tl-item"><div class="ph-tl-dot"></div><div class="ph-bar w60"></div></div>
+              <div class="ph-tl-line"></div>
+              <div class="ph-tl-item"><div class="ph-tl-dot"></div><div class="ph-bar w60"></div></div>
+              <div class="ph-tl-line"></div>
+              <div class="ph-tl-item pending"><div class="ph-tl-dot"></div><div class="ph-bar w40"></div></div>
+            </div>
+          </div>
+          <div class="phone-tabbar">
+            <div class="tab">홈</div><div class="tab">모임</div><div class="tab">상담</div><div class="tab active">마이</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D31 &middot; 궁합 후보 리스트</div>
+        <h4>옵트인 회원에게만 하단 탭바에 노출되는 매칭 탭</h4>
+        <ul>
+          <li>궁합 점수 카드 목록(W12와 동일), 실명&middot;얼굴&middot;연락처는 비노출</li>
+          <li>&ldquo;친목만 희망&rdquo; 회원에게는 이 탭 자체가 생성되지 않음</li>
+          <li>카드 탭 시 D32 매칭 상세로 스택 이동</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div></div>
+          </div>
+          <div class="phone-tabbar">
+            <div class="tab">홈</div><div class="tab">모임</div><div class="tab">상담</div><div class="tab">마이</div><div class="tab active">매칭</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D32 &middot; 매칭 상세 &middot; 관심 표시</div>
+        <h4>궁합 근거를 설명하고 관심 표시만 남기는 화면</h4>
+        <ul>
+          <li>성격유형&middot;5요인&middot;가치관 궁합 막대(W13과 동일 구성)</li>
+          <li>&ldquo;관심 표시&rdquo; 버튼, 양쪽 모두 표시해야 상대에게 푸시 알림 발송</li>
+          <li>매칭 성사 후 프로필 단계적 공개는 D26 공개범위 설정을 그대로 따름</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w80"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <h3>운영자 웹 콘솔 (A01~A03)</h3>
     <table>
       <tr><th>ID</th><th>화면</th><th>비고</th></tr>
@@ -1660,9 +1747,13 @@
       <tr><td>SanctionLog</td><td>log_id, user_id, level(경고/주의/일시정지/영구정지), reason, expires_at</td></tr>
       <tr><td>AuditLog</td><td>log_id, actor_id, action, target_id, created_at</td></tr>
       <tr><td>DeviceSession</td><td>device_id, user_id, platform(iOS/Android), refresh_token, push_token, app_version, last_active_at</td></tr>
+      <tr><td>ChallengeProgress</td><td>user_id, streak_count, last_active_date, activity_log(날짜별 인정 활동 유형), completed_at</td></tr>
+      <tr><td>MatchOptIn</td><td>user_id, opted_in(boolean), opted_in_at, test_results_ref(자기이해 검사 결과 참조)</td></tr>
+      <tr><td>MatchScore</td><td>match_id, user_id_a, user_id_b, personality_score, big5_score, values_score, activity_score, total_score, computed_at</td></tr>
+      <tr><td>MatchInterest</td><td>interest_id, from_user_id, to_user_id, created_at, mutual(boolean)</td></tr>
     </table>
 
-    <div class="note">Verification.file_token이 가리키는 원본 파일은 승인 완료 시 즉시 삭제되며, DB에는 결과값(승인/반려)만 남습니다. DeviceSession은 기기 변경·로그아웃 시 즉시 폐기되며, 서류 열람 권한과는 무관합니다.</div>
+    <div class="note">Verification.file_token이 가리키는 원본 파일은 승인 완료 시 즉시 삭제되며, DB에는 결과값(승인/반려)만 남습니다. DeviceSession은 기기 변경·로그아웃 시 즉시 폐기되며, 서류 열람 권한과는 무관합니다. MatchScore는 자기이해 검사 결과와 활동 지표만으로 계산되며 대화 원문을 참조하지 않습니다. MatchOptIn.opted_in이 false인 회원은 MatchScore 산출 대상에서 완전히 제외됩니다(1-9장, D31 원칙).</div>
   </article>
 
   <article id="api" class="slide">
@@ -1680,6 +1771,7 @@
       <tr><td>신고</td><td>POST /reports, POST /admin/reports/{id}/resolve</td><td>익명 처리, 제재 단계 자동 제안</td></tr>
       <tr><td>프로필</td><td>PATCH /users/me, PATCH /users/me/visibility</td><td>단계적 공개범위 값 검증</td></tr>
       <tr><td>푸시</td><td>POST /push/register, POST /admin/push/broadcast</td><td>기기별 토큰 등록, 딥링크 페이로드 포함</td></tr>
+      <tr><td>매칭</td><td>GET /challenge/progress, POST /match/optin, GET /match/candidates, POST /match/{id}/interest</td><td>옵트인·챌린지 완료 여부 검증, 상호 관심 표시 시에만 알림 발송</td></tr>
     </table>
 
     <h3>공통 요청 헤더</h3>

@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>다시, 봄 · 자기이해 검사</title>
+<style>
+  :root {
+    --bg: #f6f3ee; --surface: #ffffff; --surface-2: #efe9df;
+    --fg: #262a35; --fg-dim: #6b7180; --rule: #26283013;
+    --accent: #b9793f; --accent-soft: #b9793f2a;
+    --body-text: #454a56;
+    --shadow: 0 1px 2px #26283010, 0 10px 28px -14px #2628301f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Apple SD Gothic Neo", "Pretendard Variable", "Malgun Gothic", sans-serif;
+    line-height: 1.7; word-break: keep-all;
+  }
+  a { color: inherit; text-decoration: none; }
+  .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+  header.top { position: sticky; top: 0; z-index: 20; background: #f6f3eee6; backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+  header.top .row { max-width: 920px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+  header.top .brand { font-size: 15px; font-weight: 800; }
+  header.top .brand .comma { color: var(--accent); }
+  header.top .back { font-size: 12.5px; color: var(--fg-dim); border: 1px solid var(--rule); border-radius: 20px; padding: 6px 14px; }
+  header.top .back:hover { color: var(--fg); border-color: var(--accent); }
+
+  main { max-width: 920px; margin: 0 auto; padding: 48px 20px 100px; }
+
+  /* ---------- HUB ---------- */
+  #hub .intro { margin-bottom: 40px; }
+  #hub .kicker { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  #hub h1 { font-size: 30px; margin: 8px 0 14px; }
+  #hub .lead { color: var(--fg-dim); font-size: 15px; max-width: 62ch; }
+  #hub .legal { margin-top: 18px; border-left: 2px solid var(--accent); background: var(--surface); padding: 14px 18px; font-size: 12.5px; color: var(--fg-dim); border-radius: 0 6px 6px 0; }
+
+  .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .test-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 22px 24px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+  .test-card .tag { display: inline-block; align-self: flex-start; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 3px; background: var(--accent-soft); color: var(--accent); }
+  .test-card h3 { margin: 0; font-size: 18px; }
+  .test-card p { margin: 0; font-size: 13px; color: var(--body-text); flex: 1; }
+  .test-card .meta { font-size: 11.5px; color: var(--fg-dim); }
+  .test-card button { align-self: flex-start; margin-top: 4px; background: var(--fg); color: #fff; border: none; border-radius: 7px; padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .test-card button:hover { background: var(--accent); }
+
+  /* ---------- RUNNER ---------- */
+  #runner { display: none; }
+  #runner.active { display: block; }
+  #hub.hidden { display: none; }
+
+  .run-head { margin-bottom: 22px; }
+  .run-head .kicker { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .run-head h2 { margin: 6px 0 8px; font-size: 24px; }
+  .run-head p { color: var(--fg-dim); font-size: 13.5px; max-width: 64ch; margin: 0 0 14px; }
+
+  .progress-wrap { height: 5px; background: var(--rule); border-radius: 3px; overflow: hidden; margin-bottom: 26px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width .25s ease; }
+
+  .q-list { display: flex; flex-direction: column; gap: 22px; }
+  .q-item { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .q-item .q-num { font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
+  .q-item .q-text { font-size: 14.5px; margin-bottom: 14px; }
+  .likert { display: flex; gap: 6px; flex-wrap: wrap; }
+  .likert label { flex: 1; min-width: 78px; text-align: center; }
+  .likert input { position: absolute; opacity: 0; pointer-events: none; }
+  .likert .opt { display: block; border: 1px solid var(--rule); border-radius: 7px; padding: 9px 4px; font-size: 12px; color: var(--fg-dim); cursor: pointer; transition: all .12s; background: var(--bg); }
+  .likert input:checked + .opt { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+  .likert .opt:hover { border-color: var(--accent); }
+
+  .run-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
+  .run-nav .hint { font-size: 12px; color: var(--fg-dim); }
+  .run-nav .btns { display: flex; gap: 10px; }
+  .run-nav button, .res-nav button { border: 1px solid var(--rule); background: var(--surface); color: var(--fg); border-radius: 7px; padding: 9px 18px; font-size: 13px; cursor: pointer; }
+  .run-nav button.primary, .res-nav button.primary { background: var(--fg); color: #fff; border-color: var(--fg); font-weight: 700; }
+  .run-nav button.primary:hover, .res-nav button.primary:hover { background: var(--accent); border-color: var(--accent); }
+  .run-nav button:disabled { opacity: .35; cursor: default; }
+  .run-nav button:not(.primary):hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- RESULTS ---------- */
+  #results { display: none; }
+  #results.active { display: block; }
+  .res-head { text-align: center; margin-bottom: 30px; }
+  .res-head .kicker { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .res-code { font-size: 44px; font-weight: 800; letter-spacing: .04em; margin: 10px 0; }
+  .res-code .comma { color: var(--accent); }
+  .res-blurb { color: var(--body-text); font-size: 14.5px; max-width: 56ch; margin: 0 auto; }
+
+  .bar-list { display: flex; flex-direction: column; gap: 14px; margin: 26px 0; }
+  .bar-row .bl-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .bar-row .bl-top b { font-weight: 700; }
+  .bar-row .bl-top span.pct { color: var(--accent); font-weight: 700; }
+  .bar-track { height: 10px; border-radius: 6px; background: var(--surface-2); overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--accent-soft), var(--accent)); }
+  .bar-row .bl-desc { font-size: 12px; color: var(--fg-dim); margin-top: 5px; }
+
+  .axis-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 26px 0; }
+  .axis-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .axis-card .al-top { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 8px; color: var(--fg-dim); }
+  .axis-card .al-top b { color: var(--fg); }
+  .axis-track { height: 8px; border-radius: 5px; background: var(--surface-2); position: relative; overflow: hidden; }
+  .axis-fill { position: absolute; top: 0; bottom: 0; background: var(--accent); border-radius: 5px; }
+
+  .res-summary { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 20px; font-size: 13.5px; color: var(--body-text); margin: 22px 0; box-shadow: var(--shadow); }
+  .res-nav { display: flex; justify-content: center; gap: 10px; margin-top: 30px; }
+
+  .disclaimer { margin-top: 40px; font-size: 11.5px; color: var(--fg-dim); border-top: 1px solid var(--rule); padding-top: 16px; }
+
+  @media (max-width: 640px) {
+    .test-grid, .axis-list { grid-template-columns: 1fr; }
+    .likert label { min-width: 56px; }
+    .likert .opt { font-size: 10.5px; padding: 8px 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="row">
+    <span class="brand">다시<span class="comma" style="color:var(--accent)">,</span> 봄 · 자기이해 검사</span>
+    <a class="back" href="index.html">← 홈으로</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HUB ================= -->
+  <section id="hub">
+    <div class="intro">
+      <span class="kicker">Self-Understanding</span>
+      <h1>나를 이해하는 짧은 검사 4가지</h1>
+      <p class="lead">상담(1:1&middot;그룹)을 신청하기 전, 스스로를 먼저 들여다볼 수 있도록 준비한 간이 자가진단 도구입니다. 결과는 본인에게만 표시되며, 운영진은 열람할 수 없습니다. 참여는 전적으로 선택입니다.</p>
+      <div class="legal">이 페이지의 4가지 검사는 모두 &ldquo;다시, 봄&rdquo;이 자체 제작한 <b>비공식 간이 자가진단 도구</b>입니다. 특정 기관의 표준화 검사(MBTI&reg;, NEO-PI-R, Schwartz 가치조사 등)를 그대로 사용하거나 문항을 복제하지 않았으며, 성격심리학의 공개된 이론적 틀(융의 심리유형론, 5요인 이론 등)만을 참고해 문항을 새로 작성했습니다. 전문적인 심리검사&middot;진단을 대체하지 않으며, 결과는 참고용으로만 활용해주세요.</div>
+    </div>
+
+    <div class="test-grid">
+      <div class="test-card">
+        <span class="tag">성격유형</span>
+        <h3>성격유형 간이검사</h3>
+        <p>4가지 축(에너지 방향&middot;정보 인식&middot;판단 방식&middot;생활 양식)으로 나의 성격유형을 4글자 코드로 확인합니다. 융의 심리유형론에서 착안한 자체 제작 검사이며, 특정 상표 검사와 무관합니다.</p>
+        <div class="meta">60문항 &middot; 약 8분</div>
+        <button onclick="startTest('mbti')">시작하기</button>
+      </div>
+      <div class="test-card">
+        <span class="tag">성격 5요인</span>
+        <h3>5요인 성격검사</h3>
+        <p>개방성&middot;성실성&middot;외향성&middot;우호성&middot;정서적 민감성, 다섯 가지 성격 축을 각각 얼마나 지녔는지 보여주는 검사입니다. 심리학의 공개된 5요인 이론을 바탕으로 새로 작성한 문항입니다.</p>
+        <div class="meta">50문항 &middot; 약 7분</div>
+        <button onclick="startTest('big5')">시작하기</button>
+      </div>
+      <div class="test-card">
+        <span class="tag">가치관</span>
+        <h3>가치관 검사</h3>
+        <p>가족&middot;성취&middot;안정&middot;자유&middot;관계 등 10가지 영역 중 내가 실제로 무엇을 가장 중요하게 여기며 살고 있는지 확인합니다. 앞으로의 관계&middot;모임에서 나에게 맞는 방향을 가늠하는 데 참고할 수 있습니다.</p>
+        <div class="meta">50문항 &middot; 약 7분</div>
+        <button onclick="startTest('values')">시작하기</button>
+      </div>
+      <div class="test-card">
+        <span class="tag">관계 돌아보기</span>
+        <h3>결혼(관계) 만족도 검사</h3>
+        <p>의사소통&middot;신뢰&middot;친밀감&middot;갈등해결 등 7가지 영역으로 관계를 돌아보는 검사입니다. 현재 관계뿐 아니라 지난 관계를 돌아보며 나의 패턴을 이해하는 데도 활용할 수 있습니다.</p>
+        <div class="meta">50문항 &middot; 약 7분</div>
+        <button onclick="startTest('marital')">시작하기</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RUNNER ================= -->
+  <section id="runner">
+    <div class="run-head">
+      <span class="kicker" id="run-kicker"></span>
+      <h2 id="run-title"></h2>
+      <p id="run-desc"></p>
+    </div>
+    <div class="progress-wrap"><div class="progress-fill" id="run-progress"></div></div>
+    <div class="q-list" id="run-qlist"></div>
+    <div class="run-nav">
+      <span class="hint" id="run-hint"></span>
+      <div class="btns">
+        <button id="run-prev" onclick="prevPage()">이전</button>
+        <button id="run-next" class="primary" onclick="nextPage()">다음</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <section id="results">
+    <div class="res-head">
+      <span class="kicker" id="res-kicker"></span>
+      <div class="res-code" id="res-code"></div>
+      <p class="res-blurb" id="res-blurb"></p>
+    </div>
+    <div id="res-body"></div>
+    <div class="res-nav">
+      <button onclick="retakeTest()">다시 검사하기</button>
+      <button class="primary" onclick="showHub()">허브로 돌아가기</button>
+    </div>
+  </section>
+
+  <div class="disclaimer">본 검사 도구는 &ldquo;다시, 봄&rdquo;이 자체 제작한 오락&middot;자기이해 목적의 간이 자가진단이며, 학술적으로 표준화되거나 임상적으로 검증된 심리검사가 아닙니다. 결과의 정확성을 보장하지 않으며, 진단&middot;치료의 근거로 사용할 수 없습니다. 응답 내용과 결과는 서버에 저장되지 않고 이 브라우저 화면에만 표시됩니다.</div>
+
+</main>
+
+<script>
+/* =========================================================
+   TEST DATA
+   모든 문항은 다시,봄이 새로 작성한 자체 제작 문항입니다.
+   MBTI/Big Five/가치이론의 "이론적 틀"만 참고했을 뿐,
+   특정 표준화 검사(MBTI®, NEO-PI-R, PVQ 등)의 문항을 복제하지 않습니다.
+   ========================================================= */
+
+const TESTS = {
+
+  mbti: {
+    id: 'mbti', kicker: 'Personality Type · 60 Questions', title: '성격유형 간이검사',
+    desc: '각 문항에 얼마나 동의하는지 표시해주세요. 정답은 없으며, 평소 나의 모습에 가까운 대로 응답하면 됩니다.',
+    resultType: 'mbti',
+    axes: [
+      { key: 'EI', high: 'E', low: 'I', highLabel: '외향 (E)', lowLabel: '내향 (I)' },
+      { key: 'SN', high: 'S', low: 'N', highLabel: '감각 (S)', lowLabel: '직관 (N)' },
+      { key: 'TF', high: 'T', low: 'F', highLabel: '사고 (T)', lowLabel: '감정 (F)' },
+      { key: 'JP', high: 'J', low: 'P', highLabel: '판단 (J)', lowLabel: '인식 (P)' }
+    ],
+    items: [
+      { t:'새로운 사람들과 이야기하는 것이 즐겁다.', dim:'EI' },
+      { t:'혼자 있는 시간보다 사람들과 함께 있는 시간에서 에너지를 얻는다.', dim:'EI' },
+      { t:'모임에서 먼저 말을 거는 편이다.', dim:'EI' },
+      { t:'생각을 정리하기 전에 말로 표현하면서 생각한다.', dim:'EI' },
+      { t:'조용한 곳보다 활기찬 분위기를 선호한다.', dim:'EI' },
+      { t:'낯선 자리에서도 비교적 쉽게 어울린다.', dim:'EI' },
+      { t:'하루 종일 사람들과 함께 있어도 크게 지치지 않는다.', dim:'EI' },
+      { t:'여러 사람과 동시에 대화하는 것이 즐겁다.', dim:'EI' },
+      { t:'즉흥적인 약속이나 모임 제안을 반기는 편이다.', dim:'EI' },
+      { t:'내 생각을 적극적으로 표현하는 편이다.', dim:'EI' },
+      { t:'새로운 환경에 놓이면 먼저 사람들에게 다가간다.', dim:'EI' },
+      { t:'침묵이 흐르는 상황이 불편해서 먼저 말을 꺼낸다.', dim:'EI' },
+      { t:'파티나 행사 같은 활동적인 자리를 좋아한다.', dim:'EI' },
+      { t:'전화나 통화보다 대면 대화를 선호한다.', dim:'EI' },
+      { t:'하루를 마무리할 때 사람들과 있었던 일이 많으면 만족스럽다.', dim:'EI' },
+
+      { t:'구체적인 사실과 데이터를 바탕으로 판단하는 편이다.', dim:'SN' },
+      { t:'이론보다는 실제 경험에서 배우는 것을 선호한다.', dim:'SN' },
+      { t:'세부적인 절차나 단계를 꼼꼼히 따지는 편이다.', dim:'SN' },
+      { t:'눈에 보이는 결과와 현실적인 방법을 중요하게 여긴다.', dim:'SN' },
+      { t:'매뉴얼이나 지침을 따를 때 안정감을 느낀다.', dim:'SN' },
+      { t:'추상적인 개념보다 구체적인 사례가 더 이해하기 쉽다.', dim:'SN' },
+      { t:'현재 상황을 있는 그대로 파악하는 것을 중요하게 여긴다.', dim:'SN' },
+      { t:'과거의 경험을 근거로 결정을 내리는 편이다.', dim:'SN' },
+      { t:'세부사항을 놓치지 않고 정확하게 처리하려 한다.', dim:'SN' },
+      { t:'새로운 아이디어보다 검증된 방법을 더 신뢰한다.', dim:'SN' },
+      { t:'감각적으로 확인 가능한 사실을 우선시한다.', dim:'SN' },
+      { t:'계획을 세울 때 실행 가능한 현실적인 방안을 먼저 생각한다.', dim:'SN' },
+      { t:'일을 처리할 때 순서와 절차를 지키는 것이 중요하다.', dim:'SN' },
+      { t:'상상보다는 관찰을 통해 상황을 이해하는 편이다.', dim:'SN' },
+      { t:'실용적이고 즉시 적용 가능한 정보를 선호한다.', dim:'SN' },
+
+      { t:'결정을 내릴 때 감정보다 논리를 우선한다.', dim:'TF' },
+      { t:'문제의 원인을 분석하는 과정을 좋아한다.', dim:'TF' },
+      { t:'공정한 기준과 원칙을 지키는 것이 중요하다.', dim:'TF' },
+      { t:'비판을 받아도 논리적으로 타당하면 수긍하는 편이다.', dim:'TF' },
+      { t:'감정적인 호소보다 객관적인 근거에 설득된다.', dim:'TF' },
+      { t:'갈등 상황에서 감정보다 사실관계를 먼저 파악한다.', dim:'TF' },
+      { t:'효율성과 결과를 중요한 판단 기준으로 삼는다.', dim:'TF' },
+      { t:'다른 사람의 실수를 지적할 때 사실 위주로 말하는 편이다.', dim:'TF' },
+      { t:'의사결정 시 장단점을 목록화해서 비교하는 편이다.', dim:'TF' },
+      { t:'감정에 치우치기보다 냉정하게 상황을 판단하려 한다.', dim:'TF' },
+      { t:'규칙과 논리에 어긋나면 예외를 두기 어려워한다.', dim:'TF' },
+      { t:'타인의 감정보다 문제 해결 자체에 집중하는 편이다.', dim:'TF' },
+      { t:'토론에서 논리적 허점을 짚어내는 것을 좋아한다.', dim:'TF' },
+      { t:'결과를 평가할 때 성과와 효율을 우선한다.', dim:'TF' },
+      { t:'원칙이 분명한 것이 관계보다 더 중요하다고 느낄 때가 많다.', dim:'TF' },
+
+      { t:'계획을 세우고 그대로 실행하는 것을 선호한다.', dim:'JP' },
+      { t:'마감 기한보다 미리 일을 끝내 두는 편이다.', dim:'JP' },
+      { t:'정리정돈이 되어 있지 않으면 불편하다.', dim:'JP' },
+      { t:'일정이 갑자기 바뀌면 스트레스를 받는 편이다.', dim:'JP' },
+      { t:'할 일 목록을 만들고 하나씩 처리하는 것을 좋아한다.', dim:'JP' },
+      { t:'결정을 내리면 웬만해서는 번복하지 않는다.', dim:'JP' },
+      { t:'여행을 가기 전에 일정을 세세하게 계획한다.', dim:'JP' },
+      { t:'마무리되지 않은 일이 있으면 신경이 쓰인다.', dim:'JP' },
+      { t:'즉흥적인 변화보다 예측 가능한 상황을 선호한다.', dim:'JP' },
+      { t:'목표를 정하면 기한 내에 완수하려고 노력한다.', dim:'JP' },
+      { t:'정해진 규칙과 절차를 따르는 것이 편안하다.', dim:'JP' },
+      { t:'일을 미루지 않고 미리 처리하는 편이다.', dim:'JP' },
+      { t:'결론이 나지 않은 상태로 오래 두는 것을 싫어한다.', dim:'JP' },
+      { t:'체계적으로 정리된 환경에서 더 잘 집중한다.', dim:'JP' },
+      { t:'계획이 틀어지면 빠르게 대안을 세워 다시 정리한다.', dim:'JP' }
+    ]
+  },
+
+  big5: {
+    id: 'big5', kicker: 'Big Five · 50 Questions', title: '5요인 성격검사',
+    desc: '심리학의 5요인(Big Five) 이론을 참고해 새로 작성한 문항입니다. 각 문항에 얼마나 동의하는지 표시해주세요.',
+    resultType: 'bars',
+    dims: [
+      { key:'O', label:'개방성', low:'익숙함을 선호', high:'새로움을 추구' },
+      { key:'C', label:'성실성', low:'즉흥적', high:'계획적·책임감' },
+      { key:'E', label:'외향성', low:'내적 에너지 지향', high:'외적 자극 지향' },
+      { key:'A', label:'우호성', low:'독립적·직설적', high:'협조적·배려' },
+      { key:'N', label:'정서적 민감성', low:'정서적으로 안정', high:'예민하게 반응' }
+    ],
+    items: [
+      { t:'새로운 아이디어나 경험에 대한 호기심이 많다.', dim:'O' },
+      { t:'예술, 음악, 문학에 관심이 많은 편이다.', dim:'O' },
+      { t:'익숙하지 않은 방식이라도 시도해보는 것을 좋아한다.', dim:'O' },
+      { t:'추상적이고 철학적인 주제에 대해 생각하는 것을 즐긴다.', dim:'O' },
+      { t:'상상력이 풍부하다는 말을 자주 듣는다.', dim:'O' },
+      { t:'낯선 문화나 새로운 관점을 접하는 것이 즐겁다.', dim:'O' },
+      { t:'틀에 박히지 않은 창의적인 해결책을 찾는 편이다.', dim:'O' },
+      { t:'여행이나 새로운 장소를 탐험하는 것을 좋아한다.', dim:'O' },
+      { t:'다양한 분야의 지식에 흥미를 느낀다.', dim:'O' },
+      { t:'기존의 방식에 의문을 제기하고 새로운 방법을 고민한다.', dim:'O' },
+
+      { t:'맡은 일은 끝까지 책임지고 완수한다.', dim:'C' },
+      { t:'계획을 세우고 그에 따라 행동하는 편이다.', dim:'C' },
+      { t:'시간 약속을 철저히 지키는 편이다.', dim:'C' },
+      { t:'정리정돈이 잘 되어 있는 환경을 유지한다.', dim:'C' },
+      { t:'목표를 이루기 위해 꾸준히 노력한다.', dim:'C' },
+      { t:'해야 할 일을 미루지 않고 바로 처리한다.', dim:'C' },
+      { t:'세부사항까지 꼼꼼하게 확인하는 편이다.', dim:'C' },
+      { t:'자기관리(건강, 시간, 습관)를 철저히 하는 편이다.', dim:'C' },
+      { t:'약속한 일은 반드시 지키려고 노력한다.', dim:'C' },
+      { t:'일을 시작하기 전에 충분히 준비하는 편이다.', dim:'C' },
+
+      { t:'사람들과 함께 있을 때 활력을 얻는다.', dim:'E' },
+      { t:'처음 만난 사람과도 쉽게 대화를 시작한다.', dim:'E' },
+      { t:'사교 모임에 참석하는 것을 즐긴다.', dim:'E' },
+      { t:'자신의 생각과 감정을 적극적으로 표현하는 편이다.', dim:'E' },
+      { t:'활발하고 에너지가 넘친다는 이야기를 자주 듣는다.', dim:'E' },
+      { t:'여러 사람과 함께하는 활동을 선호한다.', dim:'E' },
+      { t:'주목받는 상황에서도 편안함을 느낀다.', dim:'E' },
+      { t:'대화를 주도하는 편이다.', dim:'E' },
+      { t:'새로운 사람을 만나는 자리를 즐긴다.', dim:'E' },
+      { t:'혼자 있는 시간보다 함께하는 시간이 더 즐겁다.', dim:'E' },
+
+      { t:'다른 사람의 입장에서 생각해보려고 노력한다.', dim:'A' },
+      { t:'타인에게 친절하고 협조적인 편이다.', dim:'A' },
+      { t:'갈등 상황에서 양보하는 편이다.', dim:'A' },
+      { t:'사람들을 잘 믿는 편이다.', dim:'A' },
+      { t:'다른 사람을 돕는 일에 보람을 느낀다.', dim:'A' },
+      { t:'타인의 감정에 공감을 잘하는 편이다.', dim:'A' },
+      { t:'팀워크와 협력을 중요하게 생각한다.', dim:'A' },
+      { t:'다른 사람을 잘 배려하는 편이다.', dim:'A' },
+      { t:'상대방의 실수에 너그러운 편이다.', dim:'A' },
+      { t:'대체로 사람들과 원만한 관계를 유지한다.', dim:'A' },
+
+      { t:'사소한 일에도 쉽게 불안해지는 편이다.', dim:'N' },
+      { t:'스트레스를 받으면 기분이 크게 흔들린다.', dim:'N' },
+      { t:'걱정거리가 머릿속을 떠나지 않을 때가 많다.', dim:'N' },
+      { t:'감정 기복이 있는 편이다.', dim:'N' },
+      { t:'비판을 받으면 오래도록 신경이 쓰인다.', dim:'N' },
+      { t:'예상치 못한 상황에서 쉽게 긴장한다.', dim:'N' },
+      { t:'스스로에 대해 부정적으로 생각할 때가 있다.', dim:'N' },
+      { t:'압박감을 느끼면 평소보다 예민해진다.', dim:'N' },
+      { t:'작은 실수에도 자책하는 편이다.', dim:'N' },
+      { t:'마음이 편안한 상태를 유지하기 어려울 때가 많다.', dim:'N' }
+    ]
+  },
+
+  values: {
+    id: 'values', kicker: 'Values · 50 Questions', title: '가치관 검사',
+    desc: '내가 실제로 무엇을 중요하게 여기며 살아가는지 확인하는 검사입니다. 각 문항에 얼마나 동의하는지 표시해주세요.',
+    resultType: 'bars',
+    dims: [
+      { key:'family', label:'가족' },
+      { key:'achievement', label:'성취' },
+      { key:'security', label:'안정·안전' },
+      { key:'autonomy', label:'자유·자율' },
+      { key:'relationship', label:'관계·친밀감' },
+      { key:'growth', label:'성장·자기계발' },
+      { key:'integrity', label:'정직·신뢰' },
+      { key:'enjoyment', label:'즐거움·여가' },
+      { key:'contribution', label:'사회적 기여' },
+      { key:'wealth', label:'물질적 풍요' }
+    ],
+    items: [
+      { t:'가족과 함께 보내는 시간이 삶에서 가장 중요한 부분 중 하나다.', dim:'family' },
+      { t:'가족의 화목을 위해서라면 개인적인 것을 양보할 수 있다.', dim:'family' },
+      { t:'명절이나 기념일에 가족과 함께하는 것을 중요하게 여긴다.', dim:'family' },
+      { t:'가족 구성원의 어려움을 먼저 챙기는 편이다.', dim:'family' },
+      { t:'나중에 가정을 이루는 것이 인생의 중요한 목표 중 하나다.', dim:'family' },
+
+      { t:'목표를 세우고 이를 성취했을 때 큰 만족감을 느낀다.', dim:'achievement' },
+      { t:'남들보다 뛰어난 성과를 내는 것이 중요하다고 생각한다.', dim:'achievement' },
+      { t:'경쟁에서 이기는 것에서 동기를 얻는 편이다.', dim:'achievement' },
+      { t:'인정받고 성공하는 것이 삶의 중요한 동력이다.', dim:'achievement' },
+      { t:'도전적인 목표를 세우고 이루어 나가는 것을 좋아한다.', dim:'achievement' },
+
+      { t:'예측 가능하고 안정적인 삶을 선호한다.', dim:'security' },
+      { t:'경제적 안정이 삶의 우선순위 중 하나다.', dim:'security' },
+      { t:'위험을 감수하기보다 안전한 선택을 하는 편이다.', dim:'security' },
+      { t:'변화보다는 익숙하고 안정된 환경을 선호한다.', dim:'security' },
+      { t:'미래를 위한 준비(저축, 보험 등)를 중요하게 생각한다.', dim:'security' },
+
+      { t:'다른 사람의 간섭 없이 스스로 결정하는 것을 중요하게 여긴다.', dim:'autonomy' },
+      { t:'정해진 틀보다 자유로운 방식으로 살아가고 싶다.', dim:'autonomy' },
+      { t:'나만의 방식대로 삶을 꾸려나가는 것이 중요하다.', dim:'autonomy' },
+      { t:'타인의 기대보다 나의 선택을 우선시하는 편이다.', dim:'autonomy' },
+      { t:'독립적으로 결정하고 행동할 때 만족감을 느낀다.', dim:'autonomy' },
+
+      { t:'소수여도 깊이 신뢰할 수 있는 관계가 중요하다.', dim:'relationship' },
+      { t:'정서적으로 가까운 사람들과의 유대감을 중요하게 여긴다.', dim:'relationship' },
+      { t:'사람들과의 관계에서 진심 어린 소통을 추구한다.', dim:'relationship' },
+      { t:'친밀한 관계를 유지하기 위해 노력을 아끼지 않는다.', dim:'relationship' },
+      { t:'혼자보다 누군가와 함께하는 삶을 원한다.', dim:'relationship' },
+
+      { t:'끊임없이 배우고 성장하는 것이 중요하다.', dim:'growth' },
+      { t:'새로운 지식과 기술을 익히는 데 시간을 투자하는 편이다.', dim:'growth' },
+      { t:'현재에 안주하기보다 더 나은 내가 되고 싶다.', dim:'growth' },
+      { t:'자기계발을 위한 활동(독서, 강의 등)에 관심이 많다.', dim:'growth' },
+      { t:'실패하더라도 그 경험에서 배우는 것을 중요하게 여긴다.', dim:'growth' },
+
+      { t:'정직함이 관계에서 가장 중요한 가치라고 생각한다.', dim:'integrity' },
+      { t:'손해를 보더라도 원칙과 신뢰를 지키는 편이다.', dim:'integrity' },
+      { t:'약속을 지키는 것을 매우 중요하게 여긴다.', dim:'integrity' },
+      { t:'진실하지 못한 관계는 오래 유지하기 어렵다고 생각한다.', dim:'integrity' },
+      { t:'신뢰를 쌓는 데 시간이 걸리더라도 진실하게 다가가는 편이다.', dim:'integrity' },
+
+      { t:'삶에서 즐거움과 재미를 느끼는 것이 중요하다.', dim:'enjoyment' },
+      { t:'취미와 여가 활동에 시간을 투자하는 편이다.', dim:'enjoyment' },
+      { t:'일보다 삶을 즐기는 것에 더 큰 비중을 둔다.', dim:'enjoyment' },
+      { t:'새로운 경험과 재미있는 활동을 찾아 나서는 편이다.', dim:'enjoyment' },
+      { t:'스트레스를 풀고 즐길 수 있는 시간이 꼭 필요하다.', dim:'enjoyment' },
+
+      { t:'사회에 도움이 되는 일을 하고 싶다는 생각을 자주 한다.', dim:'contribution' },
+      { t:'나보다 어려운 사람을 돕는 것에 보람을 느낀다.', dim:'contribution' },
+      { t:'공동체나 사회 전체의 이익을 고려하는 편이다.', dim:'contribution' },
+      { t:'봉사활동이나 기부에 관심이 있다.', dim:'contribution' },
+      { t:'내가 속한 사회에 긍정적인 영향을 주고 싶다.', dim:'contribution' },
+
+      { t:'경제적으로 풍요로운 삶을 이루는 것이 중요한 목표다.', dim:'wealth' },
+      { t:'원하는 것을 살 수 있는 경제력이 삶의 질을 좌우한다고 생각한다.', dim:'wealth' },
+      { t:'돈을 버는 것에 상당한 노력과 시간을 투자하는 편이다.', dim:'wealth' },
+      { t:'물질적 성공이 곧 삶의 성취라고 느낄 때가 있다.', dim:'wealth' },
+      { t:'재산을 늘리는 것에 관심이 많다.', dim:'wealth' }
+    ]
+  },
+
+  marital: {
+    id: 'marital', kicker: 'Relationship · 50 Questions', title: '결혼(관계) 만족도 검사',
+    desc: '현재 관계 또는 지난 관계를 떠올리며 응답해주세요. 배우자·파트너가 없다면 건너뛰어도 괜찮습니다.',
+    resultType: 'bars',
+    overallKey: 'overall',
+    dims: [
+      { key:'communication', label:'의사소통' },
+      { key:'trust', label:'신뢰' },
+      { key:'intimacy', label:'친밀감·애정표현' },
+      { key:'conflict', label:'갈등해결' },
+      { key:'sharedvalues', label:'가치관·목표 일치' },
+      { key:'roles', label:'역할분담·존중' },
+      { key:'finance', label:'경제적 조화' }
+    ],
+    items: [
+      { t:'배우자(파트너)와 속마음을 편하게 나눌 수 있다.', dim:'communication' },
+      { t:'중요한 문제에 대해 충분히 대화한다고 느낀다.', dim:'communication' },
+      { t:'내 이야기를 배우자가 진지하게 들어준다고 느낀다.', dim:'communication' },
+      { t:'오해가 생기면 대화로 풀어나가는 편이다.', dim:'communication' },
+      { t:'배우자에게 내 감정을 솔직하게 표현할 수 있다.', dim:'communication' },
+      { t:'대화가 부족해서 답답함을 느낀 적이 많지 않다.', dim:'communication' },
+      { t:'서로의 하루 일상을 자주 공유하는 편이다.', dim:'communication' },
+
+      { t:'배우자를 온전히 믿을 수 있다고 느낀다.', dim:'trust' },
+      { t:'배우자가 나에게 솔직하다고 생각한다.', dim:'trust' },
+      { t:'배우자의 행동에 대해 의심을 갖지 않는 편이다.', dim:'trust' },
+      { t:'힘든 일이 생기면 배우자에게 가장 먼저 의지한다.', dim:'trust' },
+      { t:'배우자가 약속을 잘 지키는 편이다.', dim:'trust' },
+      { t:'배우자와의 관계에서 안정감을 느낀다.', dim:'trust' },
+      { t:'배우자가 내 편이라는 확신이 있다.', dim:'trust' },
+
+      { t:'배우자와 정서적으로 가깝다고 느낀다.', dim:'intimacy' },
+      { t:'서로 애정 표현을 충분히 하는 편이다.', dim:'intimacy' },
+      { t:'함께 있는 시간이 즐겁고 편안하다.', dim:'intimacy' },
+      { t:'스킨십이나 애정 표현에 서로 만족하는 편이다.', dim:'intimacy' },
+      { t:'배우자와 함께하는 시간이 소중하게 느껴진다.', dim:'intimacy' },
+      { t:'서로에 대한 관심과 애정이 여전히 느껴진다.', dim:'intimacy' },
+      { t:'둘만의 특별한 시간을 자주 가지려고 노력한다.', dim:'intimacy' },
+
+      { t:'다툼이 생겨도 비교적 빠르게 화해하는 편이다.', dim:'conflict' },
+      { t:'갈등 상황에서 서로 감정을 조절하려고 노력한다.', dim:'conflict' },
+      { t:'의견 차이가 있어도 상대방의 입장을 이해하려 한다.', dim:'conflict' },
+      { t:'다툼 후에도 관계에 큰 앙금이 남지 않는 편이다.', dim:'conflict' },
+      { t:'갈등이 생기면 회피하지 않고 함께 해결하려 한다.', dim:'conflict' },
+      { t:'서로에게 상처 주는 말을 자제하려고 노력하는 편이다.', dim:'conflict' },
+      { t:'갈등 후 대화를 통해 재발을 줄이려는 노력을 한다.', dim:'conflict' },
+
+      { t:'인생에서 중요하게 여기는 가치관이 비슷하다.', dim:'sharedvalues' },
+      { t:'미래에 대한 계획과 목표를 함께 그려나간다.', dim:'sharedvalues' },
+      { t:'자녀, 가족 등 중요한 문제에 대한 의견이 비슷한 편이다.', dim:'sharedvalues' },
+      { t:'삶의 우선순위에 대해 서로 공감하는 편이다.', dim:'sharedvalues' },
+      { t:'서로의 꿈이나 목표를 지지해주는 편이다.', dim:'sharedvalues' },
+      { t:'중요한 결정을 내릴 때 가치관 차이로 인한 갈등이 적다.', dim:'sharedvalues' },
+      { t:'함께 성장해나가고 있다는 느낌을 받는다.', dim:'sharedvalues' },
+
+      { t:'가사와 역할 분담이 공평하다고 느낀다.', dim:'roles' },
+      { t:'배우자가 나의 의견과 결정을 존중해준다고 느낀다.', dim:'roles' },
+      { t:'서로의 개인적인 시간과 공간을 존중하는 편이다.', dim:'roles' },
+      { t:'배우자가 나의 노력을 인정해준다고 느낀다.', dim:'roles' },
+      { t:'집안일이나 육아 등에서 협력이 잘 이루어진다.', dim:'roles' },
+      { t:'서로의 역할에 대해 불만이 크지 않은 편이다.', dim:'roles' },
+      { t:'배우자가 나를 동등한 파트너로 대한다고 느낀다.', dim:'roles' },
+
+      { t:'경제적인 문제에 대해 열린 대화를 나눈다.', dim:'finance' },
+      { t:'소비와 저축에 대한 가치관이 비슷한 편이다.', dim:'finance' },
+      { t:'돈 문제로 인한 갈등이 크지 않은 편이다.', dim:'finance' },
+      { t:'경제적 목표(내 집 마련, 노후 준비 등)를 함께 세운다.', dim:'finance' },
+      { t:'재정 상태를 서로 투명하게 공유하는 편이다.', dim:'finance' },
+      { t:'경제적 결정을 내릴 때 상의하는 편이다.', dim:'finance' },
+      { t:'경제적으로 서로를 지지하고 있다고 느낀다.', dim:'finance' },
+
+      { t:'전반적으로 나는 지금의 관계(결혼생활)에 만족한다.', dim:'overall' }
+    ]
+  }
+};
+
+const MBTI_DESC = {
+  ISTJ:'신중하고 책임감 있게 맡은 일을 끝까지 해내는 유형입니다.',
+  ISFJ:'따뜻한 배려심으로 주변 사람을 세심하게 챙기는 유형입니다.',
+  INFJ:'깊은 통찰과 신념을 바탕으로 삶의 의미를 추구하는 유형입니다.',
+  INTJ:'명확한 목표를 세우고 체계적으로 실행해 나가는 전략가형입니다.',
+  ISTP:'상황을 냉철하게 분석하고 직접 문제를 해결하는 유형입니다.',
+  ISFP:'자신의 감성과 가치를 조용히 표현하는 유형입니다.',
+  INFP:'이상과 가치를 소중히 여기는 섬세한 유형입니다.',
+  INTP:'논리적 호기심으로 원리를 깊이 탐구하는 유형입니다.',
+  ESTP:'즉각적인 판단과 행동력이 뛰어난 현실적인 유형입니다.',
+  ESFP:'활기차고 즉흥적으로 즐거움을 나누는 유형입니다.',
+  ENFP:'열정적이고 자유로운 상상력을 가진 유형입니다.',
+  ENTP:'새로운 아이디어를 즐기고 도전하는 유형입니다.',
+  ESTJ:'체계적으로 조직을 이끄는 현실적인 관리자형입니다.',
+  ESFJ:'협력과 조화를 중시하는 사교적인 유형입니다.',
+  ENFJ:'사람들을 이끌고 성장시키는 데 열정적인 유형입니다.',
+  ENTJ:'목표 지향적이고 추진력 있는 리더형입니다.'
+};
+
+const BIG5_TEXT = {
+  O: { high:'익숙한 것보다 새로운 아이디어와 경험에 끌리는 편입니다.', mid:'상황에 따라 익숙함과 새로움을 균형 있게 받아들이는 편입니다.', low:'익숙하고 검증된 방식을 더 편안하게 느끼는 편입니다.' },
+  C: { high:'계획을 세우고 꾸준히 실행하는 책임감이 두드러집니다.', mid:'상황에 따라 계획적인 모습과 즉흥적인 모습이 함께 나타납니다.', low:'틀에 얽매이기보다 유연하고 즉흥적으로 움직이는 편입니다.' },
+  E: { high:'사람들과 함께할 때 에너지를 얻는 편입니다.', mid:'혼자만의 시간과 사람들과의 시간 모두에서 균형을 찾는 편입니다.', low:'혼자만의 시간에서 에너지를 회복하는 편입니다.' },
+  A: { high:'타인을 배려하고 협조하는 태도가 두드러집니다.', mid:'상황에 따라 배려와 자기주장을 오가는 편입니다.', low:'협조보다 자신의 기준과 의견을 우선하는 편입니다.' },
+  N: { high:'감정적으로 예민하게 반응할 때가 많은 편입니다.', mid:'상황에 따라 감정 기복을 겪지만 대체로 조절이 가능한 편입니다.', low:'대체로 정서적으로 안정된 상태를 유지하는 편입니다.' }
+};
+
+/* =========================================================
+   ENGINE
+   ========================================================= */
+
+const PER_PAGE = 10;
+let state = { key:null, page:0, answers:{} };
+
+function showHub(){
+  document.getElementById('hub').classList.remove('hidden');
+  document.getElementById('runner').classList.remove('active');
+  document.getElementById('results').classList.remove('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function startTest(key){
+  state = { key, page:0, answers:{} };
+  document.getElementById('hub').classList.add('hidden');
+  document.getElementById('results').classList.remove('active');
+  document.getElementById('runner').classList.add('active');
+  const t = TESTS[key];
+  document.getElementById('run-kicker').textContent = t.kicker;
+  document.getElementById('run-title').textContent = t.title;
+  document.getElementById('run-desc').textContent = t.desc;
+  renderPage();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function retakeTest(){ startTest(state.key); }
+
+function totalPages(){ return Math.ceil(TESTS[state.key].items.length / PER_PAGE); }
+
+function renderPage(){
+  const t = TESTS[state.key];
+  const start = state.page * PER_PAGE;
+  const end = Math.min(start + PER_PAGE, t.items.length);
+  const list = document.getElementById('run-qlist');
+  list.innerHTML = '';
+  const scaleLabels = ['전혀 아니다','아니다','보통이다','그렇다','매우 그렇다'];
+  for (let i = start; i < end; i++){
+    const item = t.items[i];
+    const wrap = document.createElement('div');
+    wrap.className = 'q-item';
+    const saved = state.answers[i];
+    let optsHtml = '';
+    for (let v = 1; v <= 5; v++){
+      optsHtml += `<label><input type="radio" name="q${i}" value="${v}" ${saved===v?'checked':''} onchange="answerQ(${i}, ${v})"><span class="opt">${scaleLabels[v-1]}</span></label>`;
+    }
+    wrap.innerHTML = `<div class="q-num mono">Q${i+1} / ${t.items.length}</div><div class="q-text">${item.t}</div><div class="likert">${optsHtml}</div>`;
+    list.appendChild(wrap);
+  }
+  const pages = totalPages();
+  document.getElementById('run-progress').style.width = (((state.page+1)/pages)*100) + '%';
+  document.getElementById('run-hint').textContent = `${state.page+1} / ${pages} 페이지`;
+  document.getElementById('run-prev').disabled = state.page === 0;
+  const nextBtn = document.getElementById('run-next');
+  nextBtn.textContent = (state.page === pages - 1) ? '결과 보기' : '다음';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function answerQ(idx, val){ state.answers[idx] = val; }
+
+function pageAnswered(){
+  const t = TESTS[state.key];
+  const start = state.page * PER_PAGE;
+  const end = Math.min(start + PER_PAGE, t.items.length);
+  for (let i = start; i < end; i++){ if (!state.answers[i]) return false; }
+  return true;
+}
+
+function nextPage(){
+  if (!pageAnswered()){ alert('모든 문항에 응답해주세요.'); return; }
+  const pages = totalPages();
+  if (state.page < pages - 1){ state.page++; renderPage(); }
+  else { computeAndShowResults(); }
+}
+function prevPage(){ if (state.page > 0){ state.page--; renderPage(); } }
+
+function computeAndShowResults(){
+  const t = TESTS[state.key];
+  const sums = {}, counts = {};
+  t.items.forEach((item, i) => {
+    const v = state.answers[i] || 3;
+    sums[item.dim] = (sums[item.dim] || 0) + v;
+    counts[item.dim] = (counts[item.dim] || 0) + 1;
+  });
+  const avgs = {};
+  Object.keys(sums).forEach(k => avgs[k] = sums[k] / counts[k]);
+
+  document.getElementById('runner').classList.remove('active');
+  document.getElementById('results').classList.add('active');
+  document.getElementById('res-kicker').textContent = t.kicker;
+
+  if (t.resultType === 'mbti') renderMbtiResult(t, avgs);
+  else renderBarResult(t, avgs);
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderMbtiResult(t, avgs){
+  let code = '';
+  const axisRows = [];
+  t.axes.forEach(ax => {
+    const avg = avgs[ax.key] || 3;
+    const letter = avg >= 3 ? ax.high : ax.low;
+    code += letter;
+    const pct = Math.round(((avg - 1) / 4) * 100);
+    axisRows.push(`
+      <div class="axis-card">
+        <div class="al-top"><span>${ax.lowLabel}</span><b>${letter}</b><span>${ax.highLabel}</span></div>
+        <div class="axis-track"><div class="axis-fill" style="left:0; width:${pct}%;"></div></div>
+      </div>`);
+  });
+  document.getElementById('res-code').innerHTML = code.split('').map((c,i)=> i===code.length-1 ? c : c+'<span class="comma"></span>').join('');
+  document.getElementById('res-blurb').textContent = MBTI_DESC[code] || '';
+  document.getElementById('res-body').innerHTML = `
+    <div class="axis-list">${axisRows.join('')}</div>
+    <div class="res-summary">이 결과는 융의 심리유형론에서 착안해 &ldquo;다시, 봄&rdquo;이 자체 제작한 문항으로 산출된 참고용 결과입니다. 특정 상표 검사의 결과와 다를 수 있으며, 하루의 컨디션이나 상황에 따라서도 응답이 달라질 수 있습니다.</div>
+  `;
+}
+
+function renderBarResult(t, avgs){
+  const rows = t.dims.map(d => {
+    const avg = avgs[d.key] || 3;
+    const pct = Math.round(((avg - 1) / 4) * 100);
+    let descText = '';
+    if (t.id === 'big5'){
+      const lvl = avg >= 3.7 ? 'high' : (avg <= 2.3 ? 'low' : 'mid');
+      descText = BIG5_TEXT[d.key][lvl];
+    } else if (d.low && d.high){
+      descText = avg >= 3 ? d.high : d.low;
+    }
+    return { key:d.key, label:d.label, avg, pct, descText };
+  });
+
+  let headline = '';
+  let bodyExtra = '';
+
+  if (t.id === 'values'){
+    const ranked = rows.slice().sort((a,b) => b.avg - a.avg);
+    const top3 = ranked.slice(0,3).map(r => r.label).join(', ');
+    document.getElementById('res-code').textContent = top3;
+    document.getElementById('res-blurb').textContent = '지금 응답을 기준으로, 당신이 가장 중요하게 여기는 가치 3가지입니다.';
+    rows.sort((a,b) => b.avg - a.avg);
+  } else if (t.id === 'marital'){
+    const overall = avgs['overall'] || 3;
+    const domainRows = rows.filter(r => r.key !== 'overall');
+    const strongest = domainRows.slice().sort((a,b)=>b.avg-a.avg)[0];
+    const weakest = domainRows.slice().sort((a,b)=>a.avg-b.avg)[0];
+    const overallPct = Math.round(((overall - 1) / 4) * 100);
+    document.getElementById('res-code').textContent = overallPct + '%';
+    document.getElementById('res-blurb').textContent = '전반적인 관계 만족도 점수입니다 (100%에 가까울수록 만족도가 높습니다).';
+    bodyExtra = `<div class="res-summary">가장 만족도가 높은 영역은 <b>${strongest.label}</b>, 상대적으로 더 살펴보면 좋을 영역은 <b>${weakest.label}</b>입니다. 이 결과는 관계를 함께 진단하기보다 나 자신의 관점을 정리해보는 참고 자료로 활용해주세요.</div>`;
+    rows.length = 0;
+    domainRows.forEach(r => rows.push(r));
+  } else {
+    document.getElementById('res-code').textContent = t.title;
+    document.getElementById('res-blurb').textContent = '다섯 가지 성격 축에서 각각 어느 정도의 경향을 보이는지 확인해보세요.';
+  }
+
+  const barsHtml = rows.map(r => `
+    <div class="bar-row">
+      <div class="bl-top"><b>${r.label}</b><span class="pct">${r.pct}%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${r.pct}%;"></div></div>
+      ${r.descText ? `<div class="bl-desc">${r.descText}</div>` : ''}
+    </div>`).join('');
+
+  document.getElementById('res-body').innerHTML = `<div class="bar-list">${barsHtml}</div>${bodyExtra}`;
+}
+</script>
+
+</body>
+</html>

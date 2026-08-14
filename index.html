@@ -218,6 +218,38 @@
   .bamboo-note { display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-6); padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--sage); border-radius: 4px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
   .bamboo-note b { color: var(--fg); font-weight: 700; }
 
+  /* 공감 · 댓글 */
+  .bpost .bactions { display: flex; gap: var(--s-2); }
+  .react-btn, .comment-toggle-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: transparent; border: 1px solid var(--rule); border-radius: 20px;
+    padding: 5px 11px; font-size: var(--fs-2xs); color: var(--fg-dim); cursor: pointer;
+    transition: all .15s ease; font-family: inherit;
+  }
+  .react-btn svg { width: 13px; height: 13px; flex: none; }
+  .react-btn:hover, .comment-toggle-btn:hover { border-color: var(--accent); color: var(--fg); }
+  .react-btn.active { background: var(--gold-soft); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .comment-toggle-btn.on { color: var(--fg); border-color: var(--fg-dim); }
+
+  .bcomments { margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px dashed var(--rule); }
+  .bcomment-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-4); }
+  .bcomment { font-size: var(--fs-xs); line-height: 1.65; transition: opacity .3s ease; }
+  .bcomment .bc-name { font-weight: 700; color: var(--fg-dim); margin-right: 6px; }
+  .bcomment.removing { opacity: 0; text-decoration: line-through; color: var(--fg-dim); }
+  .bcomment-form textarea {
+    width: 100%; font: inherit; font-size: var(--fs-xs); color: var(--fg);
+    background: var(--bg); border: 1px solid var(--rule); border-radius: 6px;
+    padding: 9px 11px; resize: vertical; min-height: 50px;
+  }
+  .bcomment-form textarea:focus { border-color: var(--accent); }
+  .bcomment-warn { font-size: 10.5px; color: var(--fg-dim); margin-top: 5px; }
+  .bcomment-form .btn { margin-top: var(--s-3); }
+  .bcomment-alert {
+    margin-top: var(--s-3); font-size: var(--fs-2xs); font-weight: 700;
+    padding: 8px 12px; border-radius: 6px;
+    background: #e0665c1f; color: #c0453c; border: 1px solid #e0665c40;
+  }
+
   /* 벙비 자동정산 */
   .settle-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
   .settle-flow { display: flex; flex-direction: column; gap: var(--s-5); }
@@ -641,15 +673,54 @@
       </div>
     </div>
     <div class="bamboo">
-      <div class="bpost">
+      <div class="bpost" data-post-id="1">
         <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
         <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
-        <div class="bmeta"><span>댓글 6</span><span>공감 12</span></div>
+        <div class="bmeta">
+          <div class="bactions">
+            <button type="button" class="react-btn" data-count="12">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
+              <span class="react-label">공감</span> <span class="react-count">12</span>
+            </button>
+            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">2</span></button>
+          </div>
+        </div>
+        <div class="bcomments" hidden>
+          <div class="bcomment-list">
+            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저도 매년 이맘때가 제일 힘들어요. 혼자가 아니에요.</span></div>
+            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">올해는 그냥 여행 다녀오려고요. 같이 마음 편해지시길 바라요.</span></div>
+          </div>
+          <div class="bcomment-form">
+            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
+            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
+            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
+            <div class="bcomment-alert" hidden></div>
+          </div>
+        </div>
       </div>
-      <div class="bpost">
+      <div class="bpost" data-post-id="2">
         <div class="banon"><span class="blob"></span>익명 &middot; 어제</div>
         <p>혼자인 일상이 이제야 조금씩 편해지는 것 같아요. 비슷한 시기 지나오신 분들 이야기가 궁금해요.</p>
-        <div class="bmeta"><span>댓글 9</span><span>공감 21</span></div>
+        <div class="bmeta">
+          <div class="bactions">
+            <button type="button" class="react-btn" data-count="21">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
+              <span class="react-label">공감</span> <span class="react-count">21</span>
+            </button>
+            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">1</span></button>
+          </div>
+        </div>
+        <div class="bcomments" hidden>
+          <div class="bcomment-list">
+            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저는 1년쯤 지나니 확실히 편해지더라고요. 조금씩 나아지실 거예요.</span></div>
+          </div>
+          <div class="bcomment-form">
+            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
+            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
+            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
+            <div class="bcomment-alert" hidden></div>
+          </div>
+        </div>
       </div>
       <div class="bpost">
         <div class="banon"><span class="blob" style="background: var(--gold-soft);"></span>운영진 &middot; 정기 음성 라디오</div>
@@ -1423,6 +1494,102 @@
   });
 
   activate(0);
+})();
+
+(function () {
+  // 실제 운영 시에는 이 목록을 운영자 콘솔에서 관리하는 확장 가능한 금칙어 사전으로 교체합니다.
+  var BAD_WORDS = [
+    '시발', '씨발', 'ㅅㅂ', '병신', 'ㅂㅅ', '개새끼', '새끼', '지랄',
+    '미친놈', '미친년', '걸레', '꺼져', '죽어버려', '한남', '한녀', '틀딱'
+  ];
+
+  function normalize(str) {
+    return str.toLowerCase().replace(/\s+/g, '');
+  }
+
+  function containsBadWord(text) {
+    var n = normalize(text);
+    return BAD_WORDS.some(function (w) { return n.indexOf(normalize(w)) !== -1; });
+  }
+
+  document.querySelectorAll('.bpost[data-post-id]').forEach(function (post) {
+    var postId = post.getAttribute('data-post-id');
+    var reactBtn = post.querySelector('.react-btn');
+    var reactCount = post.querySelector('.react-count');
+    var commentToggle = post.querySelector('.comment-toggle-btn');
+    var commentCountEl = post.querySelector('.comment-count');
+    var commentsPanel = post.querySelector('.bcomments');
+    var commentList = post.querySelector('.bcomment-list');
+    var textarea = post.querySelector('.bcomment-form textarea');
+    var submitBtn = post.querySelector('.bcomment-submit');
+    var alertBox = post.querySelector('.bcomment-alert');
+
+    // 공감(좋아요) 토글 — localStorage에 저장해 새로고침 후에도 유지
+    var likeKey = 'dasibom-bamboo-like-' + postId;
+    var baseCount = parseInt(reactBtn.getAttribute('data-count'), 10);
+    var liked = localStorage.getItem(likeKey) === '1';
+
+    function renderReact() {
+      reactBtn.classList.toggle('active', liked);
+      reactCount.textContent = baseCount + (liked ? 1 : 0);
+    }
+    renderReact();
+
+    reactBtn.addEventListener('click', function () {
+      liked = !liked;
+      localStorage.setItem(likeKey, liked ? '1' : '0');
+      renderReact();
+    });
+
+    // 댓글 패널 열고 닫기
+    commentToggle.addEventListener('click', function () {
+      var willOpen = commentsPanel.hasAttribute('hidden');
+      if (willOpen) commentsPanel.removeAttribute('hidden');
+      else commentsPanel.setAttribute('hidden', '');
+      commentToggle.classList.toggle('on', willOpen);
+    });
+
+    function refreshCommentCount() {
+      var n = commentList.querySelectorAll('.bcomment').length;
+      commentCountEl.textContent = n;
+    }
+
+    function showAlert(msg, ok) {
+      alertBox.textContent = msg;
+      alertBox.classList.toggle('ok', !!ok);
+      alertBox.hidden = false;
+      setTimeout(function () { alertBox.hidden = true; }, 3200);
+    }
+
+    submitBtn.addEventListener('click', function () {
+      var text = textarea.value.trim();
+      if (!text) return;
+
+      var row = document.createElement('div');
+      row.className = 'bcomment';
+      row.innerHTML = '<span class="bc-name">익명</span><span class="bc-text"></span>';
+      row.querySelector('.bc-text').textContent = text;
+      commentList.appendChild(row);
+      refreshCommentCount();
+      textarea.value = '';
+
+      if (containsBadWord(text)) {
+        // 감지된 표현이 잠깐 노출된 뒤 자동으로 삭제되는 것을 보여줍니다.
+        setTimeout(function () {
+          row.classList.add('removing');
+          setTimeout(function () {
+            row.remove();
+            refreshCommentCount();
+            showAlert('욕설&middot;비난 표현이 감지되어 댓글이 자동 삭제되었습니다.'.replace('&middot;', '·'), false);
+          }, 300);
+        }, 500);
+      }
+    });
+
+    textarea.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submitBtn.click();
+    });
+  });
 })();
 </script>
 </body>

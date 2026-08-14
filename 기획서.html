@@ -178,15 +178,41 @@
   <h1>다시, 봄</h1>
   <span class="ver mono">기획서 · v3.0 &middot; 목차</span>
   <div class="toc-grid">
-    <div class="toc-grp"><div class="grp-label"></div>
+    <div class="toc-grp">
+      <div class="grp-label">CHAPTER 1 · 홈페이지 기획</div>
+      <a class="toclink" data-target="site-overview">1-1. 기획 개요</a>
+      <a class="toclink" data-target="site-trust">1-2. 가입 심사&middot;신뢰 관리</a>
+      <a class="toclink" data-target="site-meetings">1-3. 모임 운영 체계</a>
+      <a class="toclink" data-target="site-community">1-4. 온라인 소통 공간</a>
+      <a class="toclink" data-target="site-settlement">1-5. 벙비 자동정산</a>
+      <a class="toclink" data-target="site-counseling">1-6. 상담치료 연계</a>
+      <a class="toclink" data-target="site-ia">1-7. 홈페이지 반영</a>
+      <a class="toclink" data-target="site-screens">1-8. 화면설계</a>
+      <a class="toclink" data-target="site-matching">1-9. 매칭 시스템</a>
     </div>
-    <div class="toc-grp"><div class="grp-label"></div>
+    <div class="toc-grp">
+      <div class="grp-label">CHAPTER 2 · 앱 전환 · PRODUCT</div>
+      <a class="toclink" data-target="summary">2-1. 서비스 요약</a>
+      <a class="toclink" data-target="goals">2-2. 목표&middot;원칙</a>
+      <a class="toclink" data-target="persona">2-3. 사용자&middot;페르소나</a>
+      <a class="toclink" data-target="brand">2-4. 브랜드&middot;UX</a>
     </div>
-    <div class="toc-grp"><div class="grp-label"></div>
+    <div class="toc-grp">
+      <div class="grp-label">STRUCTURE</div>
+      <a class="toclink" data-target="ia">2-5. 정보구조(IA)</a>
+      <a class="toclink" data-target="permission">2-6. 권한 체계</a>
+      <a class="toclink" data-target="flows">2-7. 핵심 플로우</a>
+      <a class="toclink" data-target="screens">2-8. 상세 화면설계</a>
     </div>
-    <div class="toc-grp"><div class="grp-label"></div>
+    <div class="toc-grp">
+      <div class="grp-label">BUILD</div>
+      <a class="toclink" data-target="data">2-9. 데이터 모델</a>
+      <a class="toclink" data-target="api">2-10. API 설계</a>
     </div>
-    <div class="toc-grp"><div class="grp-label"></div>
+    <div class="toc-grp">
+      <div class="grp-label">OPERATIONS</div>
+      <a class="toclink" data-target="ops">2-11. 운영&middot;신고</a>
+      <a class="toclink" data-target="roadmap">2-12. 출시 로드맵</a>
     </div>
   </div>
 </div>
@@ -555,6 +581,7 @@
       <tr><td>자기이해 검사 4종 (신설)</td><td>심리검사.html 페이지 신설(성격유형&middot;5요인&middot;가치관&middot;결혼만족도), 네비게이션과 #counseling 섹션에 진입 카드 추가</td><td>반영됨</td></tr>
       <tr><td>커뮤니티 약속(그라운드 룰)</td><td>매너 온도 기준 미달 시 신청 제한, 정산 미이행 2회, 그라운드룰 위반 3회, NDA 위반 즉시 영구정지 규정을 항목으로 명시</td><td>반영됨</td></tr>
       <tr><td>마이페이지 (신설)</td><td>내가 연 번개 &middot; 내가 보낼&middot;받을 정산 내역, 매너 온도 확인 영역은 로그인 세션이 필요해 정적 사이트에서는 보류</td><td>보류 &mdash; 실제 동작은 dasi-bom-app에서 구현됨</td></tr>
+      <tr><td>10일 챌린지 &middot; 매칭 시스템 (1-9장 신설)</td><td>옵트인&middot;로그인 세션, 회원 간 상호 매칭이 필요해 설계 단계로만 문서화</td><td>보류 &mdash; 정적 사이트 미반영, 실제 동작은 dasi-bom-app에서 구현 예정</td></tr>
     </table>
 
     <div class="note">번개 상세&middot;마이페이지처럼 로그인 세션이 필요한 기능은 정적 사이트(index.html)에서는 소개 수준으로만 반영하고, 실제 동작은 별도 프로그램(dasi-bom-app, Next.js)에서 이미 구현되어 있습니다. 정산 현황 접근 제한 등 구체적 인증 방식은 2장 앱의 세션 체계(2-6장)를 그대로 따릅니다.</div>
@@ -824,6 +851,124 @@
     <div class="note">W08&sim;W10은 저작권이 있는 표준화 검사(MBTI&reg; 등)를 복제하지 않고 공개된 이론적 틀만 참고해 자체 제작한 문항으로 구성됩니다. 결과는 서버에 저장하지 않으며, 전문 심리검사(W06&middot;W07)를 대체하지 않는 참고용 도구임을 허브&middot;결과 화면 모두에 고지합니다.</div>
 
     <div class="note">위 화면들은 홈페이지(반응형 웹) 기준 레이아웃입니다. 2장 앱 전환 시 D## 화면 체계로 그대로 흡수되며, 데이터 모델은 2-9장 확장 시 함께 정의합니다.</div>
+  </article>
+
+  <article id="site-matching" class="slide">
+    <span class="kicker">Chapter 1 · Site · 09</span>
+    <h2>1-9. 매칭 시스템 &mdash; 10일 챌린지 &middot; 궁합 매칭</h2>
+    <p class="lead">회원들이 대나무숲&middot;모임에서 충분히 소통하도록 유도하고, 그 위에서 자기이해 검사(1-6장) 결과를 근거로 &ldquo;나에게 맞는 배우자감의 특성&rdquo;을 이해하도록 돕는 궁합 매칭 기능입니다. 1-1장의 &ldquo;강요하지 않는다&rdquo; 원칙에 따라 <b style="color:var(--fg)">전 회원 기본 비활성 &middot; 완전 옵트인</b>으로만 운영합니다.</p>
+
+    <h3>왜 기본값이 아닌가</h3>
+    <div class="note">&ldquo;친목만 희망&rdquo;을 선택한 회원에게는 매칭 탭 자체가 존재하지 않는 것처럼 완전히 숨김 처리합니다. 잠긴 채로도 보여주지 않는 이유는, 노출 자체가 &ldquo;연애가 기본값&rdquo;이라는 메시지로 읽힐 수 있기 때문입니다. 매칭은 회원이 마이페이지에서 직접 찾아 켜야만 존재가 드러나는 기능입니다.</div>
+
+    <h3>10일 챌린지 &mdash; 참여 유도 장치</h3>
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>목적</td><td>매칭에 필요한 최소한의 대화&middot;활동량을 자연스럽게 확보</td></tr>
+      <tr><td>인정 활동</td><td>대나무숲(1-4장) 글&middot;댓글 작성, 정모&middot;번개 신청 또는 참여, 상담 예약 중 하루 최소 1건</td></tr>
+      <tr><td>진행 방식</td><td>연속 10일 기준. 하루라도 활동이 없으면 스트릭이 초기화되며, 다음 활동일부터 다시 카운트</td></tr>
+      <tr><td>완료 보상</td><td>매칭 탭 잠금 해제 + 마이페이지 &ldquo;10일의 기록&rdquo; 배지 노출</td></tr>
+    </table>
+
+    <h3>매칭 참여 조건 (완전 옵트인)</h3>
+    <table>
+      <tr><th>조건</th><th>내용</th></tr>
+      <tr><td>회원 상태</td><td>정회원 (2-5장 회원 상태 기준)</td></tr>
+      <tr><td>옵트인 선택</td><td>마이페이지 &ldquo;공개범위 설정&rdquo;에서 &ldquo;연애&middot;재혼 희망&rdquo;을 직접 선택 (기본값 미설정)</td></tr>
+      <tr><td>챌린지 완료</td><td>위 10일 챌린지 완료</td></tr>
+      <tr><td>자기이해 검사</td><td>성격유형&middot;5요인&middot;가치관 검사(1-6장) 중 최소 1개 이상 완료</td></tr>
+    </table>
+    <div class="note">&ldquo;친목만 희망&rdquo;을 선택한 회원은 매칭 풀에서 완전히 제외되며, 다른 회원의 궁합 후보 리스트에도 노출되지 않습니다.</div>
+
+    <h3>궁합 산출 방식</h3>
+    <p>대화의 <b style="color:var(--fg)">내용을 AI가 의미 분석하지 않습니다.</b> 원문 대화는 매칭 알고리즘에 전달되지 않으며, 활동 여부&middot;빈도 같은 &ldquo;참여 지표&rdquo;만 보조 신호로 사용합니다. 궁합의 핵심 근거는 회원이 직접 완료한 자기이해 검사 결과입니다.</p>
+    <table>
+      <tr><th>산출 요소</th><th>가중치</th><th>내용</th></tr>
+      <tr><td>성격유형 궁합</td><td>40%</td><td>4축(E/I&middot;S/N&middot;T/F&middot;J/P) 보완&middot;유사 조합표 기준 점수</td></tr>
+      <tr><td>5요인 유사도</td><td>25%</td><td>성실성&middot;우호성 등은 유사할수록, 나머지 축은 참고 지표로 반영</td></tr>
+      <tr><td>가치관 일치도</td><td>25%</td><td>가치관 검사 상위 3개 카테고리가 겹치는 정도</td></tr>
+      <tr><td>활동 신호 보정</td><td>10%</td><td>관심모임 태그 겹침, 매너 온도, 최근 활동 빈도 &mdash; 대화 &ldquo;내용&rdquo;이 아닌 &ldquo;활동량&rdquo;만 반영</td></tr>
+    </table>
+
+    <h3>매칭 플로우</h3>
+    <p>정회원 전환 &rarr; 마이페이지에서 &ldquo;연애&middot;재혼 희망&rdquo; 옵트인 &rarr; 자기이해 검사 1개 이상 완료 &rarr; 10일 챌린지 진행 &rarr; 챌린지 완료 시 매칭 탭 해제 &rarr; 궁합 후보 리스트 열람 &rarr; 관심 표시(상호 매칭 시에만 상대에게 알림) &rarr; 프로필 단계적 공개(2-5장과 동일한 실명&middot;얼굴&middot;연락처 원칙 그대로 적용)</p>
+
+    <h3>화면설계 (W11~W13)</h3>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">W11 &middot; 챌린지 진행 현황</div>
+        <h4>10일 스트릭을 타임라인으로 보여주는 진행 화면</h4>
+        <ul>
+          <li>오늘까지의 연속 활동 일수와 남은 일수 표시</li>
+          <li>인정된 활동 유형(대나무숲&middot;모임&middot;상담)을 일자별 점으로 표시</li>
+          <li>완료 시 매칭 탭 해제 안내와 함께 배지 지급</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-timeline">
+              <div class="ph-tl-item"><div class="ph-tl-dot"></div><div class="ph-bar w60"></div></div>
+              <div class="ph-tl-line"></div>
+              <div class="ph-tl-item"><div class="ph-tl-dot"></div><div class="ph-bar w60"></div></div>
+              <div class="ph-tl-line"></div>
+              <div class="ph-tl-item pending"><div class="ph-tl-dot"></div><div class="ph-bar w40"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">W12 &middot; 궁합 후보 리스트</div>
+        <h4>옵트인한 회원에게만 보이는 궁합 점수 카드 목록</h4>
+        <ul>
+          <li>궁합 점수와 함께 공개 동의된 정보(관심모임, 상위 가치관 등)만 카드로 표시</li>
+          <li>실명&middot;얼굴&middot;연락처는 노출하지 않음(2-5장 단계적 공개 원칙 동일 적용)</li>
+          <li>카드 탭 시 W13 매칭 상세로 이동</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div></div>
+            <div class="ph-card"><div class="ph-row"><div class="ph-dot"></div><div style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">W13 &middot; 매칭 상세 &middot; 관심 표시</div>
+        <h4>궁합 근거를 항목별로 풀어 보여주고 관심 표시만 남기는 화면</h4>
+        <ul>
+          <li>성격유형&middot;5요인&middot;가치관 궁합을 각각 막대로 설명</li>
+          <li>&ldquo;관심 표시&rdquo; 버튼 &mdash; 양쪽 모두 표시해야 상대에게 알림 발송(일방 표시는 상대가 알 수 없음)</li>
+          <li>매칭 이후 대화&middot;연락처 공개는 2-5장 프로필 공개범위 설정을 그대로 따름</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w80"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">데이터 모델에는 ChallengeProgress(회원별 스트릭&middot;활동 로그), MatchOptIn(옵트인 여부&middot;시점), MatchScore(회원 쌍별 궁합 점수&middot;근거) 엔터티 확장이 필요하며 2-9장에서 함께 정의합니다. 이 기능은 로그인 세션과 회원 간 상호작용이 필요해 정적 사이트(index.html)에는 소개 수준으로만 반영하고, 실제 동작은 로그인 기반 프로그램(dasi-bom-app)에서 구현합니다.</div>
   </article>
 
   <article id="summary" class="slide">

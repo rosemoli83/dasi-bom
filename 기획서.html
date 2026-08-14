@@ -749,6 +749,80 @@
       </div>
     </div>
 
+    <h3>자기이해 검사 (W08~W10)</h3>
+    <p>상담사가 진행하는 표준화 심리검사(W06&middot;W07)와 별도로, 상담 신청 전 누구나 부담 없이 스스로를 들여다볼 수 있도록 자체 제작한 무료 간이 검사 4종의 실제 화면입니다. 2026&#8209;08&#8209;13 기준 심리검사.html로 실제 구현&middot;배포되었습니다.</p>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">W08 &middot; 검사 허브</div>
+        <h4>4개 검사를 카드로 훑고 원하는 검사만 골라 시작</h4>
+        <ul>
+          <li>성격유형(60문항)&middot;5요인(50문항)&middot;가치관(50문항)&middot;결혼만족도(50문항) 4개 카드</li>
+          <li>카드마다 문항 수&middot;예상 소요시간 표시, 상단에 저작권&middot;비공식 검사 고지문 노출</li>
+          <li>상담(#counseling) 섹션과 네비게이션 양쪽에서 진입 가능</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-title"></div>
+            <div class="ph-card"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div><div class="ph-bar w40" style="margin-top:4px"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">W09 &middot; 문항 응답</div>
+        <h4>5점 척도 카드를 10문항씩 페이지네이션으로 진행</h4>
+        <ul>
+          <li>문항당 &ldquo;전혀 아니다&sim;매우 그렇다&rdquo; 5개 선택지, 진행률 바로 남은 분량 표시</li>
+          <li>한 페이지의 모든 문항에 응답해야 다음 페이지로 이동</li>
+          <li>이전 페이지로 돌아가 응답 수정 가능, 응답은 브라우저 메모리에만 보관</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-bar w40"></div>
+            <div class="ph-card"><div class="ph-bar w80"></div><div class="ph-slots" style="margin-top:6px"><div class="ph-slot on"></div><div class="ph-slot"></div><div class="ph-slot"></div><div class="ph-slot"></div></div></div>
+            <div class="ph-card"><div class="ph-bar w80"></div><div class="ph-slots" style="margin-top:6px"><div class="ph-slot"></div><div class="ph-slot on"></div><div class="ph-slot"></div><div class="ph-slot"></div></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">W10 &middot; 검사 결과</div>
+        <h4>검사 유형에 따라 유형 코드 또는 막대 그래프로 결과 표시</h4>
+        <ul>
+          <li>성격유형 검사는 4글자 코드 + 축별 강도 카드로, 나머지 3종은 항목별 막대 그래프로 표시</li>
+          <li>가치관 검사는 상위 3개 가치, 결혼만족도 검사는 종합 만족도와 최고&middot;최저 영역을 요약 문구로 안내</li>
+          <li>&ldquo;다시 검사하기&rdquo;&middot;&ldquo;허브로 돌아가기&rdquo; 버튼, 결과 화면에도 비공식 자가진단 고지문 유지</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-center"><div class="ph-title" style="width:70%"></div></div>
+            <div class="ph-card"><div class="ph-bar w80"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w40"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">W08&sim;W10은 저작권이 있는 표준화 검사(MBTI&reg; 등)를 복제하지 않고 공개된 이론적 틀만 참고해 자체 제작한 문항으로 구성됩니다. 결과는 서버에 저장하지 않으며, 전문 심리검사(W06&middot;W07)를 대체하지 않는 참고용 도구임을 허브&middot;결과 화면 모두에 고지합니다.</div>
+
     <div class="note">위 화면들은 홈페이지(반응형 웹) 기준 레이아웃입니다. 2장 앱 전환 시 D## 화면 체계로 그대로 흡수되며, 데이터 모델은 2-9장 확장 시 함께 정의합니다.</div>
   </article>
 

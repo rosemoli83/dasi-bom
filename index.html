@@ -2975,7 +2975,7 @@
 (function () {
   // 관리자 로그인 — 데모용 클라이언트 사이드 인증(실제 서비스에서는 서버 인증으로 대체)
   var ADMIN_ID = 'admin';
-  var ADMIN_PW = 'admin1!';
+  var ADMIN_PW = 'adminadmin1!';
 
   var openBtn = document.getElementById('adminLoginBtn');
   var overlay = document.getElementById('adminOverlay');
@@ -2995,7 +2995,10 @@
   function openModal() {
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-    document.getElementById('adminId').focus();
+    var idField = document.getElementById('adminId');
+    var savedId = localStorage.getItem('dasibom-admin-last-id');
+    if (savedId) idField.value = savedId;
+    (savedId ? document.getElementById('adminPw') : idField).focus();
   }
   function closeModal() {
     overlay.classList.remove('open');
@@ -3021,6 +3024,7 @@
     if (id === ADMIN_ID && pw === ADMIN_PW) {
       localStorage.setItem('dasibom-admin', '1');
       localStorage.setItem('dasibom-joined', '1');
+      localStorage.setItem('dasibom-admin-last-id', id);
       unlockAll();
       badge.classList.add('show');
       if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();

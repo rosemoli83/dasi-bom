@@ -683,6 +683,54 @@
   .modal-success .mark { width: 44px; height: 44px; border-radius: 50%; background: var(--tag-bg); color: var(--tag-fg); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--s-5); font-size: 20px; }
   .modal-success h2 { margin-bottom: var(--s-3); }
   .modal-success p { font-size: var(--fs-sm); color: var(--fg-dim); line-height: 1.75; margin: 0 auto var(--s-6); max-width: 34ch; }
+
+  /* 전체화면 회원가입 */
+  .modal-overlay.fullscreen { padding: 0; align-items: stretch; justify-content: stretch; backdrop-filter: none; background: var(--bg); }
+  .modal-overlay.fullscreen .fs-modal {
+    max-width: none; width: 100%; height: 100%; max-height: none; overflow: hidden;
+    border: none; border-radius: 0; padding: 0; box-shadow: none; background: var(--bg);
+  }
+  .fs-grid { display: grid; grid-template-columns: 1fr 1.1fr; height: 100%; }
+  .fs-visual {
+    position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;
+    padding: var(--s-9); background: linear-gradient(165deg, var(--gold-soft), var(--surface-2) 70%);
+    border-right: 1px solid var(--rule);
+  }
+  .fs-visual::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ec5f96' fill-opacity='0.28'%3E%3Cpath d='M40 20c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm-28 0c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9z'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat; background-size: 150px 150px;
+    mask-image: radial-gradient(circle at 30% 30%, black, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle at 30% 30%, black, transparent 70%);
+  }
+  .fs-visual-title { position: relative; font-size: clamp(24px, 3vw, 34px); line-height: 1.3; margin-bottom: var(--s-5); max-width: 14ch; }
+  .fs-visual-sub { position: relative; font-size: var(--fs-sm); color: var(--fg-dim); line-height: 1.8; max-width: 34ch; margin-bottom: var(--s-7); }
+  .fs-visual-badges { position: relative; display: flex; flex-direction: column; gap: var(--s-3); }
+  .fs-form-area { overflow-y: auto; padding: var(--s-9) var(--s-8) var(--s-9) var(--s-9); }
+  .fs-form-area form, .fs-form-area .modal-success { max-width: 480px; margin: 0 auto; }
+  .fs-form-area h2 { font-size: clamp(22px, 2.4vw, 28px); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+  .field-row .field { margin-bottom: var(--s-5); }
+  .field-error { font-size: var(--fs-2xs); color: #d6395f; font-weight: 700; margin: calc(var(--s-4) * -1) 0 var(--s-4); }
+
+  /* 관리자 */
+  .admin-link { background: none; border: none; color: var(--fg-dim); font-size: var(--fs-2xs); text-decoration: underline; cursor: pointer; padding: 0; opacity: .6; }
+  .admin-link:hover { opacity: 1; color: var(--accent); }
+  .admin-badge {
+    display: none; position: fixed; top: 16px; left: 16px; z-index: 90;
+    align-items: center; gap: 7px; background: var(--fg); color: var(--bg);
+    font-size: 11px; font-weight: 700; padding: 7px 14px; border-radius: 20px; box-shadow: var(--shadow);
+  }
+  .admin-badge.show { display: inline-flex; }
+  .admin-badge .dot2 { width: 6px; height: 6px; border-radius: 50%; background: #45c473; flex: none; }
+  .admin-badge button { background: transparent; border: none; color: inherit; opacity: .6; cursor: pointer; font-size: 13px; margin-left: 4px; padding: 0; line-height: 1; }
+  .admin-badge button:hover { opacity: 1; }
+  @media (max-width: 860px) {
+    .fs-grid { grid-template-columns: 1fr; }
+    .fs-visual { display: none; }
+    .fs-form-area { padding: var(--s-8) var(--s-6); }
+  }
+
   [hidden] { display: none !important; }
 
   /* ===== single-viewport paging ===== */
@@ -1727,6 +1775,7 @@
     <div class="foot-bottom">
       <div class="brand" style="font-size: var(--fs-base);">다시<span class="dot">,</span> 봄</div>
       <div class="fine">본 페이지는 데모용 목업이며 실제 서비스가 아닙니다. 실제 운영 시 개인정보 처리방침, 본인인증 절차, 회비 관련 법률 검토가 필요합니다.</div>
+      <button type="button" class="admin-link" id="adminLoginBtn">관리자</button>
     </div>
   </div>
 </footer>
@@ -1737,10 +1786,28 @@
 <div class="page-hud mono" id="pageHud">1 / 7</div>
 <div class="page-rail" id="pageRail"></div>
 
-<div class="modal-overlay" id="joinOverlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
+<div class="modal-overlay fullscreen" id="joinOverlay">
+  <div class="modal fs-modal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
     <button class="modal-close" id="joinClose" type="button" aria-label="닫기">&times;</button>
 
+    <div class="fs-grid">
+      <div class="fs-visual">
+        <div class="doodle-row" aria-hidden="true" style="justify-content:flex-start; margin: 0 0 var(--s-6);">
+          <svg viewBox="0 0 24 24" fill="none"><g stroke="#ec5f96" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="2.1" fill="#ffd97d" stroke="none"/><path d="M12 4c1.8 0 3 1.6 3 3.5S13.8 11 12 11s-3-1.6-3-3.5S10.2 4 12 4z"/><path d="M12 20c1.8 0 3-1.6 3-3.5S13.8 13 12 13s-3 1.6-3 3.5S10.2 20 12 20z"/><path d="M4 12c0-1.8 1.6-3 3.5-3S11 10.2 11 12s-1.6 3-3.5 3S4 13.8 4 12z"/><path d="M20 12c0-1.8-1.6-3-3.5-3S13 10.2 13 12s1.6 3 3.5 3 3.5-1.2 3.5-3z"/></g></svg>
+          <svg viewBox="0 0 24 24" fill="#ffd97d"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff8fa3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-8.8C1.2 8 2.7 5 5.7 5c1.8 0 3.2 1 4.3 2.4C11 6 12.5 5 14.3 5c3 0 4.5 3 3 6.2C15 15.6 12 20 12 20z"/></svg>
+        </div>
+        <div class="brand" style="font-size: var(--fs-lg); margin-bottom: var(--s-4);">다시<span class="dot">,</span> 봄</div>
+        <h2 class="fs-visual-title">지난 계절은 지났고,<br>이제 다시, 봄입니다.</h2>
+        <p class="fs-visual-sub">아이 이야기를 하지 않아도 되는 자리. 서류 인증을 마친 정회원이 되면 실시간 대화방, 정모&middot;번개, 마음 대나무숲, 자기이해 검사와 마일리지까지 모두 열립니다.</p>
+        <div class="fs-visual-badges">
+          <div class="badge"><span class="dot2"></span>서류 기반 본인 인증</div>
+          <div class="badge"><span class="dot2"></span>운영진 2인 교차 검토</div>
+          <div class="badge"><span class="dot2"></span>평균 1~2일 내 승인</div>
+        </div>
+      </div>
+
+      <div class="fs-form-area">
     <form id="joinForm">
       <span class="kicker">Apply</span>
       <h2 id="joinModalTitle">가입 신청하기</h2>
@@ -1750,6 +1817,23 @@
         <label for="jName">표시 이름 <span class="hint">실명 비공개 가능</span></label>
         <input type="text" id="jName" placeholder="예: 봄날의곰" required>
       </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="jUserId">아이디</label>
+          <input type="text" id="jUserId" placeholder="영문&middot;숫자 4~16자" pattern="[A-Za-z0-9_]{4,16}" title="영문, 숫자, _ 4~16자로 입력해주세요" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="jPassword">비밀번호</label>
+          <input type="password" id="jPassword" placeholder="8자 이상" minlength="8" required>
+        </div>
+        <div class="field">
+          <label for="jPasswordConfirm">비밀번호 확인</label>
+          <input type="password" id="jPasswordConfirm" placeholder="한 번 더 입력" minlength="8" required>
+        </div>
+      </div>
+      <div class="field-error" id="jPwError" hidden>비밀번호가 서로 일치하지 않습니다.</div>
       <div class="field">
         <label for="jAge">나이대</label>
         <select id="jAge" required>
@@ -1821,6 +1905,8 @@
       <a class="btn" id="joinMileageLink" href="#mileageMissions">지금 마일리지 받으러 가기</a>
       <button type="button" class="btn ghost" id="joinAgain" style="margin-top: var(--s-3);">닫기</button>
     </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1879,6 +1965,32 @@
       <button type="button" class="btn ghost" id="counselAgain">확인</button>
     </div>
   </div>
+</div>
+
+<div class="modal-overlay" id="adminOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+    <button class="modal-close" id="adminClose" type="button" aria-label="닫기">&times;</button>
+    <form id="adminForm">
+      <span class="kicker">Admin</span>
+      <h2 id="adminModalTitle">관리자 로그인</h2>
+      <p class="sub">관리자로 로그인하면 가입 여부와 무관하게 모든 페이지를 바로 볼 수 있습니다.</p>
+      <div class="field">
+        <label for="adminId">아이디</label>
+        <input type="text" id="adminId" autocomplete="off" required>
+      </div>
+      <div class="field">
+        <label for="adminPw">비밀번호</label>
+        <input type="password" id="adminPw" required>
+      </div>
+      <div class="field-error" id="adminError" hidden>아이디 또는 비밀번호가 올바르지 않습니다.</div>
+      <button type="submit" class="btn">로그인</button>
+    </form>
+  </div>
+</div>
+
+<div class="admin-badge" id="adminBadge">
+  <span class="dot2"></span> 관리자 모드
+  <button type="button" id="adminLogoutBtn" aria-label="관리자 모드 종료">&times;</button>
 </div>
 
 <script>
@@ -1947,8 +2059,18 @@
       if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
     });
 
+    var pw = document.getElementById('jPassword');
+    var pwConfirm = document.getElementById('jPasswordConfirm');
+    var pwError = document.getElementById('jPwError');
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (pw.value !== pwConfirm.value) {
+        pwError.hidden = false;
+        pwConfirm.focus();
+        return;
+      }
+      pwError.hidden = true;
       form.hidden = true;
       success.hidden = false;
       localStorage.setItem('dasibom-joined', '1');
@@ -2611,6 +2733,69 @@
   if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeDrawer();
+  });
+})();
+
+(function () {
+  // 관리자 로그인 — 데모용 클라이언트 사이드 인증(실제 서비스에서는 서버 인증으로 대체)
+  var ADMIN_ID = 'admin';
+  var ADMIN_PW = 'dasibom2026';
+
+  var openBtn = document.getElementById('adminLoginBtn');
+  var overlay = document.getElementById('adminOverlay');
+  var form = document.getElementById('adminForm');
+  var errorEl = document.getElementById('adminError');
+  var closeBtn = document.getElementById('adminClose');
+  var badge = document.getElementById('adminBadge');
+  var logoutBtn = document.getElementById('adminLogoutBtn');
+  if (!openBtn || !overlay) return;
+
+  function unlockAll() {
+    document.querySelectorAll('.page.locked').forEach(function (p) { p.classList.remove('locked'); });
+    var dt = document.getElementById('drawerTab');
+    if (dt) dt.hidden = false;
+  }
+
+  function openModal() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('adminId').focus();
+  }
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    form.reset();
+    errorEl.hidden = true;
+  }
+
+  if (localStorage.getItem('dasibom-admin') === '1') {
+    unlockAll();
+    badge.classList.add('show');
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var id = document.getElementById('adminId').value.trim();
+    var pw = document.getElementById('adminPw').value;
+    if (id === ADMIN_ID && pw === ADMIN_PW) {
+      localStorage.setItem('dasibom-admin', '1');
+      localStorage.setItem('dasibom-joined', '1');
+      unlockAll();
+      badge.classList.add('show');
+      closeModal();
+    } else {
+      errorEl.hidden = false;
+    }
+  });
+
+  logoutBtn.addEventListener('click', function () {
+    localStorage.removeItem('dasibom-admin');
+    badge.classList.remove('show');
   });
 })();
 </script>

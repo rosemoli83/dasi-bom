@@ -367,6 +367,38 @@
   .style-saved-note { margin-top: var(--s-4); font-size: var(--fs-2xs); color: var(--accent); font-weight: 700; }
   @media (max-width: 720px) { .style-selects { grid-template-columns: 1fr 1fr; } }
 
+  /* 자기이해 페이지 3분할 탭 */
+  .page-tabs { display: flex; gap: var(--s-3); margin-bottom: var(--s-8); flex-wrap: wrap; }
+  .page-tab {
+    flex: 1; min-width: 140px; font: inherit; font-size: var(--fs-sm); font-weight: 700;
+    background: var(--surface); color: var(--fg-dim); border: 1.5px solid var(--rule);
+    border-radius: 22px; padding: 12px 18px; cursor: pointer; text-align: center; transition: all .15s ease;
+  }
+  .page-tab:hover { border-color: var(--accent); color: var(--fg); }
+  .page-tab.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .tab-panel[hidden] { display: none; }
+
+  /* 일정 달력 보기 */
+  .sched-view-toggle { display: flex; gap: var(--s-2); margin-bottom: var(--s-5); }
+  .sched-view-btn {
+    font: inherit; font-size: var(--fs-xs); font-weight: 700; background: var(--surface); color: var(--fg-dim);
+    border: 1px solid var(--rule); border-radius: 20px; padding: 8px 16px; cursor: pointer;
+  }
+  .sched-view-btn.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .sched-view[hidden] { display: none; }
+  .cal-head { display: flex; align-items: center; justify-content: center; gap: var(--s-5); margin-bottom: var(--s-5); }
+  .cal-head button { background: var(--surface); border: 1px solid var(--rule); border-radius: 50%; width: 32px; height: 32px; cursor: pointer; color: var(--fg); font-size: 16px; }
+  .cal-head button:hover { border-color: var(--accent); color: var(--accent); }
+  .cal-head span { font-size: var(--fs-md); font-weight: 700; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { text-align: center; font-size: var(--fs-2xs); font-weight: 700; color: var(--fg-dim); padding-bottom: 6px; }
+  .cal-cell { min-height: 68px; border: 1px solid var(--rule); border-radius: 10px; padding: 6px; background: var(--surface); }
+  .cal-cell.empty { background: transparent; border-color: transparent; }
+  .cal-cell .cal-date { font-size: var(--fs-xs); font-weight: 700; color: var(--fg-dim); }
+  .cal-cell.today .cal-date { color: var(--accent-ink); background: var(--accent); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; }
+  .cal-cell .cal-ev { margin-top: 4px; font-size: 10.5px; background: var(--tag-bg); color: var(--tag-fg); border-radius: 5px; padding: 1px 5px; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (max-width: 720px) { .cal-cell { min-height: 44px; } .cal-cell .cal-ev { display: none; } .cal-cell.has-event .cal-date::after { content: ""; display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin: 2px auto 0; } }
+
   /* 회원가입 게이트 */
   .page { position: relative; }
   .gate-overlay {
@@ -1039,88 +1071,16 @@
       <div>
         <span class="kicker">Self-Understanding</span>
         <h2>자기이해</h2>
-        <p>사람을 다시 만나기 전에, 먼저 나를 이해하는 시간입니다. 애도를 충분히 마치고 자신을 이해한 건강한 상태로 새로운 관계를 시작할 수 있도록 돕는 축이며, 모임의 부속 기능이 아니라 동등한 무게를 가진 핵심 축으로 운영합니다. 검사 결과는 아래에서 바로 응시할 수 있습니다.</p>
+        <p>가입 직후 시작하는 마일리지 미션부터, 궁합 매칭, 자기이해 검사까지 &mdash; 아래 3가지 중 원하는 것부터 눌러보세요.</p>
       </div>
     </div>
-    <div class="journey">
-      <div class="step">
-        <div class="n mono">01</div>
-        <h3>애도 작업</h3>
-        <p>부정&middot;분노&middot;타협&middot;우울&middot;수용의 애도 단계가 충분히 다뤄지도록 개인&middot;그룹상담에서 돕습니다.</p>
-      </div>
-      <div class="step">
-        <div class="n mono">02</div>
-        <h3>자기 이해</h3>
-        <p>표준화된 성격&middot;심리검사(TCI, 애착유형 등)로 기질과 정서 상태를 먼저 파악합니다.</p>
-      </div>
-      <div class="step">
-        <div class="n mono">03</div>
-        <h3>미해결과제 해결</h3>
-        <p>결혼생활 중 다루지 못한 감정&middot;갈등을 심층 상담에서 다뤄, 과거가 지금의 관계 방식에 반복적으로 영향을 주지 않도록 돕습니다.</p>
-      </div>
-      <div class="step">
-        <div class="n mono">04</div>
-        <h3>사전&middot;사후 측정</h3>
-        <p>상담 시작과 종결 시점에 동일한 척도로 상태를 측정해 변화를 확인한 뒤 새로운 사람들을 만나도록 돕습니다.</p>
-      </div>
+    <div class="page-tabs" id="selfTabs">
+      <button type="button" class="page-tab active" data-tab="start">1. 시작하기</button>
+      <button type="button" class="page-tab" data-tab="match">2. 나의 짝꿍 찾기(궁합)</button>
+      <button type="button" class="page-tab" data-tab="understand">3. 나를 이해하기</button>
     </div>
-    <div class="counsel">
-      <div class="card">
-        <div class="card-top"><span class="tag">개인상담</span><span class="price">회당 <b>8만원</b></span></div>
-        <h3>1:1 개별 심리상담</h3>
-        <p>임상심리사·전문상담사 자격을 갖춘 상담사와 1:1로 진행합니다. 이혼 후 상실감, 자존감 저하, 대인관계 어려움 등을 다루며 필요 시 장기 상담으로 연계됩니다.</p>
-        <div class="meta"><span>회당 50분</span><span>대면 · 화상 선택</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="individual">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">그룹상담</span><span class="price">8주 <b>24만원</b></span></div>
-        <h3>이혼 후 회복 그룹상담</h3>
-        <p>6~8인 소그룹으로 8주간 진행되는 구조화 프로그램입니다. 비슷한 경험을 가진 사람들과 감정을 나누며 상실, 분노, 새로운 자기 정체성 형성 단계를 함께 밟습니다.</p>
-        <div class="meta"><span>주 1회 · 8주 과정</span><span>6~8인</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="group">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">온라인</span><span class="price">회당 <b>6만원</b></span></div>
-        <h3>화상 상담</h3>
-        <p>지방 거주 또는 시간이 맞지 않는 회원을 위한 비대면 상담입니다. 예약제로 운영되며, 상담 기록은 암호화되어 상담사 본인만 열람할 수 있습니다.</p>
-        <div class="meta"><span>회당 50분</span><span>평일 저녁 · 주말 오전</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="video">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">위기상담</span><span class="price"><b>무료</b></span></div>
-        <h3>24시간 위기상담 핫라인</h3>
-        <p>급격한 정서적 위기 상황에서 즉시 연결되는 상담 채널입니다. 전문 상담사가 상시 대기하며, 필요한 경우 정신건강복지센터 등 전문기관으로 연계합니다.</p>
-        <div class="meta"><span>연중무휴 · 즉시 연결</span><span>익명 이용 가능</span></div>
-        <a class="btn sm ghost counsel-cta" href="#counseling" data-modal-open="counsel" data-program="crisis">지금 연결하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">드롭인</span><span class="price">회당 <b>무료</b></span></div>
-        <h3>트라우마 회복 세션</h3>
-        <p>월 1~2회 상시 참여형 집단상담입니다. 8주 코호트인 그룹상담과 달리 특정 기수 없이 필요할 때 참여할 수 있습니다.</p>
-        <div class="meta"><span>월 1~2회 상시</span><span>드롭인</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="trauma">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">워크숍</span><span class="price">회당 <b>3만원</b></span></div>
-        <h3>경계 설정(Boundaries) 워크숍</h3>
-        <p>건강한 거리 유지와 자존감 회복을 다루는 실습형 세션입니다. 자기이해&middot;미해결과제 단계의 실습을 확장합니다.</p>
-        <div class="meta"><span>월 1회 토 오후</span><span>6~10인</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="boundaries">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">셀프체크</span><span class="price"><b>무료</b></span></div>
-        <h3>자기이해 검사 4종</h3>
-        <p>성격유형&middot;5요인 성격&middot;가치관&middot;결혼(관계) 만족도, 각 50~60문항의 간이 자가진단입니다. 결과는 본인에게만 표시되며 상담 신청 전 참고 자료로 활용할 수 있습니다.</p>
-        <div class="meta"><span>문항당 약 7~8분</span><span>익명 · 결과 미저장</span></div>
-        <button type="button" class="btn sm counsel-cta" id="openSelfTestBtn">이 페이지에서 검사하기</button>
-      </div>
-    </div>
-    <div class="counsel-note">
-      <span>&mdash;</span>
-      <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 심리검사&middot;사전사후측정 결과도 본인에게만 제공되며 모임 참여 여부와는 무관합니다. 자기돌봄 프로그램(감정 일기 챌린지, 인디펜던트 라이프 클래스)으로 일상도 함께 단단히 꾸려갈 수 있습니다.</span>
-    </div>
-
-    <div class="mileage-block" id="mileageMissions">
+    <div class="tab-panel" data-panel="start">
+<div class="mileage-block" id="mileageMissions">
       <div class="head" style="margin-bottom: var(--s-5);">
         <div>
           <span class="kicker">Welcome Mileage</span>
@@ -1209,16 +1169,9 @@
         </div>
       </div>
     </div>
-
-    <div class="selftest-embed" id="selftestEmbed" hidden>
-      <div class="embed-bar">
-        <span class="mono">심리검사.html</span>
-        <a href="심리검사.html" target="_blank" rel="noopener">새 창에서 열기 &#8599;</a>
-      </div>
-      <iframe id="selftestFrame" title="자기이해 검사" loading="lazy"></iframe>
-    </div>
-
-    <div class="blinddate-match" id="blinddateMatch">
+</div>
+    <div class="tab-panel" data-panel="match" hidden>
+<div class="blinddate-match" id="blinddateMatch">
       <div class="head" style="margin-bottom: var(--s-5);">
         <div>
           <span class="kicker">Blind Match</span>
@@ -1344,6 +1297,96 @@
         </div>
       </div>
     </div>
+</div>
+    <div class="tab-panel" data-panel="understand" hidden>
+      <div class="pcard" style="margin-bottom: var(--s-6);">
+        <span class="tag">셀프체크 &middot; 무료</span>
+        <h3 style="margin: var(--s-3) 0 var(--s-2); font-size: var(--fs-md);">자기이해 검사 4종</h3>
+        <p>성격유형&middot;5요인 성격&middot;가치관&middot;결혼(관계) 만족도, 각 50~60문항의 간이 자가진단입니다. 결과는 본인에게만 표시되며 상담 신청 전 참고 자료로 활용할 수 있습니다.</p>
+        <div class="meta" style="margin-top: var(--s-4);"><span>문항당 약 7~8분</span><span>익명 &middot; 결과 미저장</span></div>
+        <button type="button" class="btn sm" id="openSelfTestBtn" style="margin-top: var(--s-5);">이 페이지에서 검사하기</button>
+      </div>
+<div class="selftest-embed" id="selftestEmbed" hidden>
+      <div class="embed-bar">
+        <span class="mono">심리검사.html</span>
+        <a href="심리검사.html" target="_blank" rel="noopener">새 창에서 열기 &#8599;</a>
+      </div>
+      <iframe id="selftestFrame" title="자기이해 검사" loading="lazy"></iframe>
+    </div>
+    </div>
+
+    <div class="mgroup-label" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);"><h3>전문 심리상담 프로그램</h3><span class="line"></span><span class="price">상담사 진행 &middot; 유료</span></div>
+<div class="journey">
+      <div class="step">
+        <div class="n mono">01</div>
+        <h3>애도 작업</h3>
+        <p>부정&middot;분노&middot;타협&middot;우울&middot;수용의 애도 단계가 충분히 다뤄지도록 개인&middot;그룹상담에서 돕습니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">02</div>
+        <h3>자기 이해</h3>
+        <p>표준화된 성격&middot;심리검사(TCI, 애착유형 등)로 기질과 정서 상태를 먼저 파악합니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">03</div>
+        <h3>미해결과제 해결</h3>
+        <p>결혼생활 중 다루지 못한 감정&middot;갈등을 심층 상담에서 다뤄, 과거가 지금의 관계 방식에 반복적으로 영향을 주지 않도록 돕습니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">04</div>
+        <h3>사전&middot;사후 측정</h3>
+        <p>상담 시작과 종결 시점에 동일한 척도로 상태를 측정해 변화를 확인한 뒤 새로운 사람들을 만나도록 돕습니다.</p>
+      </div>
+    </div>
+<div class="counsel">
+      <div class="card">
+        <div class="card-top"><span class="tag">개인상담</span><span class="price">회당 <b>8만원</b></span></div>
+        <h3>1:1 개별 심리상담</h3>
+        <p>임상심리사·전문상담사 자격을 갖춘 상담사와 1:1로 진행합니다. 이혼 후 상실감, 자존감 저하, 대인관계 어려움 등을 다루며 필요 시 장기 상담으로 연계됩니다.</p>
+        <div class="meta"><span>회당 50분</span><span>대면 · 화상 선택</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="individual">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">그룹상담</span><span class="price">8주 <b>24만원</b></span></div>
+        <h3>이혼 후 회복 그룹상담</h3>
+        <p>6~8인 소그룹으로 8주간 진행되는 구조화 프로그램입니다. 비슷한 경험을 가진 사람들과 감정을 나누며 상실, 분노, 새로운 자기 정체성 형성 단계를 함께 밟습니다.</p>
+        <div class="meta"><span>주 1회 · 8주 과정</span><span>6~8인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="group">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">온라인</span><span class="price">회당 <b>6만원</b></span></div>
+        <h3>화상 상담</h3>
+        <p>지방 거주 또는 시간이 맞지 않는 회원을 위한 비대면 상담입니다. 예약제로 운영되며, 상담 기록은 암호화되어 상담사 본인만 열람할 수 있습니다.</p>
+        <div class="meta"><span>회당 50분</span><span>평일 저녁 · 주말 오전</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="video">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">위기상담</span><span class="price"><b>무료</b></span></div>
+        <h3>24시간 위기상담 핫라인</h3>
+        <p>급격한 정서적 위기 상황에서 즉시 연결되는 상담 채널입니다. 전문 상담사가 상시 대기하며, 필요한 경우 정신건강복지센터 등 전문기관으로 연계합니다.</p>
+        <div class="meta"><span>연중무휴 · 즉시 연결</span><span>익명 이용 가능</span></div>
+        <a class="btn sm ghost counsel-cta" href="#counseling" data-modal-open="counsel" data-program="crisis">지금 연결하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">드롭인</span><span class="price">회당 <b>무료</b></span></div>
+        <h3>트라우마 회복 세션</h3>
+        <p>월 1~2회 상시 참여형 집단상담입니다. 8주 코호트인 그룹상담과 달리 특정 기수 없이 필요할 때 참여할 수 있습니다.</p>
+        <div class="meta"><span>월 1~2회 상시</span><span>드롭인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="trauma">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">워크숍</span><span class="price">회당 <b>3만원</b></span></div>
+        <h3>경계 설정(Boundaries) 워크숍</h3>
+        <p>건강한 거리 유지와 자존감 회복을 다루는 실습형 세션입니다. 자기이해&middot;미해결과제 단계의 실습을 확장합니다.</p>
+        <div class="meta"><span>월 1회 토 오후</span><span>6~10인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="boundaries">신청하기</a>
+      </div>
+      
+    </div>
+<div class="counsel-note">
+      <span>&mdash;</span>
+      <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 심리검사&middot;사전사후측정 결과도 본인에게만 제공되며 모임 참여 여부와는 무관합니다. 자기돌봄 프로그램(감정 일기 챌린지, 인디펜던트 라이프 클래스)으로 일상도 함께 단단히 꾸려갈 수 있습니다.</span>
+    </div>
   </div>
 </section>
 </div>
@@ -1360,6 +1403,31 @@
       </div>
       <button type="button" class="compose-toggle" id="bambooComposeToggle">＋ 글쓰기</button>
     </div>
+
+    <div class="chat-room">
+      <div class="chat-head">
+        <div class="chat-live-dot"></div>
+        <h3>지금 대화중 <span class="chat-online mono" id="chatOnline">31명 접속중</span></h3>
+        <button type="button" class="chat-emoji-toggle" id="chatEmojiToggle" aria-label="이모티콘 열기">😊</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg"><span class="cm-name">지은</span><span class="cm-text">오늘 저녁 번개 자리 아직 있나요?? 🙋‍♀️</span></div>
+        <div class="chat-msg"><span class="cm-name">현우</span><span class="cm-text">방금 신청했어요! 다들 반가워요 😄</span></div>
+        <div class="chat-msg"><span class="cm-name">소민</span><span class="cm-text">이번 주말 러닝크루 날씨 좋을 것 같아요 ☀️</span></div>
+        <div class="chat-msg"><span class="cm-name">재훈</span><span class="cm-text">처음 왔는데 다들 친절하시네요 감사해요 🙏</span></div>
+      </div>
+      <div class="chat-emoji-panel" id="chatEmojiPanel">
+        <button type="button">😀</button><button type="button">😂</button><button type="button">🥰</button><button type="button">😢</button>
+        <button type="button">😮</button><button type="button">🙌</button><button type="button">👍</button><button type="button">🙏</button>
+        <button type="button">❤️</button><button type="button">🎉</button><button type="button">☕</button><button type="button">🌸</button>
+      </div>
+      <form class="chat-input-row" id="chatForm">
+        <input type="text" id="chatInput" placeholder="대화에 참여해보세요 :)" maxlength="200" autocomplete="off">
+        <button type="submit" class="btn sm">전송</button>
+      </form>
+    </div>
+    <div class="compose-hint" style="margin: calc(var(--s-4) * -1) 0 var(--s-6);">실시간 대화방은 표시 이름이 보이는 공개 채팅입니다. 완전 익명으로 남기고 싶다면 아래 글쓰기를 이용해주세요.</div>
+
     <div class="compose-panel" id="bambooCompose">
       <textarea id="bambooComposeText" placeholder="편하게 마음을 나눠보세요 (완전 익명으로 게시됩니다)" maxlength="300"></textarea>
       <div class="compose-actions">
@@ -1443,29 +1511,6 @@
         <p>운영진이 짜는 &ldquo;정모&rdquo;와 회원이 직접 여는 &ldquo;번개&rdquo;, 서류 인증을 마친 정회원만 참여할 수 있습니다.</p>
       </div>
       <a class="btn ghost sm" href="#schedule">전체 일정 보기</a>
-    </div>
-
-    <div class="chat-room">
-      <div class="chat-head">
-        <div class="chat-live-dot"></div>
-        <h3>지금 대화중 <span class="chat-online mono" id="chatOnline">31명 접속중</span></h3>
-        <button type="button" class="chat-emoji-toggle" id="chatEmojiToggle" aria-label="이모티콘 열기">😊</button>
-      </div>
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-msg"><span class="cm-name">지은</span><span class="cm-text">오늘 저녁 번개 자리 아직 있나요?? 🙋‍♀️</span></div>
-        <div class="chat-msg"><span class="cm-name">현우</span><span class="cm-text">방금 신청했어요! 다들 반가워요 😄</span></div>
-        <div class="chat-msg"><span class="cm-name">소민</span><span class="cm-text">이번 주말 러닝크루 날씨 좋을 것 같아요 ☀️</span></div>
-        <div class="chat-msg"><span class="cm-name">재훈</span><span class="cm-text">처음 왔는데 다들 친절하시네요 감사해요 🙏</span></div>
-      </div>
-      <div class="chat-emoji-panel" id="chatEmojiPanel">
-        <button type="button">😀</button><button type="button">😂</button><button type="button">🥰</button><button type="button">😢</button>
-        <button type="button">😮</button><button type="button">🙌</button><button type="button">👍</button><button type="button">🙏</button>
-        <button type="button">❤️</button><button type="button">🎉</button><button type="button">☕</button><button type="button">🌸</button>
-      </div>
-      <form class="chat-input-row" id="chatForm">
-        <input type="text" id="chatInput" placeholder="대화에 참여해보세요 :)" maxlength="200" autocomplete="off">
-        <button type="submit" class="btn sm">전송</button>
-      </form>
     </div>
 
     <div class="mgroup-label"><h3>오늘&middot;내일 바로 참여</h3><span class="line"></span><span class="price">더 많은 벙은 오른쪽 탭에서</span></div>
@@ -1697,6 +1742,21 @@
 
     <div class="mgroup-label" id="schedule" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); scroll-margin-top: 90px;"><h3>이번 달 모임 일정</h3><span class="line"></span><span class="price">선착순 마감</span></div>
     <p style="max-width:60ch; margin-bottom: var(--s-6);">가입 후 프로필 승인이 완료되면 신청할 수 있습니다.</p>
+    <div class="sched-view-toggle">
+      <button type="button" class="sched-view-btn active" data-view="list">목록으로 보기</button>
+      <button type="button" class="sched-view-btn" data-view="calendar">달력으로 보기</button>
+    </div>
+
+    <div class="sched-view" data-view-panel="calendar" hidden>
+      <div class="cal-head">
+        <button type="button" id="calPrev" aria-label="이전 달">&lsaquo;</button>
+        <span class="mono" id="calMonthLabel">2026.08</span>
+        <button type="button" id="calNext" aria-label="다음 달">&rsaquo;</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <div class="sched-view" data-view-panel="list">
     <div class="scroll-x">
       <table class="sched-table mono">
         <thead>
@@ -1758,6 +1818,7 @@
           </tr>
         </tbody>
       </table>
+    </div>
     </div>
   </div>
 </section>
@@ -3206,6 +3267,100 @@
     document.getElementById('fcCount').value = '';
     panel.classList.remove('open');
   });
+})();
+
+(function () {
+  // 자기이해 페이지 3분할 탭(시작하기 · 나의 짝꿍 찾기 · 나를 이해하기)
+  var tabs = document.querySelectorAll('#selfTabs .page-tab');
+  if (!tabs.length) return;
+  var panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var target = tab.getAttribute('data-tab');
+      tabs.forEach(function (t) { t.classList.toggle('active', t === tab); });
+      panels.forEach(function (p) { p.hidden = p.getAttribute('data-panel') !== target; });
+      document.getElementById('selfTabs').scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  });
+})();
+
+(function () {
+  // 이번 달 모임 일정: 목록 ⇄ 달력 보기 전환
+  var viewBtns = document.querySelectorAll('.sched-view-btn');
+  var viewPanels = document.querySelectorAll('.sched-view');
+  if (!viewBtns.length) return;
+
+  viewBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.getAttribute('data-view');
+      viewBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+      viewPanels.forEach(function (p) { p.hidden = p.getAttribute('data-view-panel') !== target; });
+    });
+  });
+
+  var EVENTS = {
+    '2026-08-14': [{ type: '번개', name: '평일 저녁 카페 번개' }],
+    '2026-08-16': [{ type: '시즌제', name: '보디 셰이프 & 프렌들리' }, { type: '다이닝', name: '컬처 플레이스 투어' }],
+    '2026-08-21': [{ type: '다이닝', name: '디지털 디톡스 다이닝' }],
+    '2026-08-30': [{ type: '시즌제', name: '언스쿨링 북클럽' }]
+  };
+
+  var cur = new Date(2026, 7, 1); // 2026년 8월
+  var grid = document.getElementById('calGrid');
+  var label = document.getElementById('calMonthLabel');
+  var DOW = ['일', '월', '화', '수', '목', '금', '토'];
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function render() {
+    var year = cur.getFullYear(), month = cur.getMonth();
+    label.textContent = year + '.' + pad(month + 1);
+    grid.innerHTML = '';
+    DOW.forEach(function (d) {
+      var el = document.createElement('div');
+      el.className = 'cal-dow';
+      el.textContent = d;
+      grid.appendChild(el);
+    });
+    var firstDow = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var today = new Date();
+    for (var i = 0; i < firstDow; i++) {
+      var empty = document.createElement('div');
+      empty.className = 'cal-cell empty';
+      grid.appendChild(empty);
+    }
+    for (var d2 = 1; d2 <= daysInMonth; d2++) {
+      var key = year + '-' + pad(month + 1) + '-' + pad(d2);
+      var evs = EVENTS[key] || [];
+      var cell = document.createElement('div');
+      cell.className = 'cal-cell' + (evs.length ? ' has-event' : '');
+      if (year === today.getFullYear() && month === today.getMonth() && d2 === today.getDate()) cell.classList.add('today');
+      var dateEl = document.createElement('div');
+      dateEl.className = 'cal-date';
+      dateEl.textContent = d2;
+      cell.appendChild(dateEl);
+      evs.forEach(function (ev) {
+        var tag = document.createElement('div');
+        tag.className = 'cal-ev';
+        tag.textContent = ev.name;
+        cell.appendChild(tag);
+      });
+      grid.appendChild(cell);
+    }
+  }
+
+  document.getElementById('calPrev').addEventListener('click', function () {
+    cur.setMonth(cur.getMonth() - 1);
+    render();
+  });
+  document.getElementById('calNext').addEventListener('click', function () {
+    cur.setMonth(cur.getMonth() + 1);
+    render();
+  });
+
+  render();
 })();
 </script>
 </body>

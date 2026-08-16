@@ -784,6 +784,7 @@
       <tr><td>웹사이트 접근 게이트 (1-2장 신설)</td><td>소개 페이지를 제외한 전 페이지에 가입 유도 잠금 오버레이 신설, 가입 신청 제출 시 즉시 해제</td><td>반영됨</td></tr>
       <tr><td>전체화면 가입 화면 + 아이디&middot;비밀번호 (1-2장 확장)</td><td>가입 모달을 작은 팝업에서 좌측 브랜드 패널 + 우측 폼의 전체화면 레이아웃으로 전환, 아이디&middot;비밀번호&middot;비밀번호 확인 필드 신설</td><td>반영됨</td></tr>
       <tr><td>관리자 데모 로그인 (1-2장 신설)</td><td>푸터 &ldquo;관리자&rdquo; 링크&rarr;로그인 시 전 페이지 잠금 해제 + 상시 &ldquo;관리자 모드&rdquo; 배지 노출</td><td>반영됨 (데모 전용 클라이언트 인증, 실제 운영자 인증은 2-6&middot;2-9장 서버 권한 체계를 따라야 함)</td></tr>
+      <tr><td>Chapter 2(앱) 동기화 &mdash; D33~D37 화면 신설</td><td>대나무숲 상세&middot;벙주 인증&middot;실시간 대화방&middot;마일리지 허브&middot;모임 사진 공유를 앱 화면으로 추가, 2-6 권한 매트릭스&middot;2-9 데이터 모델&middot;2-10 API에 동일 반영</td><td>반영됨</td></tr>
       <tr><td>컬러 테마 전면 교체 (핑크 톤)</td><td>골드&middot;세이지 중심 팔레트를 로즈 핑크 중심으로 교체(라이트: 블러쉬 페이퍼, 다크: 딥 플럼), 2-4장 브랜드&middot;UX 표 갱신</td><td>반영됨</td></tr>
       <tr><td>1:1 데이트 카드 (1-9장 연동)</td><td>#events에 1:1 데이트 소개 카드 신설, 자기이해 검사&middot;블라인드 매칭으로 연결</td><td>반영됨</td></tr>
       <tr><td>자기이해 검사 인라인 응시</td><td>#counseling 안에 심리검사.html을 iframe으로 지연 로드해 페이지 이탈 없이 검사 진행</td><td>반영됨</td></tr>
@@ -1376,7 +1377,12 @@
       <tr><td>가입 신청서 제출</td><td>✔</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
       <tr><td>심사 상태 조회(마이 탭)</td><td>&mdash;</td><td>✔</td><td>&mdash;</td><td>&mdash;</td></tr>
       <tr><td>모임 신청</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>&mdash;</td></tr>
+      <tr><td>번개 개설</td><td>&mdash;</td><td>&mdash;</td><td>벙주 인증 필요(1-3&middot;2-8장 D34)</td><td>&mdash;</td></tr>
       <tr><td>상담 예약</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>&mdash;</td></tr>
+      <tr><td>대나무숲 공감&middot;댓글</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>&mdash;</td></tr>
+      <tr><td>실시간 대화방 참여</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>열람만</td></tr>
+      <tr><td>모임 사진 열람&middot;업로드</td><td>&mdash;</td><td>&mdash;</td><td>해당 모임 참여 확정자만</td><td>&mdash;</td></tr>
+      <tr><td>마일리지 적립&middot;사용</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>&mdash;</td></tr>
       <tr><td>푸시 알림 수신</td><td>마케팅 알림만</td><td>심사 결과만</td><td>✔</td><td>공지만</td></tr>
       <tr><td>프로필 공개범위 설정</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>열람만</td></tr>
       <tr><td>신고 접수</td><td>&mdash;</td><td>&mdash;</td><td>✔</td><td>✔</td></tr>
@@ -1464,9 +1470,9 @@
     <div class="screen-demo">
       <div class="desc">
         <div class="sid mono">D03 &middot; 가입 신청</div>
-        <h4>필수 입력 4개와 약관 동의로 구성된 짧은 폼</h4>
+        <h4>계정 정보와 인적사항을 한 화면에서 입력하는 폼</h4>
         <ul>
-          <li>표시이름, 나이대, 휴대폰번호, 관심모임(다중선택)</li>
+          <li>표시이름, 아이디&middot;비밀번호(확인 포함), 나이대, 현재 연애 상태(연애 중&middot;쉬는 중&middot;연애를 하려고 하는 중), 휴대폰번호, 관심모임(다중선택)</li>
           <li>서류 인증 절차 동의 체크박스(필수)</li>
           <li>제출 시 D04 본인 인증으로 이동</li>
         </ul>
@@ -1956,6 +1962,122 @@
       </div>
     </div>
 
+    <h3>확장 기능 화면 (D33~D37)</h3>
+    <p>1-3&middot;1-4&middot;1-6장에서 시즌을 거치며 새로 추가된 기능들의 앱 화면입니다. 웹(W##)과 기능&middot;조건은 동일하며, 진입 경로나 상호작용 방식만 기기에 맞게 달라집니다.</p>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D33 &middot; 대나무숲 글 상세</div>
+        <h4>공감 토글과 댓글 패널, 욕설 자동삭제 경고까지 한 화면에서</h4>
+        <ul>
+          <li>공감(체크마크) 버튼, 상태는 기기별 세션에 저장되어 재실행 후에도 유지</li>
+          <li>댓글 목록&middot;작성 폼을 하단 시트로 펼침, 상시 노출되는 욕설&middot;비난 경고 문구(1-4장)</li>
+          <li>금칙어 감지 시 댓글이 잠깐 노출된 뒤 자동 삭제, 삭제 사유 토스트 안내</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-card"><div class="ph-bar w80"></div><div class="ph-bar w60" style="margin-top:6px"></div></div>
+            <div class="ph-row"><div class="ph-dot" style="width:18px;height:18px"></div><div class="ph-bar w40" style="align-self:center"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D34 &middot; 벙주 인증 신청&middot;등급</div>
+        <h4>등급 3단계와 인증 절차 4단계를 함께 보여주는 화면</h4>
+        <ul>
+          <li>Lv.1 새싹&middot;Lv.2 정식&middot;Lv.3 시니어 벙주 카드, 현재 등급과 다음 등급 조건 표시</li>
+          <li>미인증 회원이 D21(번개 열기) 진입 시 이 화면으로 먼저 안내</li>
+          <li>서약 동의&middot;안전 수칙 체크리스트&middot;운영진 승인 대기까지 진행 단계 타임라인 표시(1-3장)</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D35 &middot; 실시간 대화방&middot;오늘내일 퀵리스트</div>
+        <h4>모임 탭 최상단, 대화와 빠른 참여를 한 화면에서</h4>
+        <ul>
+          <li>전체 회원 공개 채팅(이모티콘 키보드 지원), 새 메시지 자동 스크롤&middot;접속자 수 표시</li>
+          <li>바로 아래 오늘&middot;내일 번개 2건만 압축 카드로 노출</li>
+          <li>웹의 &ldquo;오른쪽 사이드 드로어&rdquo;는 앱에서 하단 시트(bottom sheet)로 대체 &mdash; 탭하면 전체 번개 목록이 화면 아래에서 올라옴</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-card" style="flex:1"><div class="ph-bar w60"></div><div class="ph-bar w80" style="margin-top:6px"></div><div class="ph-bar w40" style="margin-top:6px"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+            <div class="ph-card"><div class="ph-bar w60"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D36 &middot; 마일리지 미션 허브</div>
+        <h4>보유 마일리지와 미션&middot;사용처를 한 화면에서</h4>
+        <ul>
+          <li>가입 승인 완료 푸시 알림에서 바로 이 화면으로 딥링크</li>
+          <li>혈액형&middot;사주는 인라인 완료, 나머지 4개 검사 미션은 D08~D10(자기이해 검사) 화면으로 이동 후 자동 적립</li>
+          <li>마일리지 사용처는 보유량 충족 시에만 버튼 활성화(1-6장과 동일)</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-hero" style="flex:none; height:44px"></div>
+            <div class="ph-row"><div class="ph-card" style="flex:1"><div class="ph-bar w60"></div></div><div class="ph-card" style="flex:1"><div class="ph-bar w60"></div></div></div>
+            <div class="ph-row"><div class="ph-card" style="flex:1"><div class="ph-bar w60"></div></div><div class="ph-card" style="flex:1"><div class="ph-bar w60"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-demo">
+      <div class="desc">
+        <div class="sid mono">D37 &middot; 모임 사진 공유</div>
+        <h4>참여 확정자만 열리는 앨범</h4>
+        <ul>
+          <li>D20(모임 상세)에서 진입, 해당 모임 참여 확정자만 접근 가능</li>
+          <li>업로드 시 얼굴 자동 블러 처리, 당사자 전원 동의해야 원본 공개(1-3장)</li>
+          <li>동의 없는 사진은 신고 대상, 2-11장 제재 단계 &ldquo;주의&rdquo; 적용</li>
+        </ul>
+      </div>
+      <div class="phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="ph-header"><div class="ph-back"></div><div class="ph-bar w40"></div></div>
+            <div class="ph-row"><div class="ph-card" style="flex:1;height:44px"></div><div class="ph-card" style="flex:1;height:44px"></div></div>
+            <div class="ph-row"><div class="ph-card" style="flex:1;height:44px"></div><div class="ph-card" style="flex:1;height:44px"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <h3>운영자 웹 콘솔 (A01~A03)</h3>
     <table>
       <tr><th>ID</th><th>화면</th><th>비고</th></tr>
@@ -1987,9 +2109,16 @@
       <tr><td>MatchOptIn</td><td>user_id, opted_in(boolean), opted_in_at, test_results_ref(자기이해 검사 결과 참조)</td></tr>
       <tr><td>MatchScore</td><td>match_id, user_id_a, user_id_b, personality_score, big5_score, values_score, activity_score, total_score, computed_at</td></tr>
       <tr><td>MatchInterest</td><td>interest_id, from_user_id, to_user_id, created_at, mutual(boolean)</td></tr>
+      <tr><td>StylePreference</td><td>user_id, appearance_tags[], personality_tags[], age_gap, region_scope, purpose, tendency, vibe, interest_tags[], updated_at (1-9장 이상형 스타일 필터)</td></tr>
+      <tr><td>BambooReaction</td><td>post_id, user_id, created_at (토글형, 1인 1회)</td></tr>
+      <tr><td>BambooComment</td><td>comment_id, post_id, user_id, text, created_at, removed_by_filter(boolean), removed_reason</td></tr>
+      <tr><td>HostCertification</td><td>user_id, level(1&#126;3), certified_at, meeting_count, report_count, suspended_until</td></tr>
+      <tr><td>ChatMessage</td><td>message_id, channel(예: events_live), user_id, text, created_at, removed_by_filter(boolean)</td></tr>
+      <tr><td>MileageLedger</td><td>entry_id, user_id, delta, reason(미션 적립/사용처 차감), balance_after, created_at</td></tr>
+      <tr><td>MeetingPhoto</td><td>photo_id, meeting_id, uploader_id, blurred(boolean), consent_confirmed(boolean), created_at</td></tr>
     </table>
 
-    <div class="note">Verification.file_token이 가리키는 원본 파일은 승인 완료 시 즉시 삭제되며, DB에는 결과값(승인/반려)만 남습니다. DeviceSession은 기기 변경·로그아웃 시 즉시 폐기되며, 서류 열람 권한과는 무관합니다. MatchScore는 자기이해 검사 결과와 활동 지표만으로 계산되며 대화 원문을 참조하지 않습니다. MatchOptIn.opted_in이 false인 회원은 MatchScore 산출 대상에서 완전히 제외됩니다(1-9장, D31 원칙).</div>
+    <div class="note">Verification.file_token이 가리키는 원본 파일은 승인 완료 시 즉시 삭제되며, DB에는 결과값(승인/반려)만 남습니다. DeviceSession은 기기 변경·로그아웃 시 즉시 폐기되며, 서류 열람 권한과는 무관합니다. MatchScore는 자기이해 검사 결과와 활동 지표만으로 계산되며 대화 원문을 참조하지 않습니다. MatchOptIn.opted_in이 false인 회원은 MatchScore 산출 대상에서 완전히 제외됩니다(1-9장, D31 원칙). ChatMessage&middot;BambooComment는 금칙어 필터를 통과하지 못하면 removed_by_filter=true로 표시되고 본문은 즉시 파기됩니다.</div>
   </article>
 
   <article id="api" class="slide">
@@ -2007,7 +2136,12 @@
       <tr><td>신고</td><td>POST /reports, POST /admin/reports/{id}/resolve</td><td>익명 처리, 제재 단계 자동 제안</td></tr>
       <tr><td>프로필</td><td>PATCH /users/me, PATCH /users/me/visibility</td><td>단계적 공개범위 값 검증</td></tr>
       <tr><td>푸시</td><td>POST /push/register, POST /admin/push/broadcast</td><td>기기별 토큰 등록, 딥링크 페이로드 포함</td></tr>
-      <tr><td>매칭</td><td>GET /challenge/progress, POST /match/optin, GET /match/candidates, POST /match/{id}/interest</td><td>옵트인·챌린지 완료 여부 검증, 상호 관심 표시 시에만 알림 발송</td></tr>
+      <tr><td>매칭</td><td>GET /challenge/progress, POST /match/optin, GET /match/candidates, POST /match/{id}/interest, PUT /match/style-preference</td><td>옵트인·챌린지 완료 여부 검증, 상호 관심 표시 시에만 알림 발송, 이상형 스타일 필터 저장</td></tr>
+      <tr><td>대나무숲</td><td>POST /bamboo/posts/{id}/react, POST /bamboo/posts/{id}/comments</td><td>공감 토글, 댓글 등록 시 금칙어 필터 통과 여부 서버 재검증(클라이언트 필터는 UX용 1차 방어)</td></tr>
+      <tr><td>벙주 인증</td><td>POST /host-cert/apply, GET /host-cert/status, POST /admin/host-cert/{id}/decision</td><td>안전 수칙 체크리스트 완료 검증, 운영진 승인 시 등급 부여</td></tr>
+      <tr><td>실시간 채팅</td><td>WS /chat/events/{channel}, POST /chat/messages</td><td>공개 채널 브로드캐스트, 금칙어 필터 통과 메시지만 전파</td></tr>
+      <tr><td>마일리지</td><td>GET /mileage/balance, POST /mileage/missions/{id}/complete, POST /mileage/redeem</td><td>미션 중복 적립 방지, 사용처 차감 시 잔액 검증</td></tr>
+      <tr><td>모임 사진</td><td>POST /meetings/{id}/photos, GET /meetings/{id}/photos</td><td>업로드 시 얼굴 자동 블러 처리, 참여 확정자 권한 검증 후에만 조회 허용</td></tr>
     </table>
 
     <h3>공통 요청 헤더</h3>

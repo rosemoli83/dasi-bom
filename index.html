@@ -749,6 +749,38 @@
     border-radius: 20px; padding: 7px 16px; font-size: var(--fs-2xs); font-weight: 700; cursor: pointer;
   }
   .verify-banner button:hover { filter: brightness(1.08); }
+
+  /* 새 글 · 새 번개 만들기 */
+  .fab-add {
+    position: fixed; right: 26px; bottom: 32px; z-index: 40;
+    width: 54px; height: 54px; border-radius: 50%; background: var(--accent); color: var(--accent-ink);
+    border: none; font-size: 26px; line-height: 1; display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow); cursor: pointer; transition: all .15s ease;
+  }
+  .fab-add:hover { filter: brightness(1.08); transform: translateY(-2px) scale(1.04); }
+  .compose-toggle {
+    background: transparent; border: 1px solid var(--rule); color: var(--fg); border-radius: 20px;
+    padding: 8px 16px; font-size: var(--fs-xs); font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .compose-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .compose-panel {
+    display: none; background: var(--surface); border: 1.5px dashed var(--accent); border-radius: 14px;
+    padding: var(--s-5) var(--s-6); margin-bottom: var(--s-5); box-shadow: var(--shadow);
+  }
+  .compose-panel.open { display: block; }
+  .compose-panel textarea {
+    width: 100%; font: inherit; font-size: var(--fs-sm); color: var(--fg); background: var(--bg);
+    border: 1px solid var(--rule); border-radius: 12px; padding: 10px 14px; resize: vertical; min-height: 70px;
+  }
+  .compose-panel .compose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); margin-bottom: var(--s-4); }
+  .compose-panel input, .compose-panel select {
+    width: 100%; font: inherit; font-size: var(--fs-sm); color: var(--fg); background: var(--bg);
+    border: 1px solid var(--rule); border-radius: 12px; padding: 9px 12px;
+  }
+  .compose-panel label { display: block; font-size: var(--fs-2xs); font-weight: 700; color: var(--fg-dim); margin-bottom: 5px; }
+  .compose-actions { display: flex; justify-content: space-between; align-items: center; margin-top: var(--s-4); gap: var(--s-3); flex-wrap: wrap; }
+  .compose-hint { font-size: 11px; color: var(--fg-dim); }
+  @media (max-width: 720px) { .compose-panel .compose-grid { grid-template-columns: 1fr; } }
   @media (max-width: 860px) {
     .fs-grid { grid-template-columns: 1fr; }
     .fs-visual { display: none; }
@@ -1326,6 +1358,14 @@
         <h2>대나무숲에서</h2>
         <p>오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 편하게 마음을 나누는 익명 공간입니다.</p>
       </div>
+      <button type="button" class="compose-toggle" id="bambooComposeToggle">＋ 글쓰기</button>
+    </div>
+    <div class="compose-panel" id="bambooCompose">
+      <textarea id="bambooComposeText" placeholder="편하게 마음을 나눠보세요 (완전 익명으로 게시됩니다)" maxlength="300"></textarea>
+      <div class="compose-actions">
+        <span class="compose-hint">&#9888; 욕설&middot;비난 표현이 감지되면 게시 즉시 자동 삭제됩니다.</span>
+        <button type="button" class="btn sm" id="bambooComposeSubmit">익명으로 게시하기</button>
+      </div>
     </div>
     <div class="bamboo">
       <div class="bpost" data-post-id="1">
@@ -1389,6 +1429,7 @@
     </div>
   </div>
 </section>
+<button type="button" class="fab-add" id="bambooFab" aria-label="글쓰기">＋</button>
 </div>
 
 <div class="page" id="pg-step3" data-label="모임참여">
@@ -1510,7 +1551,7 @@
     </div>
 
     <div class="mgroup-label" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);"><h3>벙주 인증 제도</h3><span class="line"></span><span class="price">번개는 인증된 벙주만 개설</span></div>
-    <p style="max-width:60ch; margin-bottom: var(--s-6);">번개는 회원이 직접 여는 만큼, 참석자의 안전을 스스로 책임질 준비가 된 사람만 개설할 수 있어야 합니다. 그래서 정회원이라도 별도의 <b style="color:var(--fg)">벙주 인증</b>을 거쳐야 번개를 열 수 있으며, 인증 후에도 활동 이력에 따라 등급이 나뉩니다.</p>
+    <p style="max-width:60ch; margin-bottom: var(--s-6);">가입 후 <b style="color:var(--fg)">1개월 이내에 번개(또는 정모)에 첫 참석</b>만 하면, 그 다음부터는 누구든 벙주 인증을 거쳐 번개를 열 수 있습니다. 참석자의 안전을 스스로 책임질 준비가 됐는지 확인하는 절차이며, 인증 후에도 활동 이력에 따라 등급이 나뉩니다.</p>
     <div class="host-tiers">
       <div class="host-tier">
         <span class="tier-badge">Lv.1 &middot; 새싹 벙주</span>
@@ -1532,7 +1573,7 @@
       <div class="step">
         <div class="n mono">01</div>
         <h3>자격 확인</h3>
-        <p>정회원 + 매너 온도 기준 이상 + 오프라인 모임 참여 이력 1회 이상이어야 벙주 인증을 신청할 수 있습니다.</p>
+        <p>정회원 + 가입 후 1개월 이내 번개&middot;정모 첫 참석 완료 + 매너 온도 기준 이상이면, 그 이후로는 누구나 벙주 인증을 신청할 수 있습니다.</p>
       </div>
       <div class="step">
         <div class="n mono">02</div>
@@ -1565,12 +1606,28 @@
     </div>
     <div class="attend-rules">
       <div class="attend-rule"><span class="mark">&mdash;</span>참석자 전원이 동의하면 위 성비 기준과 무관하게 <b>동성 번개</b>로 진행할 수 있습니다.</div>
-      <div class="attend-rule"><span class="mark">&mdash;</span>러닝&middot;클라이밍 등 <b>운동 중심 번개</b>는 최소 성비 기준 적용에서 제외됩니다.</div>
+      <div class="attend-rule"><span class="mark">&mdash;</span>러닝&middot;클라이밍 등 <b>운동 중심 번개</b>는 최소 성비 기준 적용에서 제외되며, 대신 <b>최대 16명</b>까지만 개설할 수 있습니다.</div>
       <div class="attend-rule"><span class="mark">&mdash;</span><b>1:1 번개</b>는 두 참석자가 상호 협의한 경우에 한해 성비 기준 없이 진행할 수 있습니다.</div>
       <div class="attend-rule"><span class="mark">&mdash;</span>번개 참석이 확정되면 참석자는 모임 전까지 <b>선입금 5만원</b>을 벙주 계좌로 입금해야 하며, 실제 비용과의 차액은 모임 후 벙비 자동정산(1/n 또는 차등 정산)으로 정산됩니다.</div>
     </div>
 
-    <div class="mgroup-label" style="margin-top: var(--s-9);"><h3>번개 &middot; 지금 열려 있는 벙</h3><span class="line"></span><span class="price">벙주 인증 회원만 개설</span></div>
+    <div class="mgroup-label" style="margin-top: var(--s-9);">
+      <h3>번개 &middot; 지금 열려 있는 벙</h3><span class="line"></span>
+      <button type="button" class="compose-toggle" id="flashComposeToggle">＋ 번개 열기</button>
+    </div>
+    <div class="compose-panel" id="flashCompose">
+      <div class="compose-grid">
+        <div><label for="fcTopic">주제</label><input type="text" id="fcTopic" placeholder="예: 평일 저녁 카페 번개" maxlength="40"></div>
+        <div><label for="fcCount">예상 인원</label><input type="text" id="fcCount" placeholder="예: 4명 (최소 2인)" maxlength="20"></div>
+        <div><label for="fcTime">일시</label><input type="text" id="fcTime" placeholder="예: 8.20(목) 저녁 7시" maxlength="30"></div>
+        <div><label for="fcPlace">장소</label><input type="text" id="fcPlace" placeholder="예: 홍대 스터디카페" maxlength="30"></div>
+      </div>
+      <div class="compose-actions">
+        <span class="compose-hint">&#9888; 첫 번개 참석(가입 후 1개월 이내) 경험이 있어야 번개를 열 수 있어요.</span>
+        <button type="button" class="btn sm" id="flashComposeSubmit">번개 열기</button>
+      </div>
+    </div>
+    <div class="flash-list" id="flashList">
     <div class="flash-card">
       <div class="host">
         <div class="flash-avatar">J</div>
@@ -1585,7 +1642,8 @@
       </div>
       <span class="pill soon">3/4명 &middot; 마감임박</span>
     </div>
-    <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>번개 열기</b>는 벙주 인증을 받은 정회원만 가능합니다.</div>
+    </div>
+    <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>번개 열기</b>는 가입 후 1개월 이내 첫 번개 참석을 마친 정회원이라면 누구나 가능합니다.</div>
 
     <div class="mgroup-label"><h3>모임 사진 공유</h3><span class="line"></span><span class="price">참여 확정자만 열람</span></div>
     <div class="gallery">
@@ -1718,6 +1776,7 @@
     <div class="flash-open-card">더 많은 번개는 매일 새로 열립니다. &ldquo;오늘&middot;내일 바로 참여&rdquo;에 없는 일정도 여기서 모두 확인할 수 있어요.</div>
   </div>
 </div>
+<button type="button" class="fab-add" id="flashFab" aria-label="번개 열기">＋</button>
 </div>
 
 <div class="page" id="pg-voices" data-label="후기">
@@ -2537,8 +2596,9 @@
     var n = normalize(text);
     return BAD_WORDS.some(function (w) { return n.indexOf(normalize(w)) !== -1; });
   }
+  window.dasibomContainsBadWord = containsBadWord;
 
-  document.querySelectorAll('.bpost[data-post-id]').forEach(function (post) {
+  function wireBambooPost(post) {
     var postId = post.getAttribute('data-post-id');
     var reactBtn = post.querySelector('.react-btn');
     var reactCount = post.querySelector('.react-count');
@@ -2615,7 +2675,10 @@
     textarea.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submitBtn.click();
     });
-  });
+  }
+
+  window.dasibomWireBambooPost = wireBambooPost;
+  document.querySelectorAll('.bpost[data-post-id]').forEach(wireBambooPost);
 })();
 
 (function () {
@@ -3038,6 +3101,110 @@
     localStorage.removeItem('dasibom-admin');
     badge.classList.remove('show');
     if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();
+  });
+})();
+
+(function () {
+  // 대나무숲 "＋ 글쓰기"
+  var toggle = document.getElementById('bambooComposeToggle');
+  var fab = document.getElementById('bambooFab');
+  var panel = document.getElementById('bambooCompose');
+  var textarea = document.getElementById('bambooComposeText');
+  var submitBtn = document.getElementById('bambooComposeSubmit');
+  var list = document.querySelector('.bamboo');
+  if (!toggle || !panel) return;
+  var nextId = 100;
+
+  function openPanel() {
+    if (window.dasibomIsVerified && !window.dasibomIsVerified()) {
+      if (window.dasibomOpenVerifyModal) window.dasibomOpenVerifyModal();
+      return;
+    }
+    panel.classList.add('open');
+    textarea.focus();
+  }
+  toggle.addEventListener('click', openPanel);
+  if (fab) fab.addEventListener('click', function () { openPanel(); panel.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
+
+  submitBtn.addEventListener('click', function () {
+    var text = textarea.value.trim();
+    if (!text) return;
+    nextId++;
+
+    var post = document.createElement('div');
+    post.className = 'bpost';
+    post.setAttribute('data-post-id', String(nextId));
+    post.innerHTML =
+      '<div class="banon"><span class="blob"></span>익명 &middot; 방금 전</div>' +
+      '<p></p>' +
+      '<div class="bmeta"><div class="bactions">' +
+      '<button type="button" class="react-btn" data-count="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg><span class="react-label">공감</span> <span class="react-count">0</span></button>' +
+      '<button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">0</span></button>' +
+      '</div></div>' +
+      '<div class="bcomments" hidden><div class="bcomment-list"></div><div class="bcomment-form">' +
+      '<textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>' +
+      '<div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>' +
+      '<button type="button" class="btn sm bcomment-submit">댓글 남기기</button>' +
+      '<div class="bcomment-alert" hidden></div></div></div>';
+    post.querySelector('p').textContent = text;
+    list.insertBefore(post, list.firstChild);
+    if (window.dasibomWireBambooPost) window.dasibomWireBambooPost(post);
+
+    textarea.value = '';
+    panel.classList.remove('open');
+
+    if (window.dasibomContainsBadWord && window.dasibomContainsBadWord(text)) {
+      setTimeout(function () {
+        post.style.opacity = '.4';
+        setTimeout(function () { post.remove(); }, 300);
+      }, 600);
+    }
+  });
+})();
+
+(function () {
+  // 모임참여 "＋ 번개 열기"
+  var toggle = document.getElementById('flashComposeToggle');
+  var fab = document.getElementById('flashFab');
+  var panel = document.getElementById('flashCompose');
+  var list = document.getElementById('flashList');
+  var submitBtn = document.getElementById('flashComposeSubmit');
+  if (!toggle || !panel) return;
+
+  function openPanel() {
+    if (window.dasibomIsVerified && !window.dasibomIsVerified()) {
+      if (window.dasibomOpenVerifyModal) window.dasibomOpenVerifyModal();
+      return;
+    }
+    panel.classList.add('open');
+    document.getElementById('fcTopic').focus();
+  }
+  toggle.addEventListener('click', openPanel);
+  if (fab) fab.addEventListener('click', function () { openPanel(); panel.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
+
+  submitBtn.addEventListener('click', function () {
+    var topic = document.getElementById('fcTopic').value.trim();
+    var time = document.getElementById('fcTime').value.trim();
+    var place = document.getElementById('fcPlace').value.trim();
+    var count = document.getElementById('fcCount').value.trim();
+    if (!topic || !time || !place) return;
+
+    var card = document.createElement('div');
+    card.className = 'flash-card';
+    card.innerHTML =
+      '<div class="host"><div class="flash-avatar">나</div><div><h4></h4><span class="sub"></span></div></div>' +
+      '<span class="pill open"></span>';
+    card.querySelector('h4').textContent = topic;
+    card.querySelector('.sub').textContent = '벙주 나 · Lv.1 새싹 벙주 · ' + time + ' · ' + place;
+    card.querySelector('.pill').textContent = (count || '인원 미정') + ' · 방금 개설';
+
+    list.insertBefore(card, list.firstChild);
+
+    document.getElementById('fcTopic').value = '';
+    document.getElementById('fcTime').value = '';
+    document.getElementById('fcPlace').value = '';
+    document.getElementById('fcCount').value = '';
+    panel.classList.remove('open');
   });
 })();
 </script>

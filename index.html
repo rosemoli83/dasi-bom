@@ -215,6 +215,17 @@
   .host-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
   .host-flow .step .n { color: var(--sage); }
 
+  /* 번개 참석 성비 · 정산 규칙 */
+  .ratio-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: var(--s-5) 0 var(--s-6); }
+  .ratio-chip {
+    font-size: var(--fs-xs); font-weight: 700; padding: 6px 13px; border-radius: 20px;
+    background: var(--surface); border: 1px solid var(--rule); color: var(--fg-dim);
+  }
+  .attend-rules { display: flex; flex-direction: column; gap: var(--s-4); }
+  .attend-rule { display: flex; gap: var(--s-3); align-items: flex-start; font-size: var(--fs-sm); line-height: 1.7; }
+  .attend-rule .mark { color: var(--accent); font-weight: 800; flex: none; }
+  .attend-rule b { color: var(--fg); }
+
   /* 모임 사진 공유 */
   .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-5); }
   .photo-card { aspect-ratio: 4/3; border-radius: 6px; background: linear-gradient(135deg, var(--gold-soft), var(--surface-2)); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; }
@@ -437,6 +448,18 @@
   }
   .field input::placeholder { color: var(--fg-dim); }
   .field input:focus, .field select:focus { border-color: var(--accent); }
+  .field input[type="file"] {
+    width: 100%; font-size: var(--fs-xs); color: var(--fg-dim);
+    background: var(--surface); border: 1px dashed var(--rule); border-radius: 4px;
+    padding: 10px 12px; cursor: pointer;
+  }
+  .field input[type="file"]:focus { border-color: var(--accent); }
+  .field input[type="file"]::file-selector-button {
+    font: inherit; font-size: var(--fs-2xs); font-weight: 700; color: var(--fg);
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 4px;
+    padding: 6px 10px; margin-right: var(--s-3); cursor: pointer;
+  }
+  .doc-note { font-size: 11px; color: var(--fg-dim); line-height: 1.6; margin: calc(var(--s-3) * -1) 0 var(--s-5); }
   .check-row { display: flex; align-items: flex-start; gap: var(--s-3); font-size: var(--fs-xs); color: var(--fg-dim); line-height: 1.6; margin-bottom: var(--s-6); }
   .check-row input { margin-top: 3px; accent-color: var(--accent); flex: none; }
   .modal .btn { width: 100%; justify-content: center; padding: 12px 20px; }
@@ -947,6 +970,21 @@
       <span><b>벙주 자격은 영구적이지 않습니다.</b> 벙비 정산 미이행이나 신고가 누적되면 등급이 강등되거나 자격이 일시정지되며, 이 기간에는 번개를 열 수 없습니다. 기존 커뮤니티 약속&middot;제재 체계와 동일한 기준을 그대로 적용합니다.</span>
     </div>
 
+    <div class="mgroup-label" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);"><h3>번개 참석 규칙</h3><span class="line"></span><span class="price">성비&middot;선입금 기준</span></div>
+    <p style="max-width:62ch; margin-bottom: var(--s-2);">특정 성별에 인원이 쏠려 누군가 불편해지는 상황을 막기 위해, 참석자 수 기준 아래의 최소 성비를 유지해야 신청이 확정됩니다. (소수 성별 인원 : 다수 성별 인원)</p>
+    <div class="ratio-grid mono">
+      <span class="ratio-chip">1:3</span><span class="ratio-chip">2:3</span><span class="ratio-chip">2:4</span><span class="ratio-chip">2:5</span>
+      <span class="ratio-chip">3:5</span><span class="ratio-chip">3:6</span><span class="ratio-chip">4:6</span><span class="ratio-chip">4:7</span>
+      <span class="ratio-chip">5:7</span><span class="ratio-chip">5:8</span><span class="ratio-chip">6:8</span><span class="ratio-chip">6:9</span>
+      <span class="ratio-chip">7:9</span>
+    </div>
+    <div class="attend-rules">
+      <div class="attend-rule"><span class="mark">&mdash;</span>참석자 전원이 동의하면 위 성비 기준과 무관하게 <b>동성 번개</b>로 진행할 수 있습니다.</div>
+      <div class="attend-rule"><span class="mark">&mdash;</span>러닝&middot;클라이밍 등 <b>운동 중심 번개</b>는 최소 성비 기준 적용에서 제외됩니다.</div>
+      <div class="attend-rule"><span class="mark">&mdash;</span><b>1:1 번개</b>는 두 참석자가 상호 협의한 경우에 한해 성비 기준 없이 진행할 수 있습니다.</div>
+      <div class="attend-rule"><span class="mark">&mdash;</span>번개 참석이 확정되면 참석자는 모임 전까지 <b>선입금 5만원</b>을 벙주 계좌로 입금해야 하며, 실제 비용과의 차액은 모임 후 벙비 자동정산(1/n 또는 차등 정산)으로 정산됩니다.</div>
+    </div>
+
     <div class="mgroup-label" style="margin-top: var(--s-9);"><h3>번개 &middot; 지금 열려 있는 벙</h3><span class="line"></span><span class="price">벙주 인증 회원만 개설</span></div>
     <div class="flash-card">
       <div class="host">
@@ -1213,22 +1251,36 @@
         </select>
       </div>
 
+      <div class="field">
+        <label for="jDocFamily">가족관계증명서(상세) <span class="hint">자녀 유무 확인용</span></label>
+        <input type="file" id="jDocFamily" accept="image/*,.pdf" required>
+      </div>
+      <div class="field">
+        <label for="jDocMarriage">혼인관계증명서(상세) <span class="hint">이혼 사실 확인용</span></label>
+        <input type="file" id="jDocMarriage" accept="image/*,.pdf" required>
+      </div>
+      <div class="field">
+        <label for="jDocId">신분증 <span class="hint">본인 확인용, 주민등록증·운전면허증 등</span></label>
+        <input type="file" id="jDocId" accept="image/*,.pdf" required>
+      </div>
+      <div class="doc-note">위 3종 서류가 모두 첨부되어야 신청서를 제출할 수 있습니다. 서류는 운영진 2인 교차 검토 목적으로만 열람되며, 승인 완료 즉시 자동 파기됩니다.</div>
+
       <label class="check-row">
         <input type="checkbox" required>
-        <span>무자녀 이혼 사실을 서류(혼인관계증명서·가족관계증명서)로 인증하고 무자녀 확인 각서에 서명하는 절차에 동의합니다.</span>
+        <span>위 서류로 무자녀 이혼 사실을 인증하고 무자녀 확인 각서에 서명하는 절차에 동의합니다.</span>
       </label>
       <label class="check-row">
         <input type="checkbox" required>
         <span>승인 후 커뮤니티 약속과 비밀보장 서약(NDA)에 서명하며, 위반 시 즉시 영구정지될 수 있음에 동의합니다.</span>
       </label>
 
-      <button type="submit" class="btn">본인 인증 안내 받기</button>
+      <button type="submit" class="btn">서류 제출하고 인증 신청하기</button>
     </form>
 
     <div class="modal-success" id="joinSuccess" hidden>
       <div class="mark">&check;</div>
       <h2>신청이 접수되었습니다</h2>
-      <p>입력하신 번호로 본인 인증 안내 메시지를 보내드립니다. (본 페이지는 데모이며 실제로 전송되지 않습니다)</p>
+      <p>첨부해주신 서류 3종은 운영진 2인이 교차 검토합니다. 결과는 입력하신 번호로 안내드리며, 승인까지 평균 1~2일이 소요됩니다. (본 페이지는 데모이며 실제로 전송&middot;저장되지 않습니다)</p>
       <button type="button" class="btn ghost" id="joinAgain">확인</button>
     </div>
   </div>

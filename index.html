@@ -6,20 +6,27 @@
 <title>다시, 봄 — 무자녀 돌싱 모임</title>
 <style>
   :root {
-    --ink: #2b1526;
-    --ink-2: #38192f;
-    --ink-3: #44203a;
-    --text: #fdeef5;
-    --text-dim: #dcaec6;
-    --gold: #ff7fac;
-    --gold-soft: #ff7fac33;
-    --sage: #c9699b;
-    --line: #ffb3d411;
-    --paper: #fff3f8;
-    --paper-2: #fffbfd;
-    --charcoal: #4a2438;
-    --charcoal-dim: #9c6f88;
-    --line-l: #d63b8414;
+    /* blossom hues */
+    --blossom-blue: #9cd3d9;
+    --blossom-green: #b3d97e;
+    --blossom-cream: #f2ecd8;
+    --blossom-peach: #f5b7ab;
+    --blossom-rose: #dd5c6e;
+
+    --ink: #16282b;
+    --ink-2: #1e363a;
+    --ink-3: #26454a;
+    --text: #f2ecd8;
+    --text-dim: #a9c7c9;
+    --gold: #ff8b95;
+    --gold-soft: #ff8b9533;
+    --sage: #8fbf5e;
+    --line: #9cd3d914;
+    --paper: #fbf8ef;
+    --paper-2: #fffefa;
+    --charcoal: #38352c;
+    --charcoal-dim: #8c8574;
+    --line-l: #dd5c6e14;
 
     /* spacing scale */
     --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
@@ -33,34 +40,34 @@
   }
   @media (prefers-color-scheme: light) {
     :root {
-      --bg: var(--paper); --surface: var(--paper-2); --surface-2: #ffe2ee;
+      --bg: var(--paper); --surface: var(--paper-2); --surface-2: #f2ecd8;
       --fg: var(--charcoal); --fg-dim: var(--charcoal-dim);
-      --rule: var(--line-l); --accent: #ec5f96; --accent-ink: #ffffff;
-      --tag-bg: #ec5f961f; --tag-fg: #b23570;
-      --shadow: 0 1px 2px #d63b8412, 0 10px 28px -14px #d63b8430;
+      --rule: var(--line-l); --accent: var(--blossom-rose); --accent-ink: #ffffff;
+      --tag-bg: #8fbf5e26; --tag-fg: #4f7a30;
+      --shadow: 0 1px 2px #38352c10, 0 10px 28px -14px #38352c30;
     }
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: var(--ink); --surface: var(--ink-2); --surface-2: var(--ink-3);
       --fg: var(--text); --fg-dim: var(--text-dim);
-      --rule: var(--line); --accent: var(--gold); --accent-ink: #2b1526;
-      --tag-bg: #ff7fac26; --tag-fg: #ffc2dd;
+      --rule: var(--line); --accent: var(--gold); --accent-ink: #16282b;
+      --tag-bg: #b3d97e2a; --tag-fg: #d3ecab;
       --shadow: 0 1px 2px #00000030, 0 14px 34px -16px #00000066;
     }
   }
   :root[data-theme="light"] {
-    --bg: var(--paper); --surface: var(--paper-2); --surface-2: #ffe2ee;
+    --bg: var(--paper); --surface: var(--paper-2); --surface-2: #f2ecd8;
     --fg: var(--charcoal); --fg-dim: var(--charcoal-dim);
-    --rule: var(--line-l); --accent: #ec5f96; --accent-ink: #ffffff;
-    --tag-bg: #ec5f961f; --tag-fg: #b23570;
-    --shadow: 0 1px 2px #d63b8412, 0 10px 28px -14px #d63b8430;
+    --rule: var(--line-l); --accent: var(--blossom-rose); --accent-ink: #ffffff;
+    --tag-bg: #8fbf5e26; --tag-fg: #4f7a30;
+    --shadow: 0 1px 2px #38352c10, 0 10px 28px -14px #38352c30;
   }
   :root[data-theme="dark"] {
     --bg: var(--ink); --surface: var(--ink-2); --surface-2: var(--ink-3);
     --fg: var(--text); --fg-dim: var(--text-dim);
-    --rule: var(--line); --accent: var(--gold); --accent-ink: #2b1526;
-    --tag-bg: #ff7fac26; --tag-fg: #ffc2dd;
+    --rule: var(--line); --accent: var(--gold); --accent-ink: #16282b;
+    --tag-bg: #b3d97e2a; --tag-fg: #d3ecab;
     --shadow: 0 1px 2px #00000030, 0 14px 34px -16px #00000066;
   }
 
@@ -134,7 +141,7 @@
   @keyframes glow { 0%, 100% { opacity: .5; transform: translateY(0); } 50% { opacity: .85; transform: translateY(16px); } }
   .hero::after {
     content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ec5f96' fill-opacity='0.3'%3E%3Cpath d='M40 20c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm-28 0c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9z'/%3E%3C/g%3E%3Cg fill='%23ec5f96' fill-opacity='0.16' transform='translate(95,75) rotate(15)'%3E%3Cpath d='M20 10c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm11 11c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm-22 0c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm11 11c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7z'/%3E%3C/g%3E%3Cg fill='%23ffb6cf' fill-opacity='0.35' transform='translate(15,95) rotate(-10)'%3E%3Cpath d='M14 7c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5zm8 8c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5zm-16 0c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5zm8 8c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5z'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23dd5c6e' fill-opacity='0.3'%3E%3Cpath d='M40 20c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm-28 0c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9z'/%3E%3C/g%3E%3Cg fill='%23dd5c6e' fill-opacity='0.16' transform='translate(95,75) rotate(15)'%3E%3Cpath d='M20 10c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm11 11c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm-22 0c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm11 11c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7z'/%3E%3C/g%3E%3Cg fill='%239cd3d9' fill-opacity='0.35' transform='translate(15,95) rotate(-10)'%3E%3Cpath d='M14 7c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5zm8 8c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5zm-16 0c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5zm8 8c2 0 4 2 4 5s-2 5-4 5-4-2-4-5 2-5 4-5z'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat; background-size: 150px 150px;
     opacity: .6;
     mask-image: linear-gradient(to bottom, black, transparent 82%);
@@ -167,10 +174,10 @@
   /* value props */
   .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
   .value { background: var(--bg); padding: var(--s-7) var(--s-6); border-top: 3px solid var(--pastel, var(--accent)); }
-  .value:nth-child(1) { --pastel: #ffb3c6; }
-  .value:nth-child(2) { --pastel: #c9b6ff; }
-  .value:nth-child(3) { --pastel: #a8e6cf; }
-  .value:nth-child(4) { --pastel: #ffd97d; }
+  .value:nth-child(1) { --pastel: var(--blossom-blue); }
+  .value:nth-child(2) { --pastel: var(--blossom-green); }
+  .value:nth-child(3) { --pastel: #e0cf9a; }
+  .value:nth-child(4) { --pastel: var(--blossom-peach); }
   .value .num { font-size: var(--fs-xs); color: var(--accent); font-weight: 700; margin-bottom: var(--s-4); }
   .value .tag { margin-bottom: var(--s-3); background: color-mix(in srgb, var(--pastel, var(--accent)) 30%, transparent); color: color-mix(in srgb, var(--pastel, var(--accent)) 70%, #402030); }
   .value h3 { font-size: var(--fs-lg); margin-bottom: var(--s-3); line-height: 1.4; }
@@ -698,7 +705,7 @@
   }
   .fs-visual::after {
     content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ec5f96' fill-opacity='0.28'%3E%3Cpath d='M40 20c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm-28 0c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9z'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23dd5c6e' fill-opacity='0.28'%3E%3Cpath d='M40 20c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm-28 0c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9zm14 14c4 0 7 4 7 9s-3 9-7 9-7-4-7-9 3-9 7-9z'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat; background-size: 150px 150px;
     mask-image: radial-gradient(circle at 30% 30%, black, transparent 70%);
     -webkit-mask-image: radial-gradient(circle at 30% 30%, black, transparent 70%);
@@ -809,12 +816,12 @@
 
 <div class="wrap">
   <div class="doodle-row" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none"><g stroke="#ec5f96" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="2.1" fill="#ffd97d" stroke="none"/><path d="M12 4c1.8 0 3 1.6 3 3.5S13.8 11 12 11s-3-1.6-3-3.5S10.2 4 12 4z"/><path d="M12 20c1.8 0 3-1.6 3-3.5S13.8 13 12 13s-3 1.6-3 3.5S10.2 20 12 20z"/><path d="M4 12c0-1.8 1.6-3 3.5-3S11 10.2 11 12s-1.6 3-3.5 3S4 13.8 4 12z"/><path d="M20 12c0-1.8-1.6-3-3.5-3S13 10.2 13 12s1.6 3 3.5 3 3.5-1.2 3.5-3z"/></g></svg>
-    <svg viewBox="0 0 24 24" fill="#ffd97d"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
-    <svg viewBox="0 0 24 24" fill="none" stroke="#ff8fa3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-8.8C1.2 8 2.7 5 5.7 5c1.8 0 3.2 1 4.3 2.4C11 6 12.5 5 14.3 5c3 0 4.5 3 3 6.2C15 15.6 12 20 12 20z"/></svg>
-    <svg viewBox="0 0 24 24" fill="none" stroke="#ff9d4d" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8 14c1.2 1.6 2.6 2.4 4 2.4s2.8-.8 4-2.4"/></svg>
-    <svg viewBox="0 0 24 24" fill="none" stroke="#7bc9a6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20c0-8 5-13 13-14-1 8-6 12-13 14z"/><path d="M6 20c1-3 3-5 6-6"/></svg>
-    <svg viewBox="0 0 24 24" fill="#c9b6ff"><path d="M12 3l3 9-3 9-3-9z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none"><g stroke="#dd5c6e" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="2.1" fill="#f5b7ab" stroke="none"/><path d="M12 4c1.8 0 3 1.6 3 3.5S13.8 11 12 11s-3-1.6-3-3.5S10.2 4 12 4z"/><path d="M12 20c1.8 0 3-1.6 3-3.5S13.8 13 12 13s-3 1.6-3 3.5S10.2 20 12 20z"/><path d="M4 12c0-1.8 1.6-3 3.5-3S11 10.2 11 12s-1.6 3-3.5 3S4 13.8 4 12z"/><path d="M20 12c0-1.8-1.6-3-3.5-3S13 10.2 13 12s1.6 3 3.5 3 3.5-1.2 3.5-3z"/></g></svg>
+    <svg viewBox="0 0 24 24" fill="#f5b7ab"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#f5b7ab" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-8.8C1.2 8 2.7 5 5.7 5c1.8 0 3.2 1 4.3 2.4C11 6 12.5 5 14.3 5c3 0 4.5 3 3 6.2C15 15.6 12 20 12 20z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#dd5c6e" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8 14c1.2 1.6 2.6 2.4 4 2.4s2.8-.8 4-2.4"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#7fae4a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20c0-8 5-13 13-14-1 8-6 12-13 14z"/><path d="M6 20c1-3 3-5 6-6"/></svg>
+    <svg viewBox="0 0 24 24" fill="#9cd3d9"><path d="M12 3l3 9-3 9-3-9z"/></svg>
   </div>
 </div>
 
@@ -1793,9 +1800,9 @@
     <div class="fs-grid">
       <div class="fs-visual">
         <div class="doodle-row" aria-hidden="true" style="justify-content:flex-start; margin: 0 0 var(--s-6);">
-          <svg viewBox="0 0 24 24" fill="none"><g stroke="#ec5f96" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="2.1" fill="#ffd97d" stroke="none"/><path d="M12 4c1.8 0 3 1.6 3 3.5S13.8 11 12 11s-3-1.6-3-3.5S10.2 4 12 4z"/><path d="M12 20c1.8 0 3-1.6 3-3.5S13.8 13 12 13s-3 1.6-3 3.5S10.2 20 12 20z"/><path d="M4 12c0-1.8 1.6-3 3.5-3S11 10.2 11 12s-1.6 3-3.5 3S4 13.8 4 12z"/><path d="M20 12c0-1.8-1.6-3-3.5-3S13 10.2 13 12s1.6 3 3.5 3 3.5-1.2 3.5-3z"/></g></svg>
-          <svg viewBox="0 0 24 24" fill="#ffd97d"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ff8fa3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-8.8C1.2 8 2.7 5 5.7 5c1.8 0 3.2 1 4.3 2.4C11 6 12.5 5 14.3 5c3 0 4.5 3 3 6.2C15 15.6 12 20 12 20z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none"><g stroke="#dd5c6e" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="2.1" fill="#f5b7ab" stroke="none"/><path d="M12 4c1.8 0 3 1.6 3 3.5S13.8 11 12 11s-3-1.6-3-3.5S10.2 4 12 4z"/><path d="M12 20c1.8 0 3-1.6 3-3.5S13.8 13 12 13s-3 1.6-3 3.5S10.2 20 12 20z"/><path d="M4 12c0-1.8 1.6-3 3.5-3S11 10.2 11 12s-1.6 3-3.5 3S4 13.8 4 12z"/><path d="M20 12c0-1.8-1.6-3-3.5-3S13 10.2 13 12s1.6 3 3.5 3 3.5-1.2 3.5-3z"/></g></svg>
+          <svg viewBox="0 0 24 24" fill="#f5b7ab"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f5b7ab" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9.3-8.8C1.2 8 2.7 5 5.7 5c1.8 0 3.2 1 4.3 2.4C11 6 12.5 5 14.3 5c3 0 4.5 3 3 6.2C15 15.6 12 20 12 20z"/></svg>
         </div>
         <div class="brand" style="font-size: var(--fs-lg); margin-bottom: var(--s-4);">다시<span class="dot">,</span> 봄</div>
         <h2 class="fs-visual-title">지난 계절은 지났고,<br>이제 다시, 봄입니다.</h2>

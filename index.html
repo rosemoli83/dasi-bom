@@ -226,6 +226,46 @@
   .attend-rule .mark { color: var(--accent); font-weight: 800; flex: none; }
   .attend-rule b { color: var(--fg); }
 
+  /* 1:1 데이트 */
+  .blinddate-card {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+    padding: var(--s-7) var(--s-6); box-shadow: var(--shadow);
+    display: flex; gap: var(--s-7); align-items: center; flex-wrap: wrap;
+  }
+  .blinddate-card .bd-icon {
+    flex: none; width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-soft), var(--tag-bg));
+    display: flex; align-items: center; justify-content: center;
+  }
+  .blinddate-card .bd-icon svg { width: 26px; height: 26px; color: var(--accent); }
+  .blinddate-card .bd-body { flex: 1; min-width: 240px; }
+  .blinddate-card h3 { font-size: var(--fs-md); margin-bottom: var(--s-2); }
+  .blinddate-card p { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); margin: 0 0 var(--s-4); }
+  .blinddate-card .bd-points { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-5); }
+  .blinddate-card .bd-points span { font-size: var(--fs-2xs); color: var(--fg-dim); background: var(--surface-2); border-radius: 20px; padding: 4px 11px; }
+
+  /* 자기이해 검사 임베드 */
+  .selftest-embed { margin-top: var(--s-7); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+  .embed-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: var(--surface-2); border-bottom: 1px solid var(--rule); font-size: var(--fs-2xs); color: var(--fg-dim); }
+  .embed-bar a { color: var(--accent); font-weight: 700; text-decoration: none; }
+  .selftest-embed iframe { display: block; width: 100%; height: 78vh; min-height: 520px; border: none; background: var(--bg); }
+
+  /* 블라인드 데이트 매칭 */
+  .blinddate-match { margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); }
+  .bd-loading { display: flex; align-items: center; gap: var(--s-3); margin-top: var(--s-5); font-size: var(--fs-sm); color: var(--fg-dim); }
+  .bd-spinner { width: 15px; height: 15px; border-radius: 50%; border: 2px solid var(--rule); border-top-color: var(--accent); animation: bd-spin .7s linear infinite; }
+  @keyframes bd-spin { to { transform: rotate(360deg); } }
+  .bd-result { margin-top: var(--s-6); }
+  .bd-result-card { display: flex; gap: var(--s-6); align-items: center; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: var(--s-6); box-shadow: var(--shadow); flex-wrap: wrap; }
+  .bd-avatar-blur { flex: none; width: 72px; height: 72px; border-radius: 50%; background: var(--surface-2); display: flex; align-items: center; justify-content: center; filter: blur(2.5px); opacity: .55; }
+  .bd-avatar-blur svg { width: 34px; height: 34px; color: var(--fg-dim); }
+  .bd-result-body { flex: 1; min-width: 220px; }
+  .bd-score { font-size: var(--fs-lg); font-weight: 800; margin-bottom: var(--s-3); }
+  .bd-score b { color: var(--accent); }
+  .bd-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--s-3); }
+  .bd-tags span { font-size: var(--fs-2xs); font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--tag-bg); color: var(--tag-fg); }
+  .bd-actions { display: flex; gap: var(--s-3); margin-top: var(--s-5); flex-wrap: wrap; }
+
   /* 모임 사진 공유 */
   .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-5); }
   .photo-card { aspect-ratio: 4/3; border-radius: 6px; background: linear-gradient(135deg, var(--gold-soft), var(--surface-2)); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; }
@@ -503,9 +543,9 @@
     <div class="brand">다시<span class="dot">,</span> 봄</div>
     <nav class="nav-links" id="navLinks">
       <a href="#about">소개 · 가입안내</a>
-      <a href="#counseling">한 걸음 · 자기이해</a>
+      <a href="#events">한 걸음 · 모임참여</a>
       <a href="#bamboo">두 걸음 · 대나무숲</a>
-      <a href="#events">세 걸음 · 모임참여</a>
+      <a href="#counseling">세 걸음 · 자기이해</a>
       <a href="#voices">후기</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -698,178 +738,13 @@
 </div>
 
 <div class="page" id="pg-step1" data-label="한 걸음">
-<section id="counseling">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <div class="step-kicker"><span class="badge-num mono">1</span><span class="kicker" style="margin:0">Step 1 &middot; Self-Understanding</span></div>
-        <h2>한 걸음, 자기이해</h2>
-        <p>사람을 다시 만나기 전에, 먼저 나를 이해하는 시간입니다. 애도를 충분히 마치고 자신을 이해한 건강한 상태로 다음 걸음(대나무숲&middot;모임)을 내딛을 수 있도록 돕는 축이며, 모임의 부속 기능이 아니라 동등한 무게를 가진 핵심 축으로 운영합니다.</p>
-      </div>
-    </div>
-    <div class="journey">
-      <div class="step">
-        <div class="n mono">01</div>
-        <h3>애도 작업</h3>
-        <p>부정&middot;분노&middot;타협&middot;우울&middot;수용의 애도 단계가 충분히 다뤄지도록 개인&middot;그룹상담에서 돕습니다.</p>
-      </div>
-      <div class="step">
-        <div class="n mono">02</div>
-        <h3>자기 이해</h3>
-        <p>표준화된 성격&middot;심리검사(TCI, 애착유형 등)로 기질과 정서 상태를 먼저 파악합니다.</p>
-      </div>
-      <div class="step">
-        <div class="n mono">03</div>
-        <h3>미해결과제 해결</h3>
-        <p>결혼생활 중 다루지 못한 감정&middot;갈등을 심층 상담에서 다뤄, 과거가 지금의 관계 방식에 반복적으로 영향을 주지 않도록 돕습니다.</p>
-      </div>
-      <div class="step">
-        <div class="n mono">04</div>
-        <h3>사전&middot;사후 측정</h3>
-        <p>상담 시작과 종결 시점에 동일한 척도로 상태를 측정해 변화를 확인한 뒤 새로운 사람들을 만나도록 돕습니다.</p>
-      </div>
-    </div>
-    <div class="counsel">
-      <div class="card">
-        <div class="card-top"><span class="tag">개인상담</span><span class="price">회당 <b>8만원</b></span></div>
-        <h3>1:1 개별 심리상담</h3>
-        <p>임상심리사·전문상담사 자격을 갖춘 상담사와 1:1로 진행합니다. 이혼 후 상실감, 자존감 저하, 대인관계 어려움 등을 다루며 필요 시 장기 상담으로 연계됩니다.</p>
-        <div class="meta"><span>회당 50분</span><span>대면 · 화상 선택</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="individual">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">그룹상담</span><span class="price">8주 <b>24만원</b></span></div>
-        <h3>이혼 후 회복 그룹상담</h3>
-        <p>6~8인 소그룹으로 8주간 진행되는 구조화 프로그램입니다. 비슷한 경험을 가진 사람들과 감정을 나누며 상실, 분노, 새로운 자기 정체성 형성 단계를 함께 밟습니다.</p>
-        <div class="meta"><span>주 1회 · 8주 과정</span><span>6~8인</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="group">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">온라인</span><span class="price">회당 <b>6만원</b></span></div>
-        <h3>화상 상담</h3>
-        <p>지방 거주 또는 시간이 맞지 않는 회원을 위한 비대면 상담입니다. 예약제로 운영되며, 상담 기록은 암호화되어 상담사 본인만 열람할 수 있습니다.</p>
-        <div class="meta"><span>회당 50분</span><span>평일 저녁 · 주말 오전</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="video">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">위기상담</span><span class="price"><b>무료</b></span></div>
-        <h3>24시간 위기상담 핫라인</h3>
-        <p>급격한 정서적 위기 상황에서 즉시 연결되는 상담 채널입니다. 전문 상담사가 상시 대기하며, 필요한 경우 정신건강복지센터 등 전문기관으로 연계합니다.</p>
-        <div class="meta"><span>연중무휴 · 즉시 연결</span><span>익명 이용 가능</span></div>
-        <a class="btn sm ghost counsel-cta" href="#counseling" data-modal-open="counsel" data-program="crisis">지금 연결하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">드롭인</span><span class="price">회당 <b>무료</b></span></div>
-        <h3>트라우마 회복 세션</h3>
-        <p>월 1~2회 상시 참여형 집단상담입니다. 8주 코호트인 그룹상담과 달리 특정 기수 없이 필요할 때 참여할 수 있습니다.</p>
-        <div class="meta"><span>월 1~2회 상시</span><span>드롭인</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="trauma">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">워크숍</span><span class="price">회당 <b>3만원</b></span></div>
-        <h3>경계 설정(Boundaries) 워크숍</h3>
-        <p>건강한 거리 유지와 자존감 회복을 다루는 실습형 세션입니다. 자기이해&middot;미해결과제 단계의 실습을 확장합니다.</p>
-        <div class="meta"><span>월 1회 토 오후</span><span>6~10인</span></div>
-        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="boundaries">신청하기</a>
-      </div>
-      <div class="card">
-        <div class="card-top"><span class="tag">셀프체크</span><span class="price"><b>무료</b></span></div>
-        <h3>자기이해 검사 4종</h3>
-        <p>성격유형&middot;5요인 성격&middot;가치관&middot;결혼(관계) 만족도, 각 50~60문항의 간이 자가진단입니다. 결과는 본인에게만 표시되며 상담 신청 전 참고 자료로 활용할 수 있습니다.</p>
-        <div class="meta"><span>문항당 약 7~8분</span><span>익명 · 결과 미저장</span></div>
-        <a class="btn sm counsel-cta" href="심리검사.html">검사하러 가기</a>
-      </div>
-    </div>
-    <div class="counsel-note">
-      <span>&mdash;</span>
-      <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 심리검사&middot;사전사후측정 결과도 본인에게만 제공되며 모임 참여 여부와는 무관합니다. 자기돌봄 프로그램(감정 일기 챌린지, 인디펜던트 라이프 클래스)으로 일상도 함께 단단히 꾸려갈 수 있습니다.</span>
-    </div>
-  </div>
-</section>
-</div>
-
-<div class="page" id="pg-step2" data-label="두 걸음">
-<section id="bamboo">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <div class="step-kicker"><span class="badge-num mono">2</span><span class="kicker" style="margin:0">Step 2 &middot; Anonymous Space</span></div>
-        <h2>두 걸음, 대나무숲에서</h2>
-        <p>오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 편하게 마음을 나누는 익명 공간이자, 세 번째 걸음인 모임으로 넘어가기 전 가볍게 서로를 느껴보는 자리입니다.</p>
-      </div>
-    </div>
-    <div class="bamboo">
-      <div class="bpost" data-post-id="1">
-        <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
-        <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
-        <div class="bmeta">
-          <div class="bactions">
-            <button type="button" class="react-btn" data-count="12">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
-              <span class="react-label">공감</span> <span class="react-count">12</span>
-            </button>
-            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">2</span></button>
-          </div>
-        </div>
-        <div class="bcomments" hidden>
-          <div class="bcomment-list">
-            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저도 매년 이맘때가 제일 힘들어요. 혼자가 아니에요.</span></div>
-            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">올해는 그냥 여행 다녀오려고요. 같이 마음 편해지시길 바라요.</span></div>
-          </div>
-          <div class="bcomment-form">
-            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
-            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
-            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
-            <div class="bcomment-alert" hidden></div>
-          </div>
-        </div>
-      </div>
-      <div class="bpost" data-post-id="2">
-        <div class="banon"><span class="blob"></span>익명 &middot; 어제</div>
-        <p>혼자인 일상이 이제야 조금씩 편해지는 것 같아요. 비슷한 시기 지나오신 분들 이야기가 궁금해요.</p>
-        <div class="bmeta">
-          <div class="bactions">
-            <button type="button" class="react-btn" data-count="21">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
-              <span class="react-label">공감</span> <span class="react-count">21</span>
-            </button>
-            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">1</span></button>
-          </div>
-        </div>
-        <div class="bcomments" hidden>
-          <div class="bcomment-list">
-            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저는 1년쯤 지나니 확실히 편해지더라고요. 조금씩 나아지실 거예요.</span></div>
-          </div>
-          <div class="bcomment-form">
-            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
-            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
-            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
-            <div class="bcomment-alert" hidden></div>
-          </div>
-        </div>
-      </div>
-      <div class="bpost">
-        <div class="banon"><span class="blob" style="background: var(--gold-soft);"></span>운영진 &middot; 정기 음성 라디오</div>
-        <p>이번 달 마음 라디오는 &ldquo;애도, 서두르지 않아도 됩니다&rdquo;를 주제로 진행됩니다. 얼굴&middot;실명 노출 없이 목소리만으로 참여하세요.</p>
-        <div class="bmeta"><span>8.28(금) 저녁 9시</span><span>익명 참여</span></div>
-      </div>
-    </div>
-    <div class="bamboo-note">
-      <span>&mdash;</span>
-      <span><b>운영진도 작성자를 특별한 사유(신고 처리 등) 없이는 조회하지 않습니다.</b> 여기서 알게 된 이야기도 비밀보장 서약 대상이며, 위기 신호가 감지되는 글은 24시간 위기상담으로 즉시 안내됩니다.</span>
-    </div>
-  </div>
-</section>
-</div>
-
-<div class="page" id="pg-step3" data-label="세 걸음">
 <section id="events">
   <div class="wrap">
     <div class="head">
       <div>
-        <div class="step-kicker"><span class="badge-num mono">3</span><span class="kicker" style="margin:0">Step 3 &middot; Gatherings</span></div>
-        <h2>세 걸음, 함께 만나기</h2>
-        <p>운영진이 짜는 &ldquo;정모&rdquo;는 브랜드가 보증하는 공식 트랙, 회원이 직접 여는 &ldquo;번개&rdquo;는 진입장벽을 낮춘 저부담 트랙입니다. 두 트랙 모두 서류 인증을 마친 정회원만 개설&middot;참여할 수 있으며, 모임비 정산과 사진 공유까지 이 안에서 함께 이루어집니다.</p>
+        <div class="step-kicker"><span class="badge-num mono">1</span><span class="kicker" style="margin:0">Step 1 &middot; Gatherings</span></div>
+        <h2>한 걸음, 함께 만나기</h2>
+        <p>운영진이 짜는 &ldquo;정모&rdquo;는 브랜드가 보증하는 공식 트랙, 회원이 직접 여는 &ldquo;번개&rdquo;는 진입장벽을 낮춘 저부담 트랙입니다. 두 트랙 모두 서류 인증을 마친 정회원만 개설&middot;참여할 수 있으며, 모임비 정산과 사진 공유까지 이 안에서 함께 이루어집니다. 아직 낯설다면 다음 걸음(대나무숲&middot;자기이해)에서 먼저 마음을 풀어도 좋습니다.</p>
       </div>
       <a class="btn ghost sm" href="#schedule">전체 일정 보기</a>
     </div>
@@ -921,6 +796,24 @@
         <h3>모먼트 아카이빙 글쓰기 클럽</h3>
         <p>매주 에세이 프롬프트(예: &ldquo;나의 가장 오래된 습관&rdquo;)에 맞춰 짧은 글을 쓰고 낭독&middot;공유합니다. 감정을 객관화하고 깊은 공감대를 형성합니다.</p>
         <div class="meta"><span>격주 목 저녁 8시</span><span>5~7인</span></div>
+      </div>
+    </div>
+
+    <div class="mgroup-label" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);"><h3>1:1 데이트</h3><span class="line"></span><span class="price">자기이해 검사 기반 블라인드 매칭</span></div>
+    <div class="blinddate-card">
+      <div class="bd-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-9.6-9C.8 8.4 2.4 5 5.6 5c1.9 0 3.4 1 4.4 2.4C11 6 12.5 5 14.4 5c3.2 0 4.8 3.4 3.2 7-2.1 4.4-9.6 9-9.6 9z"/></svg>
+      </div>
+      <div class="bd-body">
+        <h3>정모&middot;번개보다 조용히, 한 사람과 깊게</h3>
+        <p><a href="#counseling" style="color:var(--accent); font-weight:700;">세 걸음(자기이해)</a> 검사를 마치면, 성향&middot;가치관이 가장 잘 맞을 것 같은 상대를 시스템이 찾아 제안합니다. 참여는 두 사람 모두의 동의가 있어야만 진행됩니다.</p>
+        <div class="bd-points">
+          <span>얼굴&middot;이름 비공개로 시작</span>
+          <span>양쪽 모두 동의해야 진행</span>
+          <span>자기이해 검사 결과 기반 매칭</span>
+          <span>연애&middot;재혼 희망 옵트인 전용</span>
+        </div>
+        <a class="btn sm" href="#counseling">자기이해 검사하고 매칭받기</a>
       </div>
     </div>
 
@@ -1115,6 +1008,213 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="page" id="pg-step2" data-label="두 걸음">
+<section id="bamboo">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="step-kicker"><span class="badge-num mono">2</span><span class="kicker" style="margin:0">Step 2 &middot; Anonymous Space</span></div>
+        <h2>두 걸음, 대나무숲에서</h2>
+        <p>오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 편하게 마음을 나누는 익명 공간이자, 모임에서 만난 사람들과 조금 더 깊어질 수 있는 자리입니다.</p>
+      </div>
+    </div>
+    <div class="bamboo">
+      <div class="bpost" data-post-id="1">
+        <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
+        <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
+        <div class="bmeta">
+          <div class="bactions">
+            <button type="button" class="react-btn" data-count="12">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
+              <span class="react-label">공감</span> <span class="react-count">12</span>
+            </button>
+            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">2</span></button>
+          </div>
+        </div>
+        <div class="bcomments" hidden>
+          <div class="bcomment-list">
+            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저도 매년 이맘때가 제일 힘들어요. 혼자가 아니에요.</span></div>
+            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">올해는 그냥 여행 다녀오려고요. 같이 마음 편해지시길 바라요.</span></div>
+          </div>
+          <div class="bcomment-form">
+            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
+            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
+            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
+            <div class="bcomment-alert" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="bpost" data-post-id="2">
+        <div class="banon"><span class="blob"></span>익명 &middot; 어제</div>
+        <p>혼자인 일상이 이제야 조금씩 편해지는 것 같아요. 비슷한 시기 지나오신 분들 이야기가 궁금해요.</p>
+        <div class="bmeta">
+          <div class="bactions">
+            <button type="button" class="react-btn" data-count="21">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
+              <span class="react-label">공감</span> <span class="react-count">21</span>
+            </button>
+            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">1</span></button>
+          </div>
+        </div>
+        <div class="bcomments" hidden>
+          <div class="bcomment-list">
+            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저는 1년쯤 지나니 확실히 편해지더라고요. 조금씩 나아지실 거예요.</span></div>
+          </div>
+          <div class="bcomment-form">
+            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
+            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
+            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
+            <div class="bcomment-alert" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="bpost">
+        <div class="banon"><span class="blob" style="background: var(--gold-soft);"></span>운영진 &middot; 정기 음성 라디오</div>
+        <p>이번 달 마음 라디오는 &ldquo;애도, 서두르지 않아도 됩니다&rdquo;를 주제로 진행됩니다. 얼굴&middot;실명 노출 없이 목소리만으로 참여하세요.</p>
+        <div class="bmeta"><span>8.28(금) 저녁 9시</span><span>익명 참여</span></div>
+      </div>
+    </div>
+    <div class="bamboo-note">
+      <span>&mdash;</span>
+      <span><b>운영진도 작성자를 특별한 사유(신고 처리 등) 없이는 조회하지 않습니다.</b> 여기서 알게 된 이야기도 비밀보장 서약 대상이며, 위기 신호가 감지되는 글은 24시간 위기상담으로 즉시 안내됩니다.</span>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="page" id="pg-step3" data-label="세 걸음">
+<section id="counseling">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="step-kicker"><span class="badge-num mono">3</span><span class="kicker" style="margin:0">Step 3 &middot; Self-Understanding</span></div>
+        <h2>세 걸음, 자기이해</h2>
+        <p>모임과 대나무숲에서 사람들을 만나봤다면, 이제 나를 이해할 차례입니다. 애도를 충분히 마치고 자신을 이해한 건강한 상태에서 관계를 이어갈 수 있도록 돕는 축이며, 모임의 부속 기능이 아니라 동등한 무게를 가진 핵심 축으로 운영합니다. 검사 결과는 아래에서 바로 응시할 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="journey">
+      <div class="step">
+        <div class="n mono">01</div>
+        <h3>애도 작업</h3>
+        <p>부정&middot;분노&middot;타협&middot;우울&middot;수용의 애도 단계가 충분히 다뤄지도록 개인&middot;그룹상담에서 돕습니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">02</div>
+        <h3>자기 이해</h3>
+        <p>표준화된 성격&middot;심리검사(TCI, 애착유형 등)로 기질과 정서 상태를 먼저 파악합니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">03</div>
+        <h3>미해결과제 해결</h3>
+        <p>결혼생활 중 다루지 못한 감정&middot;갈등을 심층 상담에서 다뤄, 과거가 지금의 관계 방식에 반복적으로 영향을 주지 않도록 돕습니다.</p>
+      </div>
+      <div class="step">
+        <div class="n mono">04</div>
+        <h3>사전&middot;사후 측정</h3>
+        <p>상담 시작과 종결 시점에 동일한 척도로 상태를 측정해 변화를 확인한 뒤 새로운 사람들을 만나도록 돕습니다.</p>
+      </div>
+    </div>
+    <div class="counsel">
+      <div class="card">
+        <div class="card-top"><span class="tag">개인상담</span><span class="price">회당 <b>8만원</b></span></div>
+        <h3>1:1 개별 심리상담</h3>
+        <p>임상심리사·전문상담사 자격을 갖춘 상담사와 1:1로 진행합니다. 이혼 후 상실감, 자존감 저하, 대인관계 어려움 등을 다루며 필요 시 장기 상담으로 연계됩니다.</p>
+        <div class="meta"><span>회당 50분</span><span>대면 · 화상 선택</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="individual">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">그룹상담</span><span class="price">8주 <b>24만원</b></span></div>
+        <h3>이혼 후 회복 그룹상담</h3>
+        <p>6~8인 소그룹으로 8주간 진행되는 구조화 프로그램입니다. 비슷한 경험을 가진 사람들과 감정을 나누며 상실, 분노, 새로운 자기 정체성 형성 단계를 함께 밟습니다.</p>
+        <div class="meta"><span>주 1회 · 8주 과정</span><span>6~8인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="group">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">온라인</span><span class="price">회당 <b>6만원</b></span></div>
+        <h3>화상 상담</h3>
+        <p>지방 거주 또는 시간이 맞지 않는 회원을 위한 비대면 상담입니다. 예약제로 운영되며, 상담 기록은 암호화되어 상담사 본인만 열람할 수 있습니다.</p>
+        <div class="meta"><span>회당 50분</span><span>평일 저녁 · 주말 오전</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="video">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">위기상담</span><span class="price"><b>무료</b></span></div>
+        <h3>24시간 위기상담 핫라인</h3>
+        <p>급격한 정서적 위기 상황에서 즉시 연결되는 상담 채널입니다. 전문 상담사가 상시 대기하며, 필요한 경우 정신건강복지센터 등 전문기관으로 연계합니다.</p>
+        <div class="meta"><span>연중무휴 · 즉시 연결</span><span>익명 이용 가능</span></div>
+        <a class="btn sm ghost counsel-cta" href="#counseling" data-modal-open="counsel" data-program="crisis">지금 연결하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">드롭인</span><span class="price">회당 <b>무료</b></span></div>
+        <h3>트라우마 회복 세션</h3>
+        <p>월 1~2회 상시 참여형 집단상담입니다. 8주 코호트인 그룹상담과 달리 특정 기수 없이 필요할 때 참여할 수 있습니다.</p>
+        <div class="meta"><span>월 1~2회 상시</span><span>드롭인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="trauma">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">워크숍</span><span class="price">회당 <b>3만원</b></span></div>
+        <h3>경계 설정(Boundaries) 워크숍</h3>
+        <p>건강한 거리 유지와 자존감 회복을 다루는 실습형 세션입니다. 자기이해&middot;미해결과제 단계의 실습을 확장합니다.</p>
+        <div class="meta"><span>월 1회 토 오후</span><span>6~10인</span></div>
+        <a class="btn sm counsel-cta" href="#counseling" data-modal-open="counsel" data-program="boundaries">신청하기</a>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="tag">셀프체크</span><span class="price"><b>무료</b></span></div>
+        <h3>자기이해 검사 4종</h3>
+        <p>성격유형&middot;5요인 성격&middot;가치관&middot;결혼(관계) 만족도, 각 50~60문항의 간이 자가진단입니다. 결과는 본인에게만 표시되며 상담 신청 전 참고 자료로 활용할 수 있습니다.</p>
+        <div class="meta"><span>문항당 약 7~8분</span><span>익명 · 결과 미저장</span></div>
+        <button type="button" class="btn sm counsel-cta" id="openSelfTestBtn">이 페이지에서 검사하기</button>
+      </div>
+    </div>
+    <div class="counsel-note">
+      <span>&mdash;</span>
+      <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 심리검사&middot;사전사후측정 결과도 본인에게만 제공되며 모임 참여 여부와는 무관합니다. 자기돌봄 프로그램(감정 일기 챌린지, 인디펜던트 라이프 클래스)으로 일상도 함께 단단히 꾸려갈 수 있습니다.</span>
+    </div>
+
+    <div class="selftest-embed" id="selftestEmbed" hidden>
+      <div class="embed-bar">
+        <span class="mono">심리검사.html</span>
+        <a href="심리검사.html" target="_blank" rel="noopener">새 창에서 열기 &#8599;</a>
+      </div>
+      <iframe id="selftestFrame" title="자기이해 검사" loading="lazy"></iframe>
+    </div>
+
+    <div class="blinddate-match" id="blinddateMatch">
+      <div class="head" style="margin-bottom: var(--s-5);">
+        <div>
+          <span class="kicker">Blind Match</span>
+          <h2 style="font-size: var(--fs-lg);">검사 결과로 배우자감 궁합 찾기</h2>
+          <p>자기이해 검사를 마쳤다면, 성향&middot;가치관이 가장 균형 있게 맞을 것 같은 상대를 찾아드립니다. 얼굴&middot;이름은 공개되지 않으며, 참여는 아래 동의를 눌러야만 시작됩니다.</p>
+        </div>
+      </div>
+      <label class="check-row">
+        <input type="checkbox" id="bdConsent">
+        <span>검사 결과를 바탕으로 한 <b>1:1 블라인드 데이트 매칭</b>에 참여하는 것에 동의합니다. 상대의 얼굴&middot;이름은 양쪽 모두 동의하기 전까지 공개되지 않습니다.</span>
+      </label>
+      <button type="button" class="btn" id="bdMatchBtn" disabled>가장 잘 맞는 상대 찾기</button>
+
+      <div class="bd-loading" id="bdLoading" hidden><span class="bd-spinner"></span> 궁합이 잘 맞는 상대를 찾는 중&hellip;</div>
+
+      <div class="bd-result" id="bdResult" hidden>
+        <div class="bd-result-card">
+          <div class="bd-avatar-blur">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          </div>
+          <div class="bd-result-body">
+            <div class="bd-score">궁합 <b class="mono" id="bdScore">87%</b></div>
+            <div class="bd-tags" id="bdTags"></div>
+            <p style="margin:0; font-size:var(--fs-xs); color:var(--fg-dim);">이름&middot;얼굴&middot;나이대는 두 분 모두 참여에 동의해야 순차적으로 공개됩니다.</p>
+          </div>
+        </div>
+        <div class="bd-actions">
+          <a class="btn sm" href="#events">블라인드 데이트 신청하기</a>
+          <button type="button" class="btn sm ghost" id="bdRetryBtn">다시 찾기</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1724,6 +1824,57 @@
       if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submitBtn.click();
     });
   });
+})();
+
+(function () {
+  // 자기이해 검사를 페이지 이탈 없이 이 안에서 바로 응시할 수 있도록 iframe으로 지연 로드
+  var openBtn = document.getElementById('openSelfTestBtn');
+  var embed = document.getElementById('selftestEmbed');
+  var frame = document.getElementById('selftestFrame');
+  if (openBtn) {
+    openBtn.addEventListener('click', function () {
+      if (!frame.src) frame.src = '심리검사.html';
+      embed.hidden = false;
+      embed.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  }
+
+  // 블라인드 데이트 매칭 데모
+  var consent = document.getElementById('bdConsent');
+  var matchBtn = document.getElementById('bdMatchBtn');
+  var loading = document.getElementById('bdLoading');
+  var result = document.getElementById('bdResult');
+  var scoreEl = document.getElementById('bdScore');
+  var tagsEl = document.getElementById('bdTags');
+  var retryBtn = document.getElementById('bdRetryBtn');
+  if (!consent || !matchBtn) return;
+
+  var CANDIDATES = [
+    { score: 91, tags: ['성격유형 보완적', '가치관 3개 일치', '정서 안정성 유사'] },
+    { score: 87, tags: ['가치관 &ldquo;가족&rdquo; 일치', '5요인 성실성 유사', '관심모임 2개 겹침'] },
+    { score: 83, tags: ['성격유형 유사', '가치관 &ldquo;성장&rdquo; 일치', '매너 온도 상위권'] }
+  ];
+
+  consent.addEventListener('change', function () {
+    matchBtn.disabled = !consent.checked;
+  });
+
+  function runMatch() {
+    result.hidden = true;
+    loading.hidden = false;
+    matchBtn.disabled = true;
+    setTimeout(function () {
+      var pick = CANDIDATES[Math.floor(Math.random() * CANDIDATES.length)];
+      scoreEl.textContent = pick.score + '%';
+      tagsEl.innerHTML = pick.tags.map(function (t) { return '<span>' + t + '</span>'; }).join('');
+      loading.hidden = true;
+      result.hidden = false;
+      matchBtn.disabled = !consent.checked;
+    }, 1100);
+  }
+
+  matchBtn.addEventListener('click', runMatch);
+  if (retryBtn) retryBtn.addEventListener('click', runMatch);
 })();
 </script>
 </body>

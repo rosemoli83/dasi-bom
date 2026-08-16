@@ -266,6 +266,55 @@
   .bd-tags span { font-size: var(--fs-2xs); font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--tag-bg); color: var(--tag-fg); }
   .bd-actions { display: flex; gap: var(--s-3); margin-top: var(--s-5); flex-wrap: wrap; }
 
+  /* 마일리지 미션 */
+  .mileage-block { margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); }
+  .mileage-total {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s-5);
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+    padding: var(--s-6); box-shadow: var(--shadow); margin-bottom: var(--s-6); flex-wrap: wrap;
+  }
+  .mileage-total .mt-label { font-size: var(--fs-xs); color: var(--fg-dim); margin-bottom: 4px; }
+  .mileage-total .mt-value { font-size: 30px; font-weight: 800; letter-spacing: -0.01em; }
+  .mileage-total .mt-value b { color: var(--accent); }
+  .mileage-total .mt-hint { font-size: var(--fs-2xs); color: var(--fg-dim); max-width: 32ch; }
+
+  .mission-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); margin-bottom: var(--s-7); }
+  .mission-card {
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+    padding: var(--s-5) var(--s-6); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: var(--s-3);
+  }
+  .mission-card.done { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
+  .mission-card .mc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s-3); }
+  .mission-card h4 { font-size: var(--fs-sm); font-weight: 700; margin: 0; }
+  .mission-card .mc-pt { font-size: var(--fs-2xs); font-weight: 800; color: var(--accent); white-space: nowrap; }
+  .mission-card p { font-size: var(--fs-xs); line-height: 1.65; color: var(--fg-dim); margin: 0; flex: 1; }
+  .mission-card button { border: 1px solid var(--rule); background: var(--surface); color: var(--fg); border-radius: 6px; padding: 8px 14px; font-size: var(--fs-xs); font-weight: 700; cursor: pointer; }
+  .mission-card button:hover { border-color: var(--accent); color: var(--accent); }
+  .mission-card button:disabled { opacity: .6; cursor: default; border-color: var(--accent); color: var(--accent); background: var(--gold-soft); }
+  .mission-inline { display: none; flex-direction: column; gap: var(--s-2); padding-top: var(--s-2); border-top: 1px dashed var(--rule); }
+  .mission-inline.open { display: flex; }
+  .mission-inline .bt-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .mission-inline .bt-row button { flex: 1; min-width: 44px; }
+  .mission-inline input[type="date"] { font: inherit; font-size: var(--fs-xs); color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 7px 9px; }
+  .mission-inline .mi-result { font-size: var(--fs-xs); color: var(--fg); line-height: 1.6; background: var(--surface-2); border-radius: 6px; padding: 9px 11px; display: none; }
+  .mission-inline .mi-result.show { display: block; }
+
+  .redeem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
+  .redeem-card { display: flex; justify-content: space-between; align-items: center; gap: var(--s-4); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: var(--s-5); }
+  .redeem-card h4 { font-size: var(--fs-sm); margin: 0 0 3px; }
+  .redeem-card span { font-size: var(--fs-2xs); color: var(--fg-dim); }
+  .redeem-card button { flex: none; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); border-radius: 6px; padding: 8px 16px; font-size: var(--fs-xs); font-weight: 700; cursor: pointer; }
+  .redeem-card button:disabled { border-color: var(--rule); background: var(--surface-2); color: var(--fg-dim); cursor: default; }
+  .redeem-card button.used { border-color: var(--rule); background: var(--surface-2); color: var(--fg-dim); }
+  .mileage-toast {
+    position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(12px);
+    background: var(--fg); color: var(--bg); font-size: var(--fs-xs); font-weight: 700;
+    padding: 11px 20px; border-radius: 30px; box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+    transition: all .25s ease; z-index: 60;
+  }
+  .mileage-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
   /* 모임 사진 공유 */
   .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-5); }
   .photo-card { aspect-ratio: 4/3; border-radius: 6px; background: linear-gradient(135deg, var(--gold-soft), var(--surface-2)); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; }
@@ -1175,6 +1224,96 @@
       <span><b>상담 내용은 커뮤니티 운영진과 공유되지 않습니다.</b> 심리검사&middot;사전사후측정 결과도 본인에게만 제공되며 모임 참여 여부와는 무관합니다. 자기돌봄 프로그램(감정 일기 챌린지, 인디펜던트 라이프 클래스)으로 일상도 함께 단단히 꾸려갈 수 있습니다.</span>
     </div>
 
+    <div class="mileage-block" id="mileageMissions">
+      <div class="head" style="margin-bottom: var(--s-5);">
+        <div>
+          <span class="kicker">Welcome Mileage</span>
+          <h2 style="font-size: var(--fs-lg);">가입 축하 마일리지 미션</h2>
+          <p>나를 알아가는 짧은 콘텐츠를 하나씩 완료할 때마다 마일리지가 쌓입니다. 모은 마일리지는 바로 아래에서 회비 할인 등으로 즉시 사용해볼 수 있습니다.</p>
+        </div>
+      </div>
+
+      <div class="mileage-total">
+        <div>
+          <div class="mt-label">내 마일리지</div>
+          <div class="mt-value"><b class="mono" id="mileageTotal">0</b>P</div>
+        </div>
+        <div class="mt-hint">미션을 완료하면 이 자리에서 실시간으로 마일리지가 올라갑니다. 가입 직후 진행할수록 좋아요.</div>
+      </div>
+
+      <div class="mission-grid">
+        <div class="mission-card" id="mission-blood" data-points="500">
+          <div class="mc-top"><h4>혈액형으로 보는 성향</h4><span class="mc-pt mono">+500P</span></div>
+          <p>혈액형 하나만 골라도 30초면 끝나는 가장 짧은 미션입니다.</p>
+          <button type="button" class="mission-start" data-target="blood-inline">시작하기</button>
+          <div class="mission-inline" id="blood-inline">
+            <div class="bt-row">
+              <button type="button" class="blood-pick" data-type="A">A형</button>
+              <button type="button" class="blood-pick" data-type="B">B형</button>
+              <button type="button" class="blood-pick" data-type="O">O형</button>
+              <button type="button" class="blood-pick" data-type="AB">AB형</button>
+            </div>
+            <div class="mi-result" id="blood-result"></div>
+          </div>
+        </div>
+
+        <div class="mission-card" id="mission-saju" data-points="500">
+          <div class="mc-top"><h4>사주로 보는 나의 기운</h4><span class="mc-pt mono">+500P</span></div>
+          <p>생년월일만 입력하면 오늘의 기운을 간단히 보여드립니다.</p>
+          <button type="button" class="mission-start" data-target="saju-inline">시작하기</button>
+          <div class="mission-inline" id="saju-inline">
+            <input type="date" id="sajuDate">
+            <button type="button" id="sajuSubmit">기운 확인하기</button>
+            <div class="mi-result" id="saju-result"></div>
+          </div>
+        </div>
+
+        <div class="mission-card" id="mission-mbti" data-points="1000">
+          <div class="mc-top"><h4>성격유형 간이검사(MBTI형)</h4><span class="mc-pt mono">+1,000P</span></div>
+          <p>60문항, 약 8분. 4글자 성격유형 코드를 확인합니다.</p>
+          <button type="button" class="mission-embed" data-mission="mission-mbti">시작하기</button>
+        </div>
+
+        <div class="mission-card" id="mission-big5" data-points="800">
+          <div class="mc-top"><h4>5요인 성격검사</h4><span class="mc-pt mono">+800P</span></div>
+          <p>50문항, 약 7분. 성격 5가지 축을 그래프로 확인합니다.</p>
+          <button type="button" class="mission-embed" data-mission="mission-big5">시작하기</button>
+        </div>
+
+        <div class="mission-card" id="mission-values" data-points="800">
+          <div class="mc-top"><h4>가치관 검사</h4><span class="mc-pt mono">+800P</span></div>
+          <p>50문항, 약 7분. 내가 가장 중요하게 여기는 가치 3가지를 찾습니다.</p>
+          <button type="button" class="mission-embed" data-mission="mission-values">시작하기</button>
+        </div>
+
+        <div class="mission-card" id="mission-marital" data-points="800">
+          <div class="mc-top"><h4>결혼 가치관 검사</h4><span class="mc-pt mono">+800P</span></div>
+          <p>50문항, 약 7분. 관계에서 중시하는 영역과 만족도를 확인합니다.</p>
+          <button type="button" class="mission-embed" data-mission="mission-marital">시작하기</button>
+        </div>
+      </div>
+
+      <div class="mgroup-label"><h3>마일리지 바로 써보기</h3><span class="line"></span><span class="price">보유 마일리지 내에서 사용 가능</span></div>
+      <div class="redeem-grid">
+        <div class="redeem-card">
+          <div><h4>다음 정모 회비 3천원 할인</h4><span>정모 신청 시 자동 적용</span></div>
+          <button type="button" class="redeem-btn" data-cost="1000" data-id="r-jeongmo">1,000P 사용</button>
+        </div>
+        <div class="redeem-card">
+          <div><h4>개인상담 1회 5천원 할인</h4><span>1:1 심리상담 예약 시 적용</span></div>
+          <button type="button" class="redeem-btn" data-cost="2000" data-id="r-counsel">2,000P 사용</button>
+        </div>
+        <div class="redeem-card">
+          <div><h4>번개 선입금 면제권 1회</h4><span>다음 번개 참석 시 선입금 5만원 면제</span></div>
+          <button type="button" class="redeem-btn" data-cost="1500" data-id="r-flash">1,500P 사용</button>
+        </div>
+        <div class="redeem-card">
+          <div><h4>벙주 인증 심사 우선 처리</h4><span>운영진 검토 순번을 앞당겨 드립니다</span></div>
+          <button type="button" class="redeem-btn" data-cost="500" data-id="r-host">500P 사용</button>
+        </div>
+      </div>
+    </div>
+
     <div class="selftest-embed" id="selftestEmbed" hidden>
       <div class="embed-bar">
         <span class="mono">심리검사.html</span>
@@ -1381,7 +1520,9 @@
       <div class="mark">&check;</div>
       <h2>신청이 접수되었습니다</h2>
       <p>첨부해주신 서류 3종은 운영진 2인이 교차 검토합니다. 결과는 입력하신 번호로 안내드리며, 승인까지 평균 1~2일이 소요됩니다. (본 페이지는 데모이며 실제로 전송&middot;저장되지 않습니다)</p>
-      <button type="button" class="btn ghost" id="joinAgain">확인</button>
+      <p style="margin: var(--s-4) 0 var(--s-5); font-size: var(--fs-xs);">심사를 기다리는 동안, 나를 알아가는 미션으로 <b style="color:var(--fg)">가입 축하 마일리지</b>부터 모아보세요.</p>
+      <a class="btn" id="joinMileageLink" href="#mileageMissions">지금 마일리지 받으러 가기</a>
+      <button type="button" class="btn ghost" id="joinAgain" style="margin-top: var(--s-3);">닫기</button>
     </div>
   </div>
 </div>
@@ -1500,6 +1641,8 @@
 
     document.getElementById('joinClose').addEventListener('click', closeModal);
     document.getElementById('joinAgain').addEventListener('click', closeModal);
+    var mileageLink = document.getElementById('joinMileageLink');
+    if (mileageLink) mileageLink.addEventListener('click', closeModal);
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay) closeModal();
     });
@@ -1875,6 +2018,126 @@
 
   matchBtn.addEventListener('click', runMatch);
   if (retryBtn) retryBtn.addEventListener('click', runMatch);
+})();
+
+(function () {
+  var totalEl = document.getElementById('mileageTotal');
+  if (!totalEl) return;
+
+  var TOTAL_KEY = 'dasibom-mileage-total';
+  var missionPrefix = 'dasibom-mission-';
+  var redeemPrefix = 'dasibom-redeem-';
+
+  function getTotal() { return parseInt(localStorage.getItem(TOTAL_KEY) || '0', 10); }
+  function setTotal(v) { localStorage.setItem(TOTAL_KEY, String(v)); totalEl.textContent = v.toLocaleString(); }
+  function isMissionDone(id) { return localStorage.getItem(missionPrefix + id) === '1'; }
+  function markMissionDone(id) { localStorage.setItem(missionPrefix + id, '1'); }
+
+  function showToast(msg) {
+    var t = document.getElementById('mileageToast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'mileageToast';
+      t.className = 'mileage-toast';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._hideTimer);
+    t._hideTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  function markCardDone(card) {
+    card.classList.add('done');
+    var btn = card.querySelector('.mission-start, .mission-embed');
+    if (btn) { btn.disabled = true; btn.textContent = '완료 ✓'; }
+  }
+
+  function awardMission(card) {
+    if (!card || isMissionDone(card.id)) return;
+    var pts = parseInt(card.getAttribute('data-points'), 10) || 0;
+    markMissionDone(card.id);
+    setTotal(getTotal() + pts);
+    markCardDone(card);
+    showToast('+' + pts.toLocaleString() + 'P 적립되었습니다');
+  }
+
+  setTotal(getTotal());
+  document.querySelectorAll('.mission-card[data-points]').forEach(function (card) {
+    if (isMissionDone(card.id)) markCardDone(card);
+  });
+
+  document.querySelectorAll('.mission-start').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.getElementById(btn.getAttribute('data-target'));
+      if (target) target.classList.toggle('open');
+    });
+  });
+
+  var BLOOD_TEXT = {
+    A: '신중하고 배려심이 깊은 편이에요. 낯가림이 있지만 한 번 마음을 열면 오래갑니다.',
+    B: '자유롭고 솔직한 편이에요. 눈치보다는 자신의 리듬을 지키는 걸 편안해합니다.',
+    O: '활발하고 사교적인 편이에요. 새로운 사람과도 금방 친해지는 편입니다.',
+    AB: '다재다능하고 관찰력이 좋은 편이에요. 논리와 감성 사이 균형을 잘 잡습니다.'
+  };
+  document.querySelectorAll('.blood-pick').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var type = btn.getAttribute('data-type');
+      var resultEl = document.getElementById('blood-result');
+      resultEl.textContent = type + '형 — ' + BLOOD_TEXT[type];
+      resultEl.classList.add('show');
+      awardMission(document.getElementById('mission-blood'));
+    });
+  });
+
+  var sajuBtn = document.getElementById('sajuSubmit');
+  if (sajuBtn) {
+    sajuBtn.addEventListener('click', function () {
+      var val = document.getElementById('sajuDate').value;
+      if (!val) return;
+      var MESSAGES = [
+        '차분하게 흐르는 물(水)의 기운이 강한 날입니다. 서두르지 않아도 원하는 방향으로 흘러갑니다.',
+        '새싹이 돋아나는 목(木)의 기운이 두드러집니다. 새로운 인연을 시작하기 좋은 시기예요.',
+        '따뜻한 화(火)의 기운이 감돕니다. 사람들과의 자리에서 유독 좋은 인상을 남기는 때입니다.',
+        '단단한 토(土)의 기운이 자리 잡은 시기입니다. 서두르기보다 천천히 신뢰를 쌓기 좋습니다.',
+        '예리한 금(金)의 기운이 도드라집니다. 중요한 결정을 내리기에 나쁘지 않은 흐름이에요.'
+      ];
+      var digits = val.replace(/-/g, '').split('').reduce(function (a, c) { return a + (parseInt(c, 10) || 0); }, 0);
+      var msg = MESSAGES[digits % MESSAGES.length];
+      var resultEl = document.getElementById('saju-result');
+      resultEl.textContent = msg;
+      resultEl.classList.add('show');
+      awardMission(document.getElementById('mission-saju'));
+    });
+  }
+
+  document.querySelectorAll('.mission-embed').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var openBtn = document.getElementById('openSelfTestBtn');
+      if (openBtn) openBtn.click();
+      awardMission(document.getElementById(btn.getAttribute('data-mission')));
+    });
+  });
+
+  document.querySelectorAll('.redeem-btn').forEach(function (btn) {
+    var id = btn.getAttribute('data-id');
+    if (localStorage.getItem(redeemPrefix + id) === '1') {
+      btn.textContent = '사용 완료';
+      btn.disabled = true;
+      btn.classList.add('used');
+    }
+    btn.addEventListener('click', function () {
+      var cost = parseInt(btn.getAttribute('data-cost'), 10);
+      var total = getTotal();
+      if (total < cost) { showToast('마일리지가 부족합니다 (' + cost.toLocaleString() + 'P 필요)'); return; }
+      setTotal(total - cost);
+      localStorage.setItem(redeemPrefix + id, '1');
+      btn.textContent = '사용 완료';
+      btn.disabled = true;
+      btn.classList.add('used');
+      showToast('사용 완료! ' + cost.toLocaleString() + 'P가 차감되었습니다');
+    });
+  });
 })();
 </script>
 </body>

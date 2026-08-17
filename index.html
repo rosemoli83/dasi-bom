@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>다시, 봄 — 무자녀 돌싱 모임</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     /* blossom hues */
@@ -37,6 +40,9 @@
     --fs-2xs: 12px; --fs-xs: 13px; --fs-sm: 14px; --fs-base: 15.5px;
     --fs-md: 17.5px; --fs-lg: 20px; --fs-xl: clamp(24px, 3vw, 32px);
     --fs-hero: clamp(34px, 5.2vw, 56px);
+
+    --font-warm: 'Gowun Batang', Georgia, "Noto Serif KR", serif;
+    --radius-lg: 26px;
   }
   @media (prefers-color-scheme: light) {
     :root {
@@ -102,7 +108,7 @@
     border-bottom: 1px solid var(--rule);
   }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: var(--s-4) 32px; max-width: 1080px; margin: 0 auto; gap: var(--s-6); }
-  .brand { display: flex; align-items: baseline; gap: 7px; font-weight: 800; font-size: var(--fs-md); letter-spacing: -0.01em; white-space: nowrap; }
+  .brand { display: flex; align-items: baseline; gap: 7px; font-family: var(--font-warm); font-weight: 700; font-size: calc(var(--fs-md) + 2px); letter-spacing: -0.01em; white-space: nowrap; }
   .brand .dot { color: var(--accent); }
   .nav-links { display: flex; gap: var(--s-6); font-size: var(--fs-sm); color: var(--fg-dim); }
   .nav-links a { text-decoration: none; transition: color .15s ease; }
@@ -119,18 +125,26 @@
   .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
   .btn {
     display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
-    padding: 11px 20px; border-radius: 22px; font-size: var(--fs-sm); font-weight: 700;
-    background: var(--accent); color: var(--accent-ink); text-decoration: none;
+    padding: 12px 22px; border-radius: 999px; font-size: var(--fs-sm); font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 65%, var(--blossom-peach)));
+    color: var(--accent-ink); text-decoration: none;
     border: 1px solid transparent;
-    transition: transform .15s ease, filter .15s ease, border-color .15s ease;
+    box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--accent) 70%, transparent);
+    transition: transform .15s ease, filter .15s ease, border-color .15s ease, box-shadow .15s ease;
   }
-  .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
-  .btn.ghost { background: transparent; color: var(--fg); border-color: var(--rule); }
-  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
-  .btn.sm { padding: 8px 16px; font-size: var(--fs-xs); }
+  .btn:hover { filter: brightness(1.05); transform: translateY(-2px); box-shadow: 0 12px 24px -10px color-mix(in srgb, var(--accent) 75%, transparent); }
+  .btn.ghost { background: var(--surface); color: var(--fg); border-color: var(--rule); box-shadow: none; }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); box-shadow: none; }
+  .btn.sm { padding: 9px 17px; font-size: var(--fs-xs); }
 
   /* hero */
-  .hero { position: relative; padding: var(--s-10) 0 var(--s-9); overflow: hidden; border-bottom: 1px solid var(--rule); }
+  .hero {
+    position: relative; padding: var(--s-10) 0 var(--s-9); overflow: hidden; border-bottom: 1px solid var(--rule);
+    background:
+      radial-gradient(closest-side at 82% 8%, color-mix(in srgb, var(--blossom-peach) 40%, transparent), transparent 70%),
+      radial-gradient(closest-side at 8% 92%, color-mix(in srgb, var(--blossom-green) 26%, transparent), transparent 72%),
+      var(--bg);
+  }
   .hero::before {
     content: ""; position: absolute; inset: -22% -10% auto -10%; height: 460px;
     background: radial-gradient(closest-side, var(--gold-soft), transparent 72%);
@@ -153,7 +167,7 @@
     color: var(--accent); font-weight: 700; margin-bottom: var(--s-5);
   }
   .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); }
-  .hero h1 { position: relative; font-size: var(--fs-hero); line-height: 1.24; max-width: 15ch; letter-spacing: -0.015em; }
+  .hero h1 { position: relative; font-family: var(--font-warm); font-weight: 700; font-size: var(--fs-hero); line-height: 1.32; max-width: 15ch; letter-spacing: -0.005em; }
   .hero p.lead { position: relative; margin: var(--s-5) 0 var(--s-7); font-size: var(--fs-md); line-height: 1.75; color: var(--fg-dim); max-width: 44ch; }
   .hero-ctas { position: relative; display: flex; gap: var(--s-3); flex-wrap: wrap; align-items: center; }
   .badges { position: relative; display: flex; gap: var(--s-5); margin-top: var(--s-8); flex-wrap: wrap; padding-top: var(--s-6); border-top: 1px solid var(--rule); }
@@ -165,28 +179,38 @@
 
   section { padding: var(--s-9) 0; }
   section.tight { padding: var(--s-8) 0; }
-  section + section { border-top: 1px solid var(--rule); }
+  section + section { border-top: 1px dashed var(--rule); }
   .head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--s-6); margin-bottom: var(--s-8); flex-wrap: wrap; }
-  .head h2 { font-size: var(--fs-xl); }
+  .head h2 { font-family: var(--font-warm); font-weight: 700; font-size: var(--fs-xl); }
   .head p { margin: var(--s-3) 0 0; color: var(--fg-dim); font-size: var(--fs-sm); line-height: 1.7; max-width: 48ch; }
   .kicker { display: block; font-size: var(--fs-2xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--s-3); }
 
   /* value props */
-  .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  .value { background: var(--bg); padding: var(--s-7) var(--s-6); border-top: 3px solid var(--pastel, var(--accent)); }
+  .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+  .value {
+    background: color-mix(in srgb, var(--pastel, var(--accent)) 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--pastel, var(--accent)) 28%, var(--rule));
+    border-radius: 20px; padding: var(--s-7) var(--s-6); box-shadow: var(--shadow);
+    transition: transform .18s ease;
+  }
+  .value:hover { transform: translateY(-3px); }
   .value:nth-child(1) { --pastel: var(--blossom-blue); }
   .value:nth-child(2) { --pastel: var(--blossom-green); }
   .value:nth-child(3) { --pastel: #e0cf9a; }
   .value:nth-child(4) { --pastel: var(--blossom-peach); }
-  .value .num { font-size: var(--fs-xs); color: var(--accent); font-weight: 700; margin-bottom: var(--s-4); }
+  .value .num {
+    display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+    font-size: var(--fs-xs); color: var(--charcoal); font-weight: 700; margin-bottom: var(--s-4);
+    background: var(--pastel, var(--accent)); border-radius: 50%;
+  }
   .value .tag { margin-bottom: var(--s-3); background: color-mix(in srgb, var(--pastel, var(--accent)) 30%, transparent); color: color-mix(in srgb, var(--pastel, var(--accent)) 70%, #402030); }
   .value h3 { font-size: var(--fs-lg); margin-bottom: var(--s-3); line-height: 1.4; }
   .value p { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); }
 
   /* safety grid */
   .safety { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
-  .safety .item { padding: var(--s-5) 0 0; border-top: 2px solid var(--rule); }
-  .safety .item.on { border-top-color: var(--accent); }
+  .safety .item { padding: var(--s-6); border: 1px solid var(--rule); border-radius: 20px; background: var(--surface); }
+  .safety .item.on { border-color: color-mix(in srgb, var(--accent) 45%, var(--rule)); background: color-mix(in srgb, var(--accent) 7%, var(--surface)); }
   .safety h3 { font-size: var(--fs-sm); margin-bottom: var(--s-2); }
   .safety p { font-size: var(--fs-xs); line-height: 1.7; color: var(--fg-dim); }
 
@@ -218,7 +242,7 @@
   /* 창립 스토리 */
   .story-section { padding-top: var(--s-8); }
   .story { max-width: 68ch; }
-  .story .story-mark { font-size: 52px; line-height: 1; color: var(--gold-soft); font-family: Georgia, "Times New Roman", serif; margin-bottom: var(--s-2); }
+  .story .story-mark { font-size: 52px; line-height: 1; color: var(--gold-soft); font-family: var(--font-warm); margin-bottom: var(--s-2); }
   .story p { font-size: var(--fs-base); line-height: 1.9; color: var(--fg-dim); margin-bottom: var(--s-5); }
   .story p:last-child { margin-bottom: 0; }
   .story p b { color: var(--fg); font-weight: 700; }
@@ -398,6 +422,12 @@
   .cal-cell.today .cal-date { color: var(--accent-ink); background: var(--accent); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; }
   .cal-cell .cal-ev { margin-top: 4px; font-size: 10.5px; background: var(--tag-bg); color: var(--tag-fg); border-radius: 5px; padding: 1px 5px; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   @media (max-width: 720px) { .cal-cell { min-height: 44px; } .cal-cell .cal-ev { display: none; } .cal-cell.has-event .cal-date::after { content: ""; display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin: 2px auto 0; } }
+
+  /* 페이지별 은은한 배경 톤 (리듬감) */
+  #pg-step1 { background: linear-gradient(180deg, color-mix(in srgb, var(--blossom-blue) 6%, transparent), transparent 340px); }
+  #pg-step2 { background: linear-gradient(180deg, color-mix(in srgb, var(--blossom-green) 7%, transparent), transparent 340px); }
+  #pg-step3 { background: linear-gradient(180deg, color-mix(in srgb, var(--blossom-peach) 9%, transparent), transparent 340px); }
+  #pg-voices { background: linear-gradient(180deg, color-mix(in srgb, var(--blossom-rose) 6%, transparent), transparent 340px); }
 
   /* 회원가입 게이트 */
   .page { position: relative; }

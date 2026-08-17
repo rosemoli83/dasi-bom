@@ -767,6 +767,17 @@
 
   .nav-ctas { display: flex; align-items: center; gap: var(--s-3); }
 
+  .nav-mileage {
+    display: none; align-items: center; gap: 6px; background: var(--tag-bg); color: var(--tag-fg);
+    font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px; white-space: nowrap;
+  }
+  .nav-mileage.show { display: inline-flex; }
+  .nav-mileage b { color: var(--accent); font-size: 13px; }
+  .nav-mileage .dot2 { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+  .nav-mileage.bump { animation: navMileagePulse .5s ease; }
+  @keyframes navMileagePulse { 0% { transform: scale(1); } 35% { transform: scale(1.12); } 100% { transform: scale(1); } }
+  @media (max-width: 780px) { .nav-mileage { display: none !important; } }
+
   /* 인증 리마인드 배너 */
   .verify-banner {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
@@ -862,6 +873,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-ctas">
+      <div class="nav-mileage" id="navMileage"><span class="dot2"></span><b class="mono" id="navMileageValue">0</b>P</div>
       <button type="button" class="btn ghost sm" id="loginBtn">로그인</button>
       <a class="btn" href="#join" data-modal-open="join">무료 가입하기</a>
     </div>
@@ -2093,6 +2105,10 @@
         <label for="lPw">비밀번호</label>
         <input type="password" id="lPw" autocomplete="current-password" required>
       </div>
+      <label class="field-checkbox" for="lRemember" style="display:flex; align-items:center; gap:8px; font-size: var(--fs-xs); color: var(--fg-dim); margin: 2px 0 var(--s-4);">
+        <input type="checkbox" id="lRemember" style="width:16px; height:16px; margin:0;" checked>
+        자동 로그인 (이 브라우저에서 다음에도 로그인 상태 유지)
+      </label>
       <div class="field-error" id="loginError" hidden>아이디 또는 비밀번호가 일치하지 않습니다. 먼저 가입해주세요.</div>
       <button type="submit" class="btn">로그인</button>
     </form>
@@ -2280,6 +2296,7 @@
       var dt = document.getElementById('drawerTab');
       if (dt) dt.hidden = false;
       if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();
+      if (window.dasibomRefreshNavMileage) window.dasibomRefreshNavMileage();
     });
 
     var verifyNowBtn = document.getElementById('verifyNowBtn');
@@ -2342,7 +2359,7 @@
 
     function isAdmin() { return localStorage.getItem('dasibom-admin') === '1'; }
     function isVerified() { return localStorage.getItem('dasibom-verified') === '1'; }
-    function isJoined() { return localStorage.getItem('dasibom-joined') === '1'; }
+    function isJoined() { return localStorage.getItem('dasibom-joined') === '1' || sessionStorage.getItem('dasibom-joined') === '1'; }
 
     function refresh() {
       if (isAdmin() || isVerified() || !isJoined()) { banner.hidden = true; return; }
@@ -2404,11 +2421,19 @@
       try { account = JSON.parse(localStorage.getItem('dasibom-account') || 'null'); } catch (err) {}
 
       if (account && id === account.id && pw === account.pw) {
-        localStorage.setItem('dasibom-joined', '1');
+        var remember = document.getElementById('lRemember');
+        if (remember && remember.checked) {
+          localStorage.setItem('dasibom-joined', '1');
+          sessionStorage.removeItem('dasibom-joined');
+        } else {
+          sessionStorage.setItem('dasibom-joined', '1');
+          localStorage.removeItem('dasibom-joined');
+        }
         document.querySelectorAll('.page.locked').forEach(function (p) { p.classList.remove('locked'); });
         var dt = document.getElementById('drawerTab');
         if (dt) dt.hidden = false;
         if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();
+        if (window.dasibomRefreshNavMileage) window.dasibomRefreshNavMileage();
         closeModal();
       } else {
         errorEl.hidden = false;
@@ -2417,7 +2442,8 @@
   })();
 
   (function () {
-    if (localStorage.getItem('dasibom-joined') !== '1') {
+    var joined = localStorage.getItem('dasibom-joined') === '1' || sessionStorage.getItem('dasibom-joined') === '1';
+    if (!joined) {
       document.querySelectorAll('.page').forEach(function (p) {
         if (p.id !== 'pg-intro') p.classList.add('locked');
       });
@@ -2805,8 +2831,27 @@
   var missionPrefix = 'dasibom-mission-';
   var redeemPrefix = 'dasibom-redeem-';
 
+  var navMileage = document.getElementById('navMileage');
+  var navMileageValue = document.getElementById('navMileageValue');
+
   function getTotal() { return parseInt(localStorage.getItem(TOTAL_KEY) || '0', 10); }
-  function setTotal(v) { localStorage.setItem(TOTAL_KEY, String(v)); totalEl.textContent = v.toLocaleString(); }
+  function setTotal(v) {
+    localStorage.setItem(TOTAL_KEY, String(v));
+    totalEl.textContent = v.toLocaleString();
+    if (navMileageValue) navMileageValue.textContent = v.toLocaleString();
+  }
+  function bumpNavMileage() {
+    if (!navMileage) return;
+    navMileage.classList.remove('bump');
+    void navMileage.offsetWidth;
+    navMileage.classList.add('bump');
+  }
+  window.dasibomRefreshNavMileage = function () {
+    if (!navMileage) return;
+    var joined = localStorage.getItem('dasibom-joined') === '1' || sessionStorage.getItem('dasibom-joined') === '1';
+    navMileage.classList.toggle('show', joined);
+  };
+  window.dasibomRefreshNavMileage();
   function isMissionDone(id) { return localStorage.getItem(missionPrefix + id) === '1'; }
   function markMissionDone(id) { localStorage.setItem(missionPrefix + id, '1'); }
 
@@ -2836,6 +2881,7 @@
     markMissionDone(card.id);
     setTotal(getTotal() + pts);
     markCardDone(card);
+    bumpNavMileage();
     showToast('+' + pts.toLocaleString() + 'P 적립되었습니다');
   }
 
@@ -2924,6 +2970,7 @@
       btn.textContent = '사용 완료';
       btn.disabled = true;
       btn.classList.add('used');
+      bumpNavMileage();
       showToast('사용 완료! ' + cost.toLocaleString() + 'P가 차감되었습니다');
     });
   });
@@ -3152,6 +3199,7 @@
       unlockAll();
       badge.classList.add('show');
       if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();
+      if (window.dasibomRefreshNavMileage) window.dasibomRefreshNavMileage();
       closeModal();
     } else {
       errorEl.hidden = false;

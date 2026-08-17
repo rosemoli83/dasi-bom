@@ -2429,6 +2429,10 @@
           sessionStorage.setItem('dasibom-joined', '1');
           localStorage.removeItem('dasibom-joined');
         }
+        if (id === 'admin') {
+          localStorage.setItem('dasibom-verified', '1');
+          localStorage.removeItem('dasibom-verify-deadline');
+        }
         document.querySelectorAll('.page.locked').forEach(function (p) { p.classList.remove('locked'); });
         var dt = document.getElementById('drawerTab');
         if (dt) dt.hidden = false;

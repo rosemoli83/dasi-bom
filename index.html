@@ -2182,6 +2182,38 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="eventJoinOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eventJoinModalTitle">
+    <button class="modal-close" id="eventJoinClose" type="button" aria-label="닫기">&times;</button>
+    <form id="eventJoinForm">
+      <span class="kicker">Apply</span>
+      <h2 id="eventJoinModalTitle">모임 신청하기</h2>
+      <p class="sub" id="eventJoinModalSub">아래 정보를 남겨주시면 신청이 바로 반영됩니다.</p>
+
+      <div class="field">
+        <label for="ejName">표시 이름</label>
+        <input type="text" id="ejName" required>
+      </div>
+      <div class="field">
+        <label for="ejPhone">연락처</label>
+        <input type="tel" id="ejPhone" pattern="01[0-9]-?\d{3,4}-?\d{4}" title="'010-0000-0000' 형식으로 입력해주세요" required>
+      </div>
+      <div class="field">
+        <label for="ejCount">참석 인원</label>
+        <select id="ejCount" required>
+          <option value="" disabled selected></option>
+          <option value="1">1명</option>
+          <option value="2">2명</option>
+          <option value="3">3명</option>
+          <option value="4">4명</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn">신청 완료하기</button>
+    </form>
+  </div>
+</div>
+
 <div class="modal-overlay" id="loginOverlay">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
     <button class="modal-close" id="loginClose" type="button" aria-label="닫기">&times;</button>
@@ -3425,6 +3457,67 @@
 
   window.dasibomSyncJoinId = syncJoinId;
   window.dasibomShowJoinToast = showJoinToast;
+})();
+
+(function () {
+  // 정모 · 소셜 다이닝 / 정모 · 시즌제 클럽 카드: 신청하기 클릭 시 빈 신청서 모달을 열고,
+  // 제출하면 그 자리에서 바로 참여 인원에 반영된다.
+  var overlay = document.getElementById('eventJoinOverlay');
+  var form = document.getElementById('eventJoinForm');
+  if (!overlay || !form) return;
+
+  var closeBtn = document.getElementById('eventJoinClose');
+  var titleEl = document.getElementById('eventJoinModalTitle');
+  var JOIN_PREFIX = 'dasibom-joined-';
+  var pendingId = null;
+  var pendingCap = 0;
+
+  function openModal(id, cap, name) {
+    pendingId = id;
+    pendingCap = cap;
+    titleEl.textContent = name ? name + ' 신청하기' : '모임 신청하기';
+    form.reset();
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('ejName').focus();
+  }
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    pendingId = null;
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+
+  document.querySelectorAll('.events .join-btn[data-join]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      if (btn.disabled) return;
+      e.stopImmediatePropagation();
+      var id = btn.getAttribute('data-join');
+      var cap = parseInt(btn.getAttribute('data-cap'), 10) || 0;
+      var card = btn.closest('.card');
+      var h3 = card ? card.querySelector('h3') : null;
+      openModal(id, cap, h3 ? h3.textContent : '');
+    }, true);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!pendingId) { closeModal(); return; }
+    var jc = document.querySelector('.jc[data-join="' + pendingId + '"]');
+    var displayed = jc ? parseInt(jc.textContent, 10) || 0 : 0;
+    if (pendingCap && displayed >= pendingCap) {
+      closeModal();
+      if (window.dasibomShowJoinToast) window.dasibomShowJoinToast('정원이 마감되었습니다');
+      return;
+    }
+    localStorage.setItem(JOIN_PREFIX + pendingId, '1');
+    if (window.dasibomSyncJoinId) window.dasibomSyncJoinId(pendingId);
+    if (window.dasibomShowJoinToast) window.dasibomShowJoinToast('참여 신청이 완료되었습니다');
+    closeModal();
+  });
 })();
 
 (function () {

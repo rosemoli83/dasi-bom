@@ -530,15 +530,18 @@
   .bpost .banon .blob { width: 22px; height: 22px; border-radius: 50%; background: var(--surface-2); flex: none; }
   .bpost p { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); flex: 1; }
   .bpost .bmeta { display: flex; justify-content: space-between; font-size: var(--fs-2xs); color: var(--fg-dim); border-top: 1px dashed var(--rule); padding-top: var(--s-4); margin-top: var(--s-5); }
-  .bpost-add {
-    background: transparent; border: 1.5px dashed var(--rule); border-radius: 16px; padding: var(--s-6);
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-2);
-    min-height: 140px; cursor: pointer; color: var(--fg-dim); font-size: var(--fs-sm); font-weight: 700;
-    transition: border-color .15s, color .15s, background .15s;
+  .bcompose-box { border: 1.5px dashed var(--accent); background: var(--surface); }
+  .bcompose-box .bcompose-blob {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1;
   }
-  .bpost-add .bpost-add-plus { font-size: 1.9rem; line-height: 1; font-weight: 400; color: var(--fg-dim); transition: color .15s; }
-  .bpost-add:hover { border-color: var(--accent); color: var(--accent); background: var(--surface); }
-  .bpost-add:hover .bpost-add-plus { color: var(--accent); }
+  .bcompose-box .banon { color: var(--accent); font-weight: 700; }
+  .bcompose-box textarea {
+    width: 100%; font: inherit; font-size: var(--fs-sm); color: var(--fg); background: var(--bg);
+    border: 1px solid var(--rule); border-radius: 12px; padding: 10px 14px; resize: vertical;
+    flex: 1; min-height: 70px;
+  }
+  .bcompose-box .compose-actions { margin-top: var(--s-4); }
   .bamboo-note { display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-6); padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--sage); border-radius: 12px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
   .bamboo-note b { color: var(--fg); font-weight: 700; }
 
@@ -1460,7 +1463,6 @@
         <h2>대나무숲에서</h2>
         <p>오프라인 모임은 마음을 먹어야 나갈 수 있지만, 어떤 이야기는 그보다 낮은 문턱에서 먼저 꺼내지고 싶어 합니다. 프로필을 드러내지 않고 편하게 마음을 나누는 익명 공간입니다.</p>
       </div>
-      <button type="button" class="compose-toggle" id="bambooComposeToggle">＋ 글쓰기</button>
     </div>
 
     <div class="chat-room">
@@ -1487,15 +1489,15 @@
     </div>
     <div class="compose-hint" style="margin: calc(var(--s-4) * -1) 0 var(--s-6);">실시간 대화방은 표시 이름이 보이는 공개 채팅입니다. 완전 익명으로 남기고 싶다면 아래 글쓰기를 이용해주세요.</div>
 
-    <div class="compose-panel" id="bambooCompose">
-      <textarea id="bambooComposeText" placeholder="편하게 마음을 나눠보세요 (완전 익명으로 게시됩니다)" maxlength="300"></textarea>
-      <div class="compose-actions">
-        <span class="compose-hint">&#9888; 욕설&middot;비난 표현이 감지되면 게시 즉시 자동 삭제됩니다.</span>
-        <button type="button" class="btn sm" id="bambooComposeSubmit">익명으로 게시하기</button>
-      </div>
-    </div>
     <div class="bamboo">
-      <button type="button" class="bpost-add" id="bambooAddTile"><span class="bpost-add-plus">＋</span>나도 이야기 남기기</button>
+      <div class="bpost bcompose-box" id="bambooCompose">
+        <div class="banon"><span class="blob bcompose-blob">＋</span>나도 이야기 남기기</div>
+        <textarea id="bambooComposeText" placeholder="편하게 마음을 나눠보세요 (완전 익명으로 게시됩니다)" maxlength="300"></textarea>
+        <div class="compose-actions">
+          <span class="compose-hint">&#9888; 욕설&middot;비난 표현이 감지되면 게시 즉시 자동 삭제됩니다.</span>
+          <button type="button" class="btn sm" id="bambooComposeSubmit">익명으로 게시하기</button>
+        </div>
+      </div>
       <div class="bpost" data-post-id="1">
         <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
         <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
@@ -1557,7 +1559,6 @@
     </div>
   </div>
 </section>
-<button type="button" class="fab-add" id="bambooFab" aria-label="글쓰기">＋</button>
 </div>
 
 <div class="page" id="pg-step3" data-label="모임참여">
@@ -3273,30 +3274,25 @@
 })();
 
 (function () {
-  // 대나무숲 "＋ 글쓰기"
-  var toggle = document.getElementById('bambooComposeToggle');
-  var fab = document.getElementById('bambooFab');
-  var addTile = document.getElementById('bambooAddTile');
+  // 대나무숲 글쓰기 (그리드 안에 상시 노출되는 박스)
   var panel = document.getElementById('bambooCompose');
   var textarea = document.getElementById('bambooComposeText');
   var submitBtn = document.getElementById('bambooComposeSubmit');
   var list = document.querySelector('.bamboo');
-  if (!toggle || !panel) return;
+  if (!panel || !textarea || !submitBtn) return;
   var nextId = 100;
 
-  function openPanel() {
+  function requireVerified() {
     if (window.dasibomIsVerified && !window.dasibomIsVerified()) {
       if (window.dasibomOpenVerifyModal) window.dasibomOpenVerifyModal();
-      return;
+      return false;
     }
-    panel.classList.add('open');
-    textarea.focus();
+    return true;
   }
-  toggle.addEventListener('click', openPanel);
-  if (fab) fab.addEventListener('click', function () { openPanel(); panel.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
-  if (addTile) addTile.addEventListener('click', function () { openPanel(); panel.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
+  textarea.addEventListener('focus', requireVerified);
 
   submitBtn.addEventListener('click', function () {
+    if (!requireVerified()) return;
     var text = textarea.value.trim();
     if (!text) return;
     nextId++;
@@ -3317,11 +3313,10 @@
       '<button type="button" class="btn sm bcomment-submit">댓글 남기기</button>' +
       '<div class="bcomment-alert" hidden></div></div></div>';
     post.querySelector('p').textContent = text;
-    list.insertBefore(post, addTile && addTile.nextSibling ? addTile.nextSibling : list.firstChild);
+    list.insertBefore(post, panel.nextSibling);
     if (window.dasibomWireBambooPost) window.dasibomWireBambooPost(post);
 
     textarea.value = '';
-    panel.classList.remove('open');
 
     if (window.dasibomContainsBadWord && window.dasibomContainsBadWord(text)) {
       setTimeout(function () {

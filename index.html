@@ -548,12 +548,28 @@
     .chat-messages { height: 460px; }
   }
 
-  /* 모임 사진 공유 */
-  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-5); }
-  .photo-card { aspect-ratio: 4/3; border-radius: 16px; background: linear-gradient(135deg, var(--gold-soft), var(--surface-2)); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; }
-  .photo-card svg { width: 24px; height: 24px; color: var(--accent); opacity: .55; }
+  /* 모임 사진 후기 (앨범별) */
+  .photo-albums { display: flex; flex-direction: column; gap: var(--s-8); }
+  .pa-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-3); margin-bottom: var(--s-3); flex-wrap: wrap; }
+  .pa-head h4 { font-size: var(--fs-sm); font-weight: 700; }
+  .pa-head .pa-date { font-size: var(--fs-2xs); color: var(--fg-dim); }
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); }
+  .photo-card {
+    position: relative; aspect-ratio: 4/3; border-radius: 16px; overflow: hidden;
+    background: linear-gradient(135deg, var(--gold-soft), var(--surface-2)); border: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+  }
+  .photo-card svg { width: 24px; height: 24px; color: var(--accent); opacity: .55; pointer-events: none; }
+  .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-card .pc-add {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 300; color: var(--accent); opacity: 0; background: color-mix(in srgb, var(--bg) 55%, transparent);
+    transition: opacity .15s ease;
+  }
+  .photo-card:hover .pc-add { opacity: 1; }
+  .photo-card.filled .pc-add { font-size: 13px; font-weight: 700; }
   .gallery-cap { margin-top: var(--s-2); font-size: var(--fs-2xs); color: var(--fg-dim); }
-  .photo-note { display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-6); padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--accent); border-radius: 12px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
+  .photo-note { display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-2); padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--accent); border-radius: 12px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
   .photo-note b { color: var(--fg); font-weight: 700; }
 
   /* step divider (마음의 여정 3단계) */
@@ -810,6 +826,9 @@
     padding: 6px 10px; margin-right: var(--s-3); cursor: pointer;
   }
   .doc-note { font-size: 11px; color: var(--fg-dim); line-height: 1.6; margin: calc(var(--s-3) * -1) 0 var(--s-5); }
+  .login-find-links { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: var(--s-4); font-size: var(--fs-xs); color: var(--fg-dim); }
+  .login-find-links button { background: none; border: none; padding: 0; font: inherit; color: var(--fg-dim); cursor: pointer; }
+  .login-find-links button:hover { color: var(--accent); text-decoration: underline; }
   .check-row { display: flex; align-items: flex-start; gap: var(--s-3); font-size: var(--fs-xs); color: var(--fg-dim); line-height: 1.6; margin-bottom: var(--s-6); }
   .check-row input { margin-top: 3px; accent-color: var(--accent); flex: none; }
   .check-row.bd-consent { font-size: calc(var(--fs-xs) * 1.5); color: var(--fg); margin-bottom: var(--s-3); }
@@ -1880,18 +1899,8 @@
     </div>
     <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>번개 열기</b>는 가입 후 1개월 이내 첫 번개 참석을 마친 정회원이라면 누구나 가능합니다. 참여 신청은 <b>전날까지 자유롭게 취소</b>할 수 있으며(당일 확정 건 제외), 참여완료 버튼을 다시 누르면 &ldquo;취소하기&rdquo;로 바뀝니다.</div>
 
-    <div class="mgroup-label"><h3>모임 사진 공유</h3><span class="line"></span><span class="price">참여 확정자만 열람</span></div>
-    <div class="gallery">
-      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
-      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
-      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
-      <div class="photo-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg></div>
-    </div>
-    <div class="gallery-cap">컬처 플레이스 테이스팅 투어 &middot; 8.2(토) &middot; 참여자 5명 업로드</div>
-    <div class="photo-note">
-      <span>&mdash;</span>
-      <span><b>참여 확정자끼리만 앨범이 열리며, 당사자 동의 없는 사진은 올릴 수 없습니다.</b> 얼굴이 나온 사진은 업로드 시 자동 블러 처리되고, 원본 공개는 사진 속 당사자 전원이 동의해야 풀립니다. 커뮤니티 약속(&ldquo;모임 중 촬영한 사진은 동의 없이 공유하지 않습니다&rdquo;)이 그대로 적용됩니다.</span>
-    </div>
+    <div class="mgroup-label"><h3>모임 사진</h3><span class="line"></span><span class="price"><a href="#voices" style="color:var(--accent); font-weight:700;">후기 페이지</a>에서 후기와 함께 모아봅니다</span></div>
+    <p style="max-width:60ch; margin-bottom: var(--s-6);">모임 사진과 참여 소감은 &ldquo;후기&rdquo; 페이지에서 함께 확인하고 올릴 수 있어요.</p>
 
     <div class="mgroup-label" id="settlement" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); scroll-margin-top: 90px;"><h3>벙비 자동정산</h3><span class="line"></span><span class="price">전원&rarr;벙주 단방향 정산</span></div>
     <p style="max-width:60ch; margin-bottom: var(--s-6);">번개는 벙주가 비용을 먼저 결제하고, 끝난 뒤 참석자들에게 나눠 받습니다. &ldquo;누가 얼마 보냈는지&rdquo; 수기로 계산하고 독촉하는 부담을 없애는 것이 이 기능의 존재 이유입니다.</p>
@@ -2106,6 +2115,27 @@
         <p>&ldquo;서류 인증 절차가 확실해서 처음부터 신뢰가 갔어요. 이상한 사람이 걸러진다는 느낌이 컸습니다.&rdquo;</p>
         <footer><span>H.Y.</span><span>30대 중반 · 북클럽</span></footer>
       </div>
+    </div>
+
+    <div class="mgroup-label" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);"><h3>모임 사진 후기</h3><span class="line"></span><span class="price">참여 확정자만 업로드 가능</span></div>
+    <p style="max-width:60ch; margin-bottom: var(--s-6);">벙(모임)마다 사진첩이 따로 있어요. 네모 칸을 클릭하면 그 자리에 바로 사진을 추가할 수 있습니다.</p>
+    <div class="photo-albums" id="photoAlbums">
+      <div class="photo-album" data-album="dining-culture-tour" data-slots="4">
+        <div class="pa-head"><h4>컬처 플레이스 테이스팅 투어</h4><span class="pa-date">8.2(토) &middot; 참여자 5명</span></div>
+        <div class="gallery"></div>
+      </div>
+      <div class="photo-album" data-album="season-bookclub" data-slots="4">
+        <div class="pa-head"><h4>언스쿨링 북클럽</h4><span class="pa-date">7.22(화) &middot; 참여자 6명</span></div>
+        <div class="gallery"></div>
+      </div>
+      <div class="photo-album" data-album="season-bodyshape" data-slots="4">
+        <div class="pa-head"><h4>보디 셰이프 &amp; 프렌들리</h4><span class="pa-date">7.13(토) &middot; 참여자 7명</span></div>
+        <div class="gallery"></div>
+      </div>
+    </div>
+    <div class="photo-note">
+      <span>&mdash;</span>
+      <span><b>참여 확정자끼리만 앨범이 열리며, 당사자 동의 없는 사진은 올릴 수 없습니다.</b> 얼굴이 나온 사진은 업로드 시 자동 블러 처리되고, 원본 공개는 사진 속 당사자 전원이 동의해야 풀립니다. 커뮤니티 약속(&ldquo;모임 중 촬영한 사진은 동의 없이 공유하지 않습니다&rdquo;)이 그대로 적용됩니다.</span>
     </div>
   </div>
 </section>
@@ -2372,7 +2402,70 @@
       </label>
       <div class="field-error" id="loginError" hidden>아이디 또는 비밀번호가 일치하지 않습니다. 먼저 가입해주세요.</div>
       <button type="submit" class="btn">로그인</button>
+      <div class="login-find-links">
+        <button type="button" id="openFindIdBtn">아이디 찾기</button>
+        <span>&middot;</span>
+        <button type="button" id="openFindPwBtn">비밀번호 찾기</button>
+      </div>
     </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="findIdOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="findIdModalTitle">
+    <button class="modal-close" id="findIdClose" type="button" aria-label="닫기">&times;</button>
+    <form id="findIdForm">
+      <span class="kicker">Find ID</span>
+      <h2 id="findIdModalTitle">아이디 찾기</h2>
+      <p class="sub">가입 시 입력한 표시 이름과 휴대폰 번호를 입력해주세요.</p>
+      <div class="field">
+        <label for="fiName">표시 이름</label>
+        <input type="text" id="fiName" required>
+      </div>
+      <div class="field">
+        <label for="fiPhone">휴대폰 번호</label>
+        <input type="tel" id="fiPhone" pattern="01[0-9]-?\d{3,4}-?\d{4}" title="'010-0000-0000' 형식으로 입력해주세요" required>
+      </div>
+      <div class="field-error" id="findIdError" hidden>일치하는 계정을 찾을 수 없습니다.</div>
+      <button type="submit" class="btn">아이디 찾기</button>
+    </form>
+    <div class="modal-success" id="findIdSuccess" hidden>
+      <div class="mark">&check;</div>
+      <h2>아이디를 찾았습니다</h2>
+      <p id="findIdResultText"></p>
+      <button type="button" class="btn ghost" id="findIdAgain">확인</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="findPwOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="findPwModalTitle">
+    <button class="modal-close" id="findPwClose" type="button" aria-label="닫기">&times;</button>
+    <form id="findPwForm">
+      <span class="kicker">Reset Password</span>
+      <h2 id="findPwModalTitle">비밀번호 찾기</h2>
+      <p class="sub">아이디와 가입 시 입력한 휴대폰 번호를 입력하면 새 비밀번호를 설정할 수 있습니다.</p>
+      <div class="field">
+        <label for="fpId">아이디</label>
+        <input type="text" id="fpId" required>
+      </div>
+      <div class="field">
+        <label for="fpPhone">휴대폰 번호</label>
+        <input type="tel" id="fpPhone" pattern="01[0-9]-?\d{3,4}-?\d{4}" title="'010-0000-0000' 형식으로 입력해주세요" required>
+      </div>
+      <div class="field">
+        <label for="fpNewPw">새 비밀번호</label>
+        <input type="password" id="fpNewPw" placeholder="8자 이상" minlength="8" required>
+      </div>
+      <div class="field-error" id="findPwError" hidden>일치하는 계정을 찾을 수 없습니다.</div>
+      <button type="submit" class="btn">비밀번호 재설정하기</button>
+    </form>
+    <div class="modal-success" id="findPwSuccess" hidden>
+      <div class="mark">&check;</div>
+      <h2>비밀번호가 변경되었습니다</h2>
+      <p>새 비밀번호로 다시 로그인해주세요.</p>
+      <button type="button" class="btn ghost" id="findPwAgain">확인</button>
+    </div>
   </div>
 </div>
 
@@ -2546,7 +2639,8 @@
       var account = {
         id: document.getElementById('jUserId').value.trim(),
         pw: pw.value,
-        name: document.getElementById('jName').value.trim()
+        name: document.getElementById('jName').value.trim(),
+        phone: document.getElementById('jPhone').value.trim()
       };
       localStorage.setItem('dasibom-account', JSON.stringify(account));
       localStorage.setItem('dasibom-joined', '1');
@@ -2664,6 +2758,116 @@
         if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();
         if (window.dasibomRefreshNavMileage) window.dasibomRefreshNavMileage();
         closeModal();
+      } else {
+        errorEl.hidden = false;
+      }
+    });
+
+    var findIdBtn = document.getElementById('openFindIdBtn');
+    var findPwBtn = document.getElementById('openFindPwBtn');
+    if (findIdBtn) findIdBtn.addEventListener('click', function () {
+      closeModal();
+      if (window.dasibomOpenFindId) window.dasibomOpenFindId();
+    });
+    if (findPwBtn) findPwBtn.addEventListener('click', function () {
+      closeModal();
+      if (window.dasibomOpenFindPw) window.dasibomOpenFindPw();
+    });
+  })();
+
+  (function () {
+    // 아이디 찾기 — 이름·휴대폰 번호가 가입 정보와 일치하면 아이디를 보여준다.
+    var overlay = document.getElementById('findIdOverlay');
+    var form = document.getElementById('findIdForm');
+    var success = document.getElementById('findIdSuccess');
+    var resultText = document.getElementById('findIdResultText');
+    var errorEl = document.getElementById('findIdError');
+    var closeBtn = document.getElementById('findIdClose');
+    var againBtn = document.getElementById('findIdAgain');
+    if (!overlay || !form) return;
+
+    function openModal() {
+      form.hidden = false;
+      success.hidden = true;
+      errorEl.hidden = true;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('fiName').focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      form.reset();
+      errorEl.hidden = true;
+    }
+    window.dasibomOpenFindId = openModal;
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+    if (againBtn) againBtn.addEventListener('click', closeModal);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('fiName').value.trim();
+      var phone = document.getElementById('fiPhone').value.trim();
+      var account = null;
+      try { account = JSON.parse(localStorage.getItem('dasibom-account') || 'null'); } catch (err) {}
+
+      if (account && account.name === name && account.phone === phone) {
+        resultText.innerHTML = '회원님의 아이디는 <b style="color:var(--fg)">' + account.id + '</b> 입니다.';
+        form.hidden = true;
+        success.hidden = false;
+      } else {
+        errorEl.hidden = false;
+      }
+    });
+  })();
+
+  (function () {
+    // 비밀번호 찾기 — 아이디·휴대폰 번호가 가입 정보와 일치하면 새 비밀번호로 즉시 재설정한다.
+    var overlay = document.getElementById('findPwOverlay');
+    var form = document.getElementById('findPwForm');
+    var success = document.getElementById('findPwSuccess');
+    var errorEl = document.getElementById('findPwError');
+    var closeBtn = document.getElementById('findPwClose');
+    var againBtn = document.getElementById('findPwAgain');
+    if (!overlay || !form) return;
+
+    function openModal() {
+      form.hidden = false;
+      success.hidden = true;
+      errorEl.hidden = true;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('fpId').focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      form.reset();
+      errorEl.hidden = true;
+    }
+    window.dasibomOpenFindPw = openModal;
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+    if (againBtn) againBtn.addEventListener('click', closeModal);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var id = document.getElementById('fpId').value.trim();
+      var phone = document.getElementById('fpPhone').value.trim();
+      var newPw = document.getElementById('fpNewPw').value;
+      var account = null;
+      try { account = JSON.parse(localStorage.getItem('dasibom-account') || 'null'); } catch (err) {}
+
+      if (account && account.id === id && account.phone === phone) {
+        account.pw = newPw;
+        localStorage.setItem('dasibom-account', JSON.stringify(account));
+        form.hidden = true;
+        success.hidden = false;
       } else {
         errorEl.hidden = false;
       }
@@ -3886,6 +4090,79 @@
     document.getElementById('fcToday').checked = false;
     agreeEl.checked = false;
     panel.classList.remove('open');
+  });
+})();
+
+(function () {
+  // 모임 사진 후기: 앨범(벙)별 네모 칸을 클릭하면 그 자리에 바로 사진을 추가할 수 있다.
+  var albums = document.querySelectorAll('.photo-album[data-album]');
+  if (!albums.length) return;
+
+  var STORE_PREFIX = 'dasibom-photo-';
+
+  function loadPhoto(albumId, slot) {
+    try { return localStorage.getItem(STORE_PREFIX + albumId + '-' + slot); } catch (e) { return null; }
+  }
+  function savePhoto(albumId, slot, dataUrl) {
+    try { localStorage.setItem(STORE_PREFIX + albumId + '-' + slot, dataUrl); } catch (e) {}
+  }
+
+  function renderCard(card, dataUrl) {
+    card.innerHTML = '';
+    if (dataUrl) {
+      card.classList.add('filled');
+      var img = document.createElement('img');
+      img.src = dataUrl;
+      img.alt = '';
+      card.appendChild(img);
+      var add = document.createElement('div');
+      add.className = 'pc-add';
+      add.textContent = '사진 바꾸기';
+      card.appendChild(add);
+    } else {
+      card.classList.remove('filled');
+      card.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.6-2.4h4.8L16 6"/><circle cx="12" cy="13" r="3.4"/></svg>' +
+        '<div class="pc-add">+</div>';
+    }
+  }
+
+  albums.forEach(function (album) {
+    var albumId = album.getAttribute('data-album');
+    var slots = parseInt(album.getAttribute('data-slots'), 10) || 4;
+    var gallery = album.querySelector('.gallery');
+    if (!gallery) return;
+
+    for (var i = 0; i < slots; i++) {
+      (function (slot) {
+        var card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'photo-card';
+
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.hidden = true;
+
+        renderCard(card, loadPhoto(albumId, slot));
+
+        card.addEventListener('click', function () { input.click(); });
+        input.addEventListener('change', function () {
+          var file = input.files && input.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function () {
+            savePhoto(albumId, slot, reader.result);
+            renderCard(card, reader.result);
+            if (window.dasibomShowJoinToast) window.dasibomShowJoinToast('사진이 추가되었습니다');
+          };
+          reader.readAsDataURL(file);
+        });
+
+        gallery.appendChild(card);
+        gallery.appendChild(input);
+      })(i);
+    }
   });
 })();
 

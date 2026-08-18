@@ -530,6 +530,15 @@
   .bpost .banon .blob { width: 22px; height: 22px; border-radius: 50%; background: var(--surface-2); flex: none; }
   .bpost p { font-size: var(--fs-sm); line-height: 1.75; color: var(--fg-dim); flex: 1; }
   .bpost .bmeta { display: flex; justify-content: space-between; font-size: var(--fs-2xs); color: var(--fg-dim); border-top: 1px dashed var(--rule); padding-top: var(--s-4); margin-top: var(--s-5); }
+  .bpost-add {
+    background: transparent; border: 1.5px dashed var(--rule); border-radius: 16px; padding: var(--s-6);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-2);
+    min-height: 140px; cursor: pointer; color: var(--fg-dim); font-size: var(--fs-sm); font-weight: 700;
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .bpost-add .bpost-add-plus { font-size: 1.9rem; line-height: 1; font-weight: 400; color: var(--fg-dim); transition: color .15s; }
+  .bpost-add:hover { border-color: var(--accent); color: var(--accent); background: var(--surface); }
+  .bpost-add:hover .bpost-add-plus { color: var(--accent); }
   .bamboo-note { display: flex; gap: var(--s-3); align-items: flex-start; margin-top: var(--s-6); padding: var(--s-5) var(--s-6); border: 1px solid var(--rule); border-left: 2px solid var(--sage); border-radius: 12px; background: var(--surface); font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
   .bamboo-note b { color: var(--fg); font-weight: 700; }
 
@@ -613,6 +622,14 @@
   .card p { font-size: var(--fs-sm); line-height: 1.7; color: var(--fg-dim); margin: 0 0 var(--s-5); flex: 1; }
   .card .meta { display: flex; justify-content: space-between; font-size: var(--fs-2xs); color: var(--fg-dim); border-top: 1px dashed var(--rule); padding-top: var(--s-4); }
   .counsel-cta { justify-content: center; margin-top: var(--s-5); }
+  .card-actions { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); margin-top: var(--s-4); }
+  .jc { font-size: var(--fs-2xs); font-weight: 700; color: var(--fg-dim); }
+  .join-btn.joined { background: var(--surface); color: var(--accent); border-color: var(--accent); box-shadow: none; }
+  .join-btn:disabled { opacity: .5; cursor: not-allowed; filter: none; transform: none; }
+  .qb-count { display: block; font-size: var(--fs-2xs); font-weight: 700; color: var(--fg-dim); margin-top: 4px; }
+  .flash-card { flex-wrap: wrap; row-gap: var(--s-3); }
+  .flash-card .join-btn { margin-left: auto; }
+  .sched-apply-btn { padding: 7px 14px; font-size: var(--fs-2xs); }
 
   /* schedule */
   .sched-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
@@ -1478,6 +1495,7 @@
       </div>
     </div>
     <div class="bamboo">
+      <button type="button" class="bpost-add" id="bambooAddTile"><span class="bpost-add-plus">＋</span>나도 이야기 남기기</button>
       <div class="bpost" data-post-id="1">
         <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
         <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
@@ -1559,13 +1577,21 @@
     <div class="quick-bung">
       <div class="quick-bung-card">
         <div class="qb-day"><span>오늘</span><b class="mono" id="qbTodayDate">8.16</b></div>
-        <div class="qb-body"><h4>평일 저녁 카페 번개</h4><span class="qb-sub">벙주 J.K. &middot; Lv.2 정식 벙주 &middot; 저녁 7시 &middot; 홍대</span></div>
-        <a class="btn sm" href="#events">참여하기</a>
+        <div class="qb-body">
+          <h4>평일 저녁 카페 번개</h4>
+          <span class="qb-sub">벙주 J.K. &middot; Lv.2 정식 벙주 &middot; 저녁 7시 &middot; 홍대</span>
+          <span class="qb-count jc" data-join="weekday-cafe">2/4명</span>
+        </div>
+        <button type="button" class="btn sm join-btn" data-join="weekday-cafe" data-cap="4">참여하기</button>
       </div>
       <div class="quick-bung-card">
         <div class="qb-day"><span>내일</span><b class="mono" id="qbTomorrowDate">8.17</b></div>
-        <div class="qb-body"><h4>주말 브런치 번개</h4><span class="qb-sub">벙주 S.P. &middot; Lv.3 시니어 벙주 &middot; 오전 11시 &middot; 성수동</span></div>
-        <a class="btn sm" href="#events">참여하기</a>
+        <div class="qb-body">
+          <h4>주말 브런치 번개</h4>
+          <span class="qb-sub">벙주 S.P. &middot; Lv.3 시니어 벙주 &middot; 오전 11시 &middot; 성수동</span>
+          <span class="qb-count jc" data-join="weekend-brunch">3/4명</span>
+        </div>
+        <button type="button" class="btn sm join-btn" data-join="weekend-brunch" data-cap="4">참여하기</button>
       </div>
     </div>
 
@@ -1576,18 +1602,30 @@
         <h3>컬처 플레이스 테이스팅 투어</h3>
         <p>전통시장 투어 후 각자 고른 재료로 공유 공간에서 요리하거나, 티(Tea) 오마카세&middot;향신료 공방을 방문하는 감각 체험형 다이닝입니다. 공통의 경험을 나누며 대화 주제가 자연스럽게 풍부해집니다.</p>
         <div class="meta"><span>격주 토 오후 4시</span><span>4~6인</span></div>
+        <div class="card-actions">
+          <span class="jc" data-join="dining-culture-tour">5/6명 신청</span>
+          <button type="button" class="btn sm join-btn" data-join="dining-culture-tour" data-cap="6">신청하기</button>
+        </div>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">소셜 다이닝</span><span class="price">회비 <b>3.5만원</b></span></div>
         <h3>나만의 소울푸드 공유 세션</h3>
         <p>&ldquo;내 인생에서 가장 위로가 된 음식&rdquo;이나 시그니처 레시피를 직접 만들어 오거나 공유하는 스토리텔링 다이닝. 음식에 얽힌 사연을 나누며 자연스럽게 깊은 유대감이 형성됩니다.</p>
         <div class="meta"><span>월 1회 일 오후 5시</span><span>4~6인</span></div>
+        <div class="card-actions">
+          <span class="jc" data-join="dining-soulfood">3/6명 신청</span>
+          <button type="button" class="btn sm join-btn" data-join="dining-soulfood" data-cap="6">신청하기</button>
+        </div>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">소셜 다이닝</span><span class="price">회비 <b>3만원</b></span></div>
         <h3>디지털 디톡스 다이닝</h3>
         <p>식사 시작 전 스마트폰을 반납하고, 보드게임&middot;질문 카드로 가볍고 유쾌한 대화를 유도합니다. 온전히 서로에게 집중하는 해방감과 안전한 심리적 거리감을 제공합니다.</p>
         <div class="meta"><span>격주 수 저녁 7시</span><span>4~6인</span></div>
+        <div class="card-actions">
+          <span class="jc" data-join="dining-detox">6/6명 신청</span>
+          <button type="button" class="btn sm join-btn" data-join="dining-detox" data-cap="6">신청하기</button>
+        </div>
       </div>
     </div>
 
@@ -1598,24 +1636,40 @@
         <h3>보디 셰이프 &amp; 프렌들리</h3>
         <p>주 1회 러닝&middot;클라이밍 + 홈트레이닝 인증 챌린지. 소그룹으로 함께 체력&middot;활력을 되찾고, 운동 후 건강한 식단&middot;브런치로 마무리합니다.</p>
         <div class="meta"><span>주 1회 토 오전</span><span>6~8인</span></div>
+        <div class="card-actions">
+          <span class="jc" data-join="season-bodyshape">7/8명 신청</span>
+          <button type="button" class="btn sm join-btn" data-join="season-bodyshape" data-cap="8">신청하기</button>
+        </div>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">시즌제 &middot; 지적 교류</span><span class="price">6주 <b>4만원</b></span></div>
         <h3>언스쿨링 북클럽</h3>
         <p>경제&middot;철학&middot;1인가구 라이프&middot;심리학 등 시야를 넓히는 책을 읽고 토론합니다. 타인을 평가·조언하는 대신 책 속 주제로 자기 가치관을 자연스럽게 투영합니다.</p>
         <div class="meta"><span>격주 화 저녁 8시</span><span>5~7인</span></div>
+        <div class="card-actions">
+          <span class="jc" data-join="season-bookclub">3/7명 신청</span>
+          <button type="button" class="btn sm join-btn" data-join="season-bookclub" data-cap="7">신청하기</button>
+        </div>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">시즌제 &middot; 공간 자립</span><span class="price">4주 <b>5만원</b></span></div>
         <h3>홈 스페이스 메이킹</h3>
         <p>이혼 후 완전히 독립된 자신만의 공간을 새로 꾸미는 프로젝트. 가구 배치&middot;미니멀 라이프 팁과 비포&middot;애프터 공유로 심리적 안정감과 주체성을 키웁니다.</p>
         <div class="meta"><span>주 1회 일 오후</span><span>5~7인</span></div>
+        <div class="card-actions">
+          <span class="jc" data-join="season-homespace">4/7명 신청</span>
+          <button type="button" class="btn sm join-btn" data-join="season-homespace" data-cap="7">신청하기</button>
+        </div>
       </div>
       <div class="card">
         <div class="card-top"><span class="tag">시즌제 &middot; 기록과 사유</span><span class="price">6주 <b>4만원</b></span></div>
         <h3>모먼트 아카이빙 글쓰기 클럽</h3>
         <p>매주 에세이 프롬프트(예: &ldquo;나의 가장 오래된 습관&rdquo;)에 맞춰 짧은 글을 쓰고 낭독&middot;공유합니다. 감정을 객관화하고 깊은 공감대를 형성합니다.</p>
         <div class="meta"><span>격주 목 저녁 8시</span><span>5~7인</span></div>
+        <div class="card-actions">
+          <span class="jc" data-join="season-archiving">4/7명 신청</span>
+          <button type="button" class="btn sm join-btn" data-join="season-archiving" data-cap="7">신청하기</button>
+        </div>
       </div>
     </div>
 
@@ -1720,14 +1774,16 @@
         <div class="flash-avatar">J</div>
         <div><h4>평일 저녁 카페 번개</h4><span class="sub">벙주 J.K. &middot; Lv.2 정식 벙주 &middot; 8.14(금) 저녁 7시 &middot; 홍대 스터디카페</span></div>
       </div>
-      <span class="pill open">2/4명 &middot; 최소 2인 성사</span>
+      <span class="pill open"><span class="jc" data-join="weekday-cafe">2/4명</span> &middot; 최소 2인 성사</span>
+      <button type="button" class="btn sm join-btn" data-join="weekday-cafe" data-cap="4">참여하기</button>
     </div>
     <div class="flash-card">
       <div class="host">
         <div class="flash-avatar">S</div>
         <div><h4>주말 브런치 번개</h4><span class="sub">벙주 S.P. &middot; Lv.3 시니어 벙주 &middot; 8.16(일) 오전 11시 &middot; 성수동</span></div>
       </div>
-      <span class="pill soon">3/4명 &middot; 마감임박</span>
+      <span class="pill soon"><span class="jc" data-join="weekend-brunch">3/4명</span> &middot; 마감임박</span>
+      <button type="button" class="btn sm join-btn" data-join="weekend-brunch" data-cap="4">참여하기</button>
     </div>
     </div>
     <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>번개 열기</b>는 가입 후 1개월 이내 첫 번개 참석을 마친 정회원이라면 누구나 가능합니다.</div>
@@ -1810,6 +1866,7 @@
             <th>회비</th>
             <th>정원</th>
             <th>상태</th>
+            <th style="font-family: -apple-system, sans-serif;">신청</th>
           </tr>
         </thead>
         <tbody>
@@ -1819,8 +1876,9 @@
             <td><span class="ev-name">평일 저녁 카페 번개</span><span class="ev-sub">벙주 J.K. · 선착순 확정</span></td>
             <td style="font-family: -apple-system, sans-serif;">홍대 스터디카페</td>
             <td>정산제</td>
-            <td>2 / 4</td>
+            <td><span class="jc" data-join="weekday-cafe">2 / 4</span></td>
             <td><span class="pill open">모집중</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><button type="button" class="btn sm sched-apply-btn join-btn" data-join="weekday-cafe" data-cap="4">신청</button></td>
           </tr>
           <tr>
             <td>08.16<br><span class="ev-sub">토</span></td>
@@ -1828,8 +1886,9 @@
             <td><span class="ev-name">보디 셰이프 &amp; 프렌들리 1회차</span><span class="ev-sub">4~6주 과정 시작</span></td>
             <td style="font-family: -apple-system, sans-serif;">반포 한강공원</td>
             <td>6만</td>
-            <td>7 / 8</td>
+            <td><span class="jc" data-join="season-bodyshape">7 / 8</span></td>
             <td><span class="pill soon">마감임박</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><button type="button" class="btn sm sched-apply-btn join-btn" data-join="season-bodyshape" data-cap="8">신청</button></td>
           </tr>
           <tr>
             <td>08.16<br><span class="ev-sub">토</span></td>
@@ -1837,8 +1896,9 @@
             <td><span class="ev-name">컬처 플레이스 테이스팅 투어</span><span class="ev-sub">전통시장 투어 + 요리</span></td>
             <td style="font-family: -apple-system, sans-serif;">망원시장</td>
             <td>4.5만</td>
-            <td>5 / 6</td>
+            <td><span class="jc" data-join="dining-culture-tour">5 / 6</span></td>
             <td><span class="pill open">모집중</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><button type="button" class="btn sm sched-apply-btn join-btn" data-join="dining-culture-tour" data-cap="6">신청</button></td>
           </tr>
           <tr>
             <td>08.21<br><span class="ev-sub">금</span></td>
@@ -1846,8 +1906,9 @@
             <td><span class="ev-name">디지털 디톡스 다이닝</span><span class="ev-sub">스마트폰 반납 후 시작</span></td>
             <td style="font-family: -apple-system, sans-serif;">청담동</td>
             <td>3만</td>
-            <td>6 / 6</td>
+            <td><span class="jc" data-join="dining-detox">6 / 6</span></td>
             <td><span class="pill full">마감</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><button type="button" class="btn sm sched-apply-btn join-btn" data-join="dining-detox" data-cap="6">신청</button></td>
           </tr>
           <tr>
             <td>08.30<br><span class="ev-sub">일</span></td>
@@ -1855,8 +1916,9 @@
             <td><span class="ev-name">언스쿨링 북클럽 1회차</span><span class="ev-sub">이번 달 선정도서 안내 예정</span></td>
             <td style="font-family: -apple-system, sans-serif;">온라인 + 강남</td>
             <td>4만</td>
-            <td>3 / 7</td>
+            <td><span class="jc" data-join="season-bookclub">3 / 7</span></td>
             <td><span class="pill open">모집중</span></td>
+            <td style="font-family: -apple-system, sans-serif;"><button type="button" class="btn sm sched-apply-btn join-btn" data-join="season-bookclub" data-cap="7">신청</button></td>
           </tr>
         </tbody>
       </table>
@@ -1870,12 +1932,12 @@
 <div class="side-drawer" id="sideDrawer">
   <div class="sd-head"><h3>번개 리스트</h3><button type="button" class="sd-close" id="sdClose">&times;</button></div>
   <div class="sd-body">
-    <div class="flash-card"><div class="host"><div class="flash-avatar">J</div><div><h4>평일 저녁 카페 번개</h4><span class="sub">벙주 J.K. &middot; Lv.2 &middot; 오늘 저녁 7시 &middot; 홍대</span></div></div><span class="pill open">2/4명</span></div>
-    <div class="flash-card"><div class="host"><div class="flash-avatar">S</div><div><h4>주말 브런치 번개</h4><span class="sub">벙주 S.P. &middot; Lv.3 &middot; 내일 오전 11시 &middot; 성수동</span></div></div><span class="pill soon">3/4명</span></div>
-    <div class="flash-card"><div class="host"><div class="flash-avatar">M</div><div><h4>퇴근 후 러닝 번개</h4><span class="sub">벙주 M.C. &middot; Lv.1 &middot; 모레 저녁 8시 &middot; 반포한강공원</span></div></div><span class="pill open">3/6명</span></div>
-    <div class="flash-card"><div class="host"><div class="flash-avatar">Y</div><div><h4>평일 점심 샌드위치 벙</h4><span class="sub">벙주 Y.J. &middot; Lv.2 &middot; 8.20(목) 낮 12시 &middot; 여의도</span></div></div><span class="pill open">1/4명</span></div>
-    <div class="flash-card"><div class="host"><div class="flash-avatar">D</div><div><h4>보드게임 카페 번개</h4><span class="sub">벙주 D.K. &middot; Lv.3 &middot; 8.21(금) 저녁 7시 &middot; 건대</span></div></div><span class="pill open">4/6명</span></div>
-    <div class="flash-card"><div class="host"><div class="flash-avatar">H</div><div><h4>주말 등산 번개</h4><span class="sub">벙주 H.S. &middot; Lv.2 &middot; 8.23(일) 오전 8시 &middot; 북한산</span></div></div><span class="pill soon">5/6명</span></div>
+    <div class="flash-card"><div class="host"><div class="flash-avatar">J</div><div><h4>평일 저녁 카페 번개</h4><span class="sub">벙주 J.K. &middot; Lv.2 &middot; 오늘 저녁 7시 &middot; 홍대</span></div></div><span class="pill open"><span class="jc" data-join="weekday-cafe">2/4명</span></span><button type="button" class="btn sm join-btn" data-join="weekday-cafe" data-cap="4">참여하기</button></div>
+    <div class="flash-card"><div class="host"><div class="flash-avatar">S</div><div><h4>주말 브런치 번개</h4><span class="sub">벙주 S.P. &middot; Lv.3 &middot; 내일 오전 11시 &middot; 성수동</span></div></div><span class="pill soon"><span class="jc" data-join="weekend-brunch">3/4명</span></span><button type="button" class="btn sm join-btn" data-join="weekend-brunch" data-cap="4">참여하기</button></div>
+    <div class="flash-card"><div class="host"><div class="flash-avatar">M</div><div><h4>퇴근 후 러닝 번개</h4><span class="sub">벙주 M.C. &middot; Lv.1 &middot; 모레 저녁 8시 &middot; 반포한강공원</span></div></div><span class="pill open"><span class="jc" data-join="drawer-running">3/6명</span></span><button type="button" class="btn sm join-btn" data-join="drawer-running" data-cap="6">참여하기</button></div>
+    <div class="flash-card"><div class="host"><div class="flash-avatar">Y</div><div><h4>평일 점심 샌드위치 벙</h4><span class="sub">벙주 Y.J. &middot; Lv.2 &middot; 8.20(목) 낮 12시 &middot; 여의도</span></div></div><span class="pill open"><span class="jc" data-join="drawer-lunch-sandwich">1/4명</span></span><button type="button" class="btn sm join-btn" data-join="drawer-lunch-sandwich" data-cap="4">참여하기</button></div>
+    <div class="flash-card"><div class="host"><div class="flash-avatar">D</div><div><h4>보드게임 카페 번개</h4><span class="sub">벙주 D.K. &middot; Lv.3 &middot; 8.21(금) 저녁 7시 &middot; 건대</span></div></div><span class="pill open"><span class="jc" data-join="drawer-boardgame">4/6명</span></span><button type="button" class="btn sm join-btn" data-join="drawer-boardgame" data-cap="6">참여하기</button></div>
+    <div class="flash-card"><div class="host"><div class="flash-avatar">H</div><div><h4>주말 등산 번개</h4><span class="sub">벙주 H.S. &middot; Lv.2 &middot; 8.23(일) 오전 8시 &middot; 북한산</span></div></div><span class="pill soon"><span class="jc" data-join="drawer-hiking">5/6명</span></span><button type="button" class="btn sm join-btn" data-join="drawer-hiking" data-cap="6">참여하기</button></div>
     <div class="flash-open-card">더 많은 번개는 매일 새로 열립니다. &ldquo;오늘&middot;내일 바로 참여&rdquo;에 없는 일정도 여기서 모두 확인할 수 있어요.</div>
   </div>
 </div>
@@ -3214,6 +3276,7 @@
   // 대나무숲 "＋ 글쓰기"
   var toggle = document.getElementById('bambooComposeToggle');
   var fab = document.getElementById('bambooFab');
+  var addTile = document.getElementById('bambooAddTile');
   var panel = document.getElementById('bambooCompose');
   var textarea = document.getElementById('bambooComposeText');
   var submitBtn = document.getElementById('bambooComposeSubmit');
@@ -3231,6 +3294,7 @@
   }
   toggle.addEventListener('click', openPanel);
   if (fab) fab.addEventListener('click', function () { openPanel(); panel.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
+  if (addTile) addTile.addEventListener('click', function () { openPanel(); panel.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
 
   submitBtn.addEventListener('click', function () {
     var text = textarea.value.trim();
@@ -3253,7 +3317,7 @@
       '<button type="button" class="btn sm bcomment-submit">댓글 남기기</button>' +
       '<div class="bcomment-alert" hidden></div></div></div>';
     post.querySelector('p').textContent = text;
-    list.insertBefore(post, list.firstChild);
+    list.insertBefore(post, addTile && addTile.nextSibling ? addTile.nextSibling : list.firstChild);
     if (window.dasibomWireBambooPost) window.dasibomWireBambooPost(post);
 
     textarea.value = '';
@@ -3269,13 +3333,140 @@
 })();
 
 (function () {
-  // 모임참여 "＋ 번개 열기"
+  // 모임참여: 참여하기/신청 버튼 공통 처리 — localStorage에 참여 여부를 저장해
+  // 새로고침해도 유지되고, 정원이 차면 자동으로 마감 처리된다.
+  var JOIN_PREFIX = 'dasibom-joined-';
+  var BASE = {};
+
+  function toastEl() {
+    var t = document.getElementById('joinToast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'joinToast';
+      t.className = 'mileage-toast';
+      document.body.appendChild(t);
+    }
+    return t;
+  }
+  function showJoinToast(msg) {
+    var t = toastEl();
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._hideTimer);
+    t._hideTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  function isJoined(id) { return localStorage.getItem(JOIN_PREFIX + id) === '1'; }
+  function setJoined(id, val) {
+    if (val) localStorage.setItem(JOIN_PREFIX + id, '1');
+    else localStorage.removeItem(JOIN_PREFIX + id);
+  }
+
+  function getBase(id) {
+    if (Object.prototype.hasOwnProperty.call(BASE, id)) return BASE[id];
+    var el = document.querySelector('.jc[data-join="' + id + '"]');
+    var n = el ? parseInt(el.textContent, 10) : 0;
+    BASE[id] = isNaN(n) ? 0 : n;
+    return BASE[id];
+  }
+
+  function syncJoinId(id) {
+    var base = getBase(id);
+    var joined = isJoined(id);
+    var displayed = base + (joined ? 1 : 0);
+    document.querySelectorAll('.jc[data-join="' + id + '"]').forEach(function (el) {
+      el.textContent = el.textContent.replace(/^\d+/, String(displayed));
+    });
+    document.querySelectorAll('.join-btn[data-join="' + id + '"]').forEach(function (btn) {
+      if (!btn.hasAttribute('data-label')) btn.setAttribute('data-label', btn.textContent.trim());
+      var cap = parseInt(btn.getAttribute('data-cap'), 10) || 0;
+      var label = btn.getAttribute('data-label');
+      btn.classList.remove('joined');
+      if (joined) {
+        btn.disabled = true;
+        btn.classList.add('joined');
+        btn.textContent = (label.indexOf('신청') !== -1 ? '신청' : '참여') + '완료 ✓';
+      } else if (cap && displayed >= cap) {
+        btn.disabled = true;
+        btn.textContent = '마감';
+      } else {
+        btn.disabled = false;
+        btn.textContent = label;
+      }
+    });
+  }
+
+  document.querySelectorAll('.join-btn[data-join]').forEach(function (btn) {
+    btn.setAttribute('data-label', btn.textContent.trim());
+  });
+  var seen = {};
+  document.querySelectorAll('.jc[data-join], .join-btn[data-join]').forEach(function (el) {
+    var id = el.getAttribute('data-join');
+    if (seen[id]) return;
+    seen[id] = true;
+    syncJoinId(id);
+  });
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.join-btn');
+    if (!btn) return;
+    var id = btn.getAttribute('data-join');
+    if (!id || btn.disabled) return;
+    if (window.dasibomIsVerified && !window.dasibomIsVerified()) {
+      if (window.dasibomOpenVerifyModal) window.dasibomOpenVerifyModal();
+      return;
+    }
+    if (isJoined(id)) return;
+    var cap = parseInt(btn.getAttribute('data-cap'), 10) || 0;
+    if (cap && getBase(id) + 1 > cap) {
+      showJoinToast('정원이 마감되었습니다');
+      syncJoinId(id);
+      return;
+    }
+    setJoined(id, true);
+    syncJoinId(id);
+    showJoinToast('참여 신청이 완료되었습니다');
+  });
+
+  window.dasibomSyncJoinId = syncJoinId;
+  window.dasibomShowJoinToast = showJoinToast;
+})();
+
+(function () {
+  // 모임참여 "＋ 번개 열기": 새로 연 번개는 localStorage에 저장돼 새로고침 후에도 유지된다.
   var toggle = document.getElementById('flashComposeToggle');
   var fab = document.getElementById('flashFab');
   var panel = document.getElementById('flashCompose');
   var list = document.getElementById('flashList');
   var submitBtn = document.getElementById('flashComposeSubmit');
   if (!toggle || !panel) return;
+
+  var STORE_KEY = 'dasibom-user-flashes';
+
+  function loadUserFlashes() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function saveUserFlashes(items) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(items));
+  }
+
+  function renderFlashCard(item) {
+    var card = document.createElement('div');
+    card.className = 'flash-card';
+    card.innerHTML =
+      '<div class="host"><div class="flash-avatar">나</div><div><h4></h4><span class="sub"></span></div></div>' +
+      '<span class="pill open"><span class="jc" data-join=""></span> &middot; 방금 개설</span>' +
+      '<button type="button" class="btn sm join-btn" data-join="" data-cap="">참여하기</button>';
+    card.querySelector('h4').textContent = item.topic;
+    card.querySelector('.sub').textContent = '벙주 나 · Lv.1 새싹 벙주 · ' + item.time + ' · ' + item.place;
+    var jc = card.querySelector('.jc');
+    jc.setAttribute('data-join', item.id);
+    jc.textContent = '0/' + item.cap;
+    var btn = card.querySelector('.join-btn');
+    btn.setAttribute('data-join', item.id);
+    btn.setAttribute('data-cap', String(item.cap));
+    list.insertBefore(card, list.firstChild);
+  }
 
   function openPanel() {
     if (window.dasibomIsVerified && !window.dasibomIsVerified()) {
@@ -3288,23 +3479,35 @@
   toggle.addEventListener('click', openPanel);
   if (fab) fab.addEventListener('click', function () { openPanel(); panel.scrollIntoView({ block: 'center', behavior: 'smooth' }); });
 
+  // 이전에 열어둔 번개 복원 (최신순으로 저장돼 있으므로 저장 순서 그대로 위에서부터 삽입)
+  loadUserFlashes().forEach(function (item) {
+    renderFlashCard(item);
+    if (window.dasibomSyncJoinId) window.dasibomSyncJoinId(item.id);
+  });
+
   submitBtn.addEventListener('click', function () {
     var topic = document.getElementById('fcTopic').value.trim();
     var time = document.getElementById('fcTime').value.trim();
     var place = document.getElementById('fcPlace').value.trim();
-    var count = document.getElementById('fcCount').value.trim();
+    var countRaw = document.getElementById('fcCount').value.trim();
     if (!topic || !time || !place) return;
 
-    var card = document.createElement('div');
-    card.className = 'flash-card';
-    card.innerHTML =
-      '<div class="host"><div class="flash-avatar">나</div><div><h4></h4><span class="sub"></span></div></div>' +
-      '<span class="pill open"></span>';
-    card.querySelector('h4').textContent = topic;
-    card.querySelector('.sub').textContent = '벙주 나 · Lv.1 새싹 벙주 · ' + time + ' · ' + place;
-    card.querySelector('.pill').textContent = (count || '인원 미정') + ' · 방금 개설';
+    var capMatch = countRaw.match(/\d+/);
+    var cap = capMatch ? Math.max(2, Math.min(20, parseInt(capMatch[0], 10))) : 4;
+    var item = { id: 'flash-user-' + Date.now(), topic: topic, time: time, place: place, cap: cap };
 
-    list.insertBefore(card, list.firstChild);
+    renderFlashCard(item);
+
+    var items = loadUserFlashes();
+    items.unshift(item);
+    saveUserFlashes(items);
+
+    // 벙주 본인은 자동으로 참여 처리
+    if (window.dasibomSyncJoinId) {
+      localStorage.setItem('dasibom-joined-' + item.id, '1');
+      window.dasibomSyncJoinId(item.id);
+    }
+    if (window.dasibomShowJoinToast) window.dasibomShowJoinToast('번개가 열렸습니다');
 
     document.getElementById('fcTopic').value = '';
     document.getElementById('fcTime').value = '';

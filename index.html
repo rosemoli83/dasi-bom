@@ -466,6 +466,8 @@
   .chat-msg .cm-text { color: var(--fg); word-break: break-word; }
   .chat-msg.me { flex-direction: row-reverse; text-align: right; }
   .chat-msg.me .cm-name { color: var(--sage); }
+  .chat-empty { margin: auto; text-align: center; font-size: var(--fs-xs); color: var(--fg-dim); }
+  .bamboo-empty { text-align: center; font-size: var(--fs-sm); color: var(--fg-dim); padding: var(--s-8) 0; }
   .chat-emoji-panel { display: none; flex-wrap: wrap; gap: 4px; padding: var(--s-3) var(--s-6); border-top: 1px dashed var(--rule); background: var(--surface-2); }
   .chat-emoji-panel.open { display: flex; }
   .chat-emoji-panel button { font-size: 19px; background: transparent; border: none; cursor: pointer; border-radius: 16px; padding: 4px; line-height: 1; }
@@ -1544,14 +1546,11 @@
     <div class="chat-room">
       <div class="chat-head">
         <div class="chat-live-dot"></div>
-        <h3>지금 대화중 <span class="chat-online mono" id="chatOnline">31명 접속중</span></h3>
+        <h3>지금 대화중</h3>
         <button type="button" class="chat-emoji-toggle" id="chatEmojiToggle" aria-label="이모티콘 열기">😊</button>
       </div>
       <div class="chat-messages" id="chatMessages">
-        <div class="chat-msg"><span class="cm-name">지은</span><span class="cm-text">오늘 저녁 번개 자리 아직 있나요?? 🙋‍♀️</span></div>
-        <div class="chat-msg"><span class="cm-name">현우</span><span class="cm-text">방금 신청했어요! 다들 반가워요 😄</span></div>
-        <div class="chat-msg"><span class="cm-name">소민</span><span class="cm-text">이번 주말 러닝크루 날씨 좋을 것 같아요 ☀️</span></div>
-        <div class="chat-msg"><span class="cm-name">재훈</span><span class="cm-text">처음 왔는데 다들 친절하시네요 감사해요 🙏</span></div>
+        <div class="chat-empty" id="chatEmpty">아직 대화가 없어요. 첫 이야기를 남겨보세요!</div>
       </div>
       <div class="chat-emoji-panel" id="chatEmojiPanel">
         <button type="button">😀</button><button type="button">😂</button><button type="button">🥰</button><button type="button">😢</button>
@@ -1574,69 +1573,8 @@
           <button type="button" class="btn sm" id="bambooComposeSubmit">익명으로 게시하기</button>
         </div>
       </div>
-      <div class="bpost" data-post-id="1">
-        <div class="banon"><span class="blob"></span>익명 &middot; 3분 전</div>
-        <p>이혼 후 첫 명절이 다가오는데 다들 어떻게 보내시나요. 괜히 마음이 복잡하네요.</p>
-        <div class="bmeta">
-          <div class="bactions">
-            <button type="button" class="react-btn" data-count="12">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
-              <span class="react-label">공감</span> <span class="react-count">12</span>
-            </button>
-            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">2</span></button>
-            <button type="button" class="share-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><line x1="8.3" y1="10.7" x2="15.7" y2="6.3"/><line x1="8.3" y1="13.3" x2="15.7" y2="17.7"/></svg>
-              <span class="share-label">공유</span>
-            </button>
-          </div>
-        </div>
-        <div class="bcomments" hidden>
-          <div class="bcomment-list">
-            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저도 매년 이맘때가 제일 힘들어요. 혼자가 아니에요.</span></div>
-            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">올해는 그냥 여행 다녀오려고요. 같이 마음 편해지시길 바라요.</span></div>
-          </div>
-          <div class="bcomment-form">
-            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
-            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
-            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
-            <div class="bcomment-alert" hidden></div>
-          </div>
-        </div>
-      </div>
-      <div class="bpost" data-post-id="2">
-        <div class="banon"><span class="blob"></span>익명 &middot; 어제</div>
-        <p>혼자인 일상이 이제야 조금씩 편해지는 것 같아요. 비슷한 시기 지나오신 분들 이야기가 궁금해요.</p>
-        <div class="bmeta">
-          <div class="bactions">
-            <button type="button" class="react-btn" data-count="21">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg>
-              <span class="react-label">공감</span> <span class="react-count">21</span>
-            </button>
-            <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">1</span></button>
-            <button type="button" class="share-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><line x1="8.3" y1="10.7" x2="15.7" y2="6.3"/><line x1="8.3" y1="13.3" x2="15.7" y2="17.7"/></svg>
-              <span class="share-label">공유</span>
-            </button>
-          </div>
-        </div>
-        <div class="bcomments" hidden>
-          <div class="bcomment-list">
-            <div class="bcomment"><span class="bc-name">익명</span><span class="bc-text">저는 1년쯤 지나니 확실히 편해지더라고요. 조금씩 나아지실 거예요.</span></div>
-          </div>
-          <div class="bcomment-form">
-            <textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>
-            <div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>
-            <button type="button" class="btn sm bcomment-submit">댓글 남기기</button>
-            <div class="bcomment-alert" hidden></div>
-          </div>
-        </div>
-      </div>
-      <div class="bpost">
-        <div class="banon"><span class="blob" style="background: var(--gold-soft);"></span>운영진 &middot; 정기 음성 라디오</div>
-        <p>이번 달 마음 라디오는 &ldquo;애도, 서두르지 않아도 됩니다&rdquo;를 주제로 진행됩니다. 얼굴&middot;실명 노출 없이 목소리만으로 참여하세요.</p>
-        <div class="bmeta"><span>8.28(금) 저녁 9시</span><span>익명 참여</span></div>
-      </div>
     </div>
+    <div class="bamboo-empty" id="bambooEmpty">아직 올라온 이야기가 없어요. 첫 이야기를 남겨보세요!</div>
     <div class="bamboo-note">
       <span>&mdash;</span>
       <span><b>운영진도 작성자를 특별한 사유(신고 처리 등) 없이는 조회하지 않습니다.</b> 여기서 알게 된 이야기도 비밀보장 서약 대상이며, 위기 신호가 감지되는 글은 24시간 위기상담으로 즉시 안내됩니다.</span>
@@ -3201,6 +3139,7 @@
     submitBtn.addEventListener('click', function () {
       var text = textarea.value.trim();
       if (!text) return;
+      var isBad = containsBadWord(text);
 
       var row = document.createElement('div');
       row.className = 'bcomment';
@@ -3210,7 +3149,9 @@
       refreshCommentCount();
       textarea.value = '';
 
-      if (containsBadWord(text)) {
+      if (!isBad && window.dasibomSaveBambooComment) window.dasibomSaveBambooComment(postId, text);
+
+      if (isBad) {
         // 감지된 표현이 잠깐 노출된 뒤 자동으로 삭제되는 것을 보여줍니다.
         setTimeout(function () {
           row.classList.add('removing');
@@ -3508,29 +3449,26 @@
 })();
 
 (function () {
-  // 실시간 대화방 시뮬레이션
+  // 실시간 대화방 — 실제로 회원(이 브라우저에서)이 남긴 대화만 표시되고, 새로고침해도 유지된다.
   var msgList = document.getElementById('chatMessages');
   if (!msgList) return;
   var form = document.getElementById('chatForm');
   var input = document.getElementById('chatInput');
   var emojiToggle = document.getElementById('chatEmojiToggle');
   var emojiPanel = document.getElementById('chatEmojiPanel');
-  var onlineEl = document.getElementById('chatOnline');
+  var emptyEl = document.getElementById('chatEmpty');
+  var STORE_KEY = 'dasibom-chat-messages';
 
-  var INCOMING = [
-    { name: '보라', text: '다들 이번 주말 뭐 하세요? 저는 등산 벙 갈까 고민중이에요 🏔️' },
-    { name: '태윤', text: '북클럽 이번 달 책 넘 좋더라구요 📚' },
-    { name: '은서', text: '대나무숲에 위로 되는 글 많아서 자주 보게 돼요' },
-    { name: '민재', text: '자기이해 검사 해봤는데 결과 신기하게 잘 맞아요 😲' },
-    { name: '하늘', text: '오늘 처음 가입했는데 다들 친절하셔서 좋아요!' },
-    { name: '준서', text: '벙주 인증 신청했는데 승인 빠르네요 👍' },
-    { name: '유나', text: '다음 주 소셜다이닝 신청하신 분 계세요?' },
-    { name: '도현', text: '💛💛💛' },
-    { name: '서연', text: '마일리지로 상담 할인 받았어요, 강추합니다' },
-    { name: '지호', text: '오늘 러닝크루 사진 진짜 잘 나왔더라구요 📸' }
-  ];
+  function loadMessages() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function saveMessages(list) {
+    if (list.length > 60) list = list.slice(list.length - 60);
+    localStorage.setItem(STORE_KEY, JSON.stringify(list));
+  }
 
   function addMessage(name, text, isMe) {
+    if (emptyEl) emptyEl.hidden = true;
     var row = document.createElement('div');
     row.className = 'chat-msg' + (isMe ? ' me' : '');
     var nameEl = document.createElement('span');
@@ -3543,25 +3481,9 @@
     row.appendChild(textEl);
     msgList.appendChild(row);
     msgList.scrollTop = msgList.scrollHeight;
-    while (msgList.children.length > 40) msgList.removeChild(msgList.firstChild);
   }
 
-  function scheduleNext() {
-    var delay = 4000 + Math.random() * 5000;
-    setTimeout(function () {
-      var pick = INCOMING[Math.floor(Math.random() * INCOMING.length)];
-      addMessage(pick.name, pick.text, false);
-      scheduleNext();
-    }, delay);
-  }
-  scheduleNext();
-
-  if (onlineEl) {
-    setInterval(function () {
-      var n = 26 + Math.floor(Math.random() * 14);
-      onlineEl.textContent = n + '명 접속중';
-    }, 6000);
-  }
+  loadMessages().forEach(function (m) { addMessage(m.name, m.text, m.isMe); });
 
   if (form) {
     form.addEventListener('submit', function (e) {
@@ -3573,6 +3495,9 @@
       var text = input.value.trim();
       if (!text) return;
       addMessage('나', text, true);
+      var list = loadMessages();
+      list.push({ name: '나', text: text, isMe: true });
+      saveMessages(list);
       input.value = '';
     });
   }
@@ -3745,13 +3670,74 @@
 })();
 
 (function () {
-  // 대나무숲 글쓰기 (그리드 안에 상시 노출되는 박스)
+  // 대나무숲 글쓰기 — 실제로 회원(이 브라우저에서)이 남긴 글만 표시되고, 새로고침해도 유지된다.
   var panel = document.getElementById('bambooCompose');
   var textarea = document.getElementById('bambooComposeText');
   var submitBtn = document.getElementById('bambooComposeSubmit');
   var list = document.querySelector('.bamboo');
+  var emptyEl = document.getElementById('bambooEmpty');
   if (!panel || !textarea || !submitBtn) return;
-  var nextId = 100;
+
+  var STORE_KEY = 'dasibom-bamboo-posts';
+
+  function loadPosts() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function savePosts(posts) { localStorage.setItem(STORE_KEY, JSON.stringify(posts)); }
+
+  function findPost(posts, id) {
+    for (var i = 0; i < posts.length; i++) if (posts[i].id === id) return posts[i];
+    return null;
+  }
+
+  window.dasibomSaveBambooComment = function (postId, text) {
+    var posts = loadPosts();
+    var post = findPost(posts, postId);
+    if (!post) return;
+    post.comments = post.comments || [];
+    post.comments.push(text);
+    savePosts(posts);
+  };
+
+  function refreshEmptyState() {
+    if (emptyEl) emptyEl.hidden = list.querySelectorAll('.bpost[data-post-id]').length > 0;
+  }
+
+  function buildPostEl(id, text, timeLabel, comments) {
+    var post = document.createElement('div');
+    post.className = 'bpost';
+    post.setAttribute('data-post-id', id);
+    var commentsHtml = (comments || []).map(function (c) {
+      return '<div class="bcomment"><span class="bc-name">익명</span><span class="bc-text"></span></div>';
+    }).join('');
+    post.innerHTML =
+      '<div class="banon"><span class="blob"></span>익명 &middot; ' + timeLabel + '</div>' +
+      '<p></p>' +
+      '<div class="bmeta"><div class="bactions">' +
+      '<button type="button" class="react-btn" data-count="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg><span class="react-label">공감</span> <span class="react-count">0</span></button>' +
+      '<button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">0</span></button>' +
+      '<button type="button" class="share-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><line x1="8.3" y1="10.7" x2="15.7" y2="6.3"/><line x1="8.3" y1="13.3" x2="15.7" y2="17.7"/></svg><span class="share-label">공유</span></button>' +
+      '</div></div>' +
+      '<div class="bcomments" hidden><div class="bcomment-list">' + commentsHtml + '</div><div class="bcomment-form">' +
+      '<textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>' +
+      '<div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>' +
+      '<button type="button" class="btn sm bcomment-submit">댓글 남기기</button>' +
+      '<div class="bcomment-alert" hidden></div></div></div>';
+    post.querySelector('p').textContent = text;
+    var commentTextEls = post.querySelectorAll('.bcomment .bc-text');
+    (comments || []).forEach(function (c, i) { commentTextEls[i].textContent = c; });
+    var countEl = post.querySelector('.comment-count');
+    if (countEl) countEl.textContent = (comments || []).length;
+    return post;
+  }
+
+  // 이전에 남긴 글 복원 (저장 배열은 최신순이므로 역순으로 삽입해 최신 글이 맨 위에 오도록 한다)
+  loadPosts().slice().reverse().forEach(function (p) {
+    var post = buildPostEl(p.id, p.text, '이전에 남김', p.comments);
+    list.insertBefore(post, panel.nextSibling);
+    if (window.dasibomWireBambooPost) window.dasibomWireBambooPost(post);
+  });
+  refreshEmptyState();
 
   function requireVerified() {
     if (window.dasibomIsVerified && !window.dasibomIsVerified()) {
@@ -3766,34 +3752,24 @@
     if (!requireVerified()) return;
     var text = textarea.value.trim();
     if (!text) return;
-    nextId++;
+    var isBad = window.dasibomContainsBadWord && window.dasibomContainsBadWord(text);
+    var id = 'b' + Date.now();
 
-    var post = document.createElement('div');
-    post.className = 'bpost';
-    post.setAttribute('data-post-id', String(nextId));
-    post.innerHTML =
-      '<div class="banon"><span class="blob"></span>익명 &middot; 방금 전</div>' +
-      '<p></p>' +
-      '<div class="bmeta"><div class="bactions">' +
-      '<button type="button" class="react-btn" data-count="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg><span class="react-label">공감</span> <span class="react-count">0</span></button>' +
-      '<button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">0</span></button>' +
-      '<button type="button" class="share-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><line x1="8.3" y1="10.7" x2="15.7" y2="6.3"/><line x1="8.3" y1="13.3" x2="15.7" y2="17.7"/></svg><span class="share-label">공유</span></button>' +
-      '</div></div>' +
-      '<div class="bcomments" hidden><div class="bcomment-list"></div><div class="bcomment-form">' +
-      '<textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>' +
-      '<div class="bcomment-warn">&#9888; 욕설&middot;비난&middot;인신공격성 표현이 감지되면 게시 즉시 자동 삭제됩니다.</div>' +
-      '<button type="button" class="btn sm bcomment-submit">댓글 남기기</button>' +
-      '<div class="bcomment-alert" hidden></div></div></div>';
-    post.querySelector('p').textContent = text;
+    var post = buildPostEl(id, text, '방금 전', []);
     list.insertBefore(post, panel.nextSibling);
     if (window.dasibomWireBambooPost) window.dasibomWireBambooPost(post);
+    refreshEmptyState();
 
     textarea.value = '';
 
-    if (window.dasibomContainsBadWord && window.dasibomContainsBadWord(text)) {
+    if (!isBad) {
+      var posts = loadPosts();
+      posts.unshift({ id: id, text: text, comments: [] });
+      savePosts(posts);
+    } else {
       setTimeout(function () {
         post.style.opacity = '.4';
-        setTimeout(function () { post.remove(); }, 300);
+        setTimeout(function () { post.remove(); refreshEmptyState(); }, 300);
       }, 600);
     }
   });

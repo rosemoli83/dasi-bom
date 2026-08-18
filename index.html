@@ -942,13 +942,6 @@
   .compose-hint { font-size: 11px; color: var(--fg-dim); }
   @media (max-width: 720px) { .compose-panel .compose-grid { grid-template-columns: 1fr; } }
 
-  /* 번개 열기: 벙규칙 자동 고지 */
-  .compose-rules { background: var(--bg); border: 1px dashed var(--rule); border-radius: 14px; padding: var(--s-4) var(--s-5); margin-bottom: var(--s-4); }
-  .compose-rules .cr-title { font-size: var(--fs-xs); font-weight: 700; margin-bottom: var(--s-2); }
-  .compose-rules ul { margin: 0; padding-left: 18px; font-size: var(--fs-2xs); line-height: 1.7; color: var(--fg-dim); }
-  .compose-rules .cr-agree { display: flex; align-items: flex-start; gap: 7px; margin-top: var(--s-3); font-size: var(--fs-2xs); font-weight: 700; }
-  .compose-rules .cr-agree input { margin-top: 2px; width: 15px; height: 15px; flex: none; }
-
   /* 번개 오늘 뱃지 · 장소 링크 */
   .flash-today-badge {
     display: inline-flex; align-items: center; font-size: 10px; font-weight: 800; color: var(--accent-ink);
@@ -1861,18 +1854,6 @@
             <input type="checkbox" id="fcToday" style="width:15px; height:15px; margin:0;">오늘 바로 여는 번개예요 (목록 맨 위에 고정)
           </label>
         </div>
-      </div>
-      <div class="compose-rules">
-        <div class="cr-title">&#128276; 번개 열기 전, 벙규칙을 꼭 확인해주세요</div>
-        <ul>
-          <li>참석자 수 기준 최소 성비(소수:다수)를 지켜야 신청이 확정됩니다. (예: 2:3, 3:5 등 — 운동 중심 번개·1:1 번개는 예외)</li>
-          <li>참석 확정자는 모임 전까지 벙주 계좌로 <b>선입금 5만원</b>을 입금해야 하며, 이후 벙비 자동정산으로 차액을 정산합니다.</li>
-          <li>새싹 벙주(Lv.1)는 최대 4인 · 낮 시간대 · 개방된 공공장소 번개만 열 수 있습니다.</li>
-        </ul>
-        <label class="cr-agree">
-          <input type="checkbox" id="fcAgreeRules">
-          <span>위 벙규칙을 확인했으며, 이를 준수하겠습니다.</span>
-        </label>
       </div>
       <div class="compose-actions">
         <span class="compose-hint">&#9888; 첫 번개 참석(가입 후 1개월 이내) 경험이 있어야 번개를 열 수 있어요.</span>
@@ -3622,7 +3603,7 @@
   if (!tab || !drawer) return;
 
   var PIN_KEY = 'dasibom-guide-pinned';
-  var pinned = localStorage.getItem(PIN_KEY) === '1';
+  var pinned = localStorage.getItem(PIN_KEY) !== '0';
 
   function applyPinState() {
     drawer.classList.toggle('pinned', pinned);
@@ -4056,13 +4037,7 @@
     var placeLink = document.getElementById('fcPlaceLink').value.trim();
     var countRaw = document.getElementById('fcCount').value.trim();
     var isToday = document.getElementById('fcToday').checked;
-    var agreeEl = document.getElementById('fcAgreeRules');
     if (!topic || !time || !place) return;
-    if (!agreeEl.checked) {
-      if (window.dasibomShowJoinToast) window.dasibomShowJoinToast('벙규칙 확인 후 동의해주세요');
-      agreeEl.focus();
-      return;
-    }
 
     var capMatch = countRaw.match(/\d+/);
     var cap = capMatch ? Math.max(2, Math.min(20, parseInt(capMatch[0], 10))) : 4;
@@ -4088,7 +4063,6 @@
     document.getElementById('fcPlaceLink').value = '';
     document.getElementById('fcCount').value = '';
     document.getElementById('fcToday').checked = false;
-    agreeEl.checked = false;
     panel.classList.remove('open');
   });
 })();

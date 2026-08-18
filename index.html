@@ -547,16 +547,24 @@
 
   /* 공감 · 댓글 */
   .bpost .bactions { display: flex; gap: var(--s-2); }
-  .react-btn, .comment-toggle-btn {
+  .react-btn, .comment-toggle-btn, .share-btn {
     display: inline-flex; align-items: center; gap: 5px;
     background: transparent; border: 1px solid var(--rule); border-radius: 20px;
     padding: 5px 11px; font-size: var(--fs-2xs); color: var(--fg-dim); cursor: pointer;
     transition: all .15s ease; font-family: inherit;
   }
-  .react-btn svg { width: 13px; height: 13px; flex: none; }
-  .react-btn:hover, .comment-toggle-btn:hover { border-color: var(--accent); color: var(--fg); }
+  .react-btn svg, .share-btn svg { width: 13px; height: 13px; flex: none; }
+  .react-btn:hover, .comment-toggle-btn:hover, .share-btn:hover { border-color: var(--accent); color: var(--fg); }
   .react-btn.active { background: var(--gold-soft); border-color: var(--accent); color: var(--accent); font-weight: 700; }
   .comment-toggle-btn.on { color: var(--fg); border-color: var(--fg-dim); }
+  .share-btn.copied { background: var(--gold-soft); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .bactions { position: relative; }
+  .share-toast {
+    position: absolute; bottom: calc(100% + 8px); left: 0; background: var(--fg); color: var(--bg);
+    font-size: var(--fs-2xs); font-weight: 700; padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+    opacity: 0; pointer-events: none; transform: translateY(4px); transition: opacity .15s, transform .15s; z-index: 5;
+  }
+  .share-toast.show { opacity: 1; transform: translateY(0); }
 
   .bcomments { margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px dashed var(--rule); }
   .bcomment-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-4); }
@@ -2830,6 +2838,8 @@
     var textarea = post.querySelector('.bcomment-form textarea');
     var submitBtn = post.querySelector('.bcomment-submit');
     var alertBox = post.querySelector('.bcomment-alert');
+    var shareBtn = post.querySelector('.share-btn');
+    var bactions = post.querySelector('.bactions');
 
     // 공감(좋아요) 토글 — localStorage에 저장해 새로고침 후에도 유지
     var likeKey = 'dasibom-bamboo-like-' + postId;
@@ -2847,6 +2857,39 @@
       localStorage.setItem(likeKey, liked ? '1' : '0');
       renderReact();
     });
+
+    // 공유하기 — 네이티브 공유 시트가 있으면 그걸, 없으면 링크를 복사
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function () {
+        var storyText = post.querySelector('p').textContent.trim();
+        var shareUrl = location.origin + location.pathname + '#bamboo';
+        var shareText = '[다시봄 마음 대나무숲]\n' + storyText + '\n\n' + shareUrl;
+
+        function showToast(msg) {
+          var toast = bactions.querySelector('.share-toast');
+          if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'share-toast';
+            bactions.appendChild(toast);
+          }
+          toast.textContent = msg;
+          requestAnimationFrame(function () { toast.classList.add('show'); });
+          setTimeout(function () { toast.classList.remove('show'); }, 1800);
+        }
+
+        if (navigator.share) {
+          navigator.share({ text: shareText, url: shareUrl }).catch(function () {});
+        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shareText).then(function () {
+            shareBtn.classList.add('copied');
+            showToast('링크가 복사되었어요');
+            setTimeout(function () { shareBtn.classList.remove('copied'); }, 1500);
+          }).catch(function () { showToast('복사에 실패했어요'); });
+        } else {
+          showToast('이 브라우저에서는 공유가 지원되지 않아요');
+        }
+      });
+    }
 
     // 댓글 패널 열고 닫기
     commentToggle.addEventListener('click', function () {
@@ -3380,6 +3423,7 @@
       '<div class="bmeta"><div class="bactions">' +
       '<button type="button" class="react-btn" data-count="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="4 12.5 9.5 18 20 6"/></svg><span class="react-label">공감</span> <span class="react-count">0</span></button>' +
       '<button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">0</span></button>' +
+      '<button type="button" class="share-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><line x1="8.3" y1="10.7" x2="15.7" y2="6.3"/><line x1="8.3" y1="13.3" x2="15.7" y2="17.7"/></svg><span class="share-label">공유</span></button>' +
       '</div></div>' +
       '<div class="bcomments" hidden><div class="bcomment-list"></div><div class="bcomment-form">' +
       '<textarea placeholder="따뜻한 댓글을 남겨주세요 (최대 200자)" maxlength="200"></textarea>' +

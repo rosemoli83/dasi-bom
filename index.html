@@ -506,6 +506,43 @@
   .side-drawer .sd-close { background: transparent; border: 1px solid var(--rule); border-radius: 50%; width: 30px; height: 30px; cursor: pointer; color: var(--fg-dim); }
   .side-drawer .sd-close:hover { border-color: var(--accent); color: var(--accent); }
   .side-drawer .sd-body { padding: var(--s-5) var(--s-6) var(--s-8); display: flex; flex-direction: column; gap: var(--s-3); }
+
+  /* 모임 규정 안내 — 왼쪽 고정 바 */
+  .guide-tab {
+    position: fixed; left: 0; top: 40%; transform: translateY(-50%); z-index: 40;
+    background: var(--surface); color: var(--fg); border: 1px solid var(--rule); border-left: none;
+    border-radius: 0 18px 18px 0; padding: 16px 9px; font-size: 12px; font-weight: 700; letter-spacing: .04em;
+    cursor: pointer; writing-mode: vertical-rl; box-shadow: var(--shadow);
+  }
+  .guide-tab:hover { color: var(--accent); border-color: var(--accent); }
+  .guide-backdrop { display: none; position: fixed; inset: 0; z-index: 44; background: #00000040; }
+  .guide-backdrop.open { display: block; }
+  .guide-drawer {
+    position: fixed; top: 0; left: 0; bottom: 0; width: min(360px, 88vw); z-index: 45;
+    background: var(--bg); border-right: 1px solid var(--rule); box-shadow: 18px 0 40px -20px #00000040;
+    transform: translateX(-100%); transition: transform .28s ease; overflow-y: auto;
+  }
+  .guide-drawer.open { transform: translateX(0); }
+  .guide-drawer.pinned { box-shadow: 18px 0 40px -20px #00000040, inset -3px 0 0 var(--accent); }
+  .guide-drawer .sd-head { display: flex; justify-content: space-between; align-items: center; padding: var(--s-5) var(--s-6); border-bottom: 1px solid var(--rule); position: sticky; top: 0; background: var(--bg); gap: var(--s-2); }
+  .guide-drawer .sd-head h3 { font-size: var(--fs-md); }
+  .guide-drawer .sd-head-btns { display: flex; align-items: center; gap: 6px; flex: none; }
+  .guide-pin {
+    background: transparent; border: 1px solid var(--rule); border-radius: 50%; width: 30px; height: 30px;
+    cursor: pointer; color: var(--fg-dim); font-size: 14px; line-height: 1; display: flex; align-items: center; justify-content: center;
+  }
+  .guide-pin:hover { border-color: var(--accent); color: var(--accent); }
+  .guide-pin.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .guide-drawer .sd-close { background: transparent; border: 1px solid var(--rule); border-radius: 50%; width: 30px; height: 30px; cursor: pointer; color: var(--fg-dim); flex: none; }
+  .guide-drawer .sd-close:hover { border-color: var(--accent); color: var(--accent); }
+  .guide-drawer .sd-body { padding: var(--s-5) var(--s-6) var(--s-8); display: flex; flex-direction: column; gap: var(--s-7); }
+  .guide-section .gs-title { font-size: var(--fs-sm); font-weight: 700; margin-bottom: var(--s-3); }
+  .guide-section ul { margin: 0 0 var(--s-3); padding-left: 18px; font-size: var(--fs-xs); line-height: 1.75; color: var(--fg-dim); }
+  .guide-section ul li b { color: var(--fg); }
+  .guide-section a { font-size: var(--fs-2xs); font-weight: 700; color: var(--accent); text-decoration: none; }
+  .guide-section a:hover { text-decoration: underline; }
+  .guide-pin-note { font-size: var(--fs-2xs); color: var(--fg-dim); background: var(--surface); border-radius: 12px; padding: var(--s-3) var(--s-4); }
+
   @media (max-width: 720px) {
     .quick-bung { grid-template-columns: 1fr; }
     .chat-messages { height: 460px; }
@@ -1723,7 +1760,7 @@
       </div>
     </div>
 
-    <div class="mgroup-label" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);"><h3>벙주 인증 제도</h3><span class="line"></span><span class="price">번개는 인증된 벙주만 개설</span></div>
+    <div class="mgroup-label" id="host-cert" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); scroll-margin-top: 90px;"><h3>벙주 인증 제도</h3><span class="line"></span><span class="price">번개는 인증된 벙주만 개설</span></div>
     <p style="max-width:60ch; margin-bottom: var(--s-6);">가입 후 <b style="color:var(--fg)">1개월 이내에 번개(또는 정모)에 첫 참석</b>만 하면, 그 다음부터는 누구든 벙주 인증을 거쳐 번개를 열 수 있습니다. 참석자의 안전을 스스로 책임질 준비가 됐는지 확인하는 절차이며, 인증 후에도 활동 이력에 따라 등급이 나뉩니다.</p>
     <div class="host-tiers">
       <div class="host-tier">
@@ -1769,7 +1806,7 @@
       <span><b>벙주 자격은 영구적이지 않습니다.</b> 벙비 정산 미이행이나 신고가 누적되면 등급이 강등되거나 자격이 일시정지되며, 이 기간에는 번개를 열 수 없습니다. 기존 커뮤니티 약속&middot;제재 체계와 동일한 기준을 그대로 적용합니다.</span>
     </div>
 
-    <div class="mgroup-label" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule);"><h3>번개 참석 규칙</h3><span class="line"></span><span class="price">성비&middot;선입금 기준</span></div>
+    <div class="mgroup-label" id="flash-rules" style="margin-top: var(--s-9); padding-top: var(--s-8); border-top: 1px solid var(--rule); scroll-margin-top: 90px;"><h3>번개 참석 규칙</h3><span class="line"></span><span class="price">성비&middot;선입금 기준</span></div>
     <p style="max-width:62ch; margin-bottom: var(--s-2);">특정 성별에 인원이 쏠려 누군가 불편해지는 상황을 막기 위해, 참석자 수 기준 아래의 최소 성비를 유지해야 신청이 확정됩니다. (소수 성별 인원 : 다수 성별 인원)</p>
     <div class="ratio-grid mono">
       <span class="ratio-chip">1:3</span><span class="ratio-chip">2:3</span><span class="ratio-chip">2:4</span><span class="ratio-chip">2:5</span>
@@ -1977,6 +2014,52 @@
     </div>
   </div>
 </section>
+
+<button type="button" class="guide-tab" id="guideTab">&laquo; 모임 규정 보기</button>
+<div class="guide-backdrop" id="guideBackdrop"></div>
+<div class="guide-drawer" id="guideDrawer">
+  <div class="sd-head">
+    <h3>모임 규정 한눈에 보기</h3>
+    <div class="sd-head-btns">
+      <button type="button" class="guide-pin" id="guidePin" aria-label="고정" title="이 창 고정하기">&#128204;</button>
+      <button type="button" class="sd-close" id="guideClose" aria-label="닫기">&times;</button>
+    </div>
+  </div>
+  <div class="sd-body">
+    <div class="guide-pin-note" id="guidePinNote" hidden>&#128204; 고정됨 — 다른 곳을 눌러도 닫히지 않아요. 다시 누르면 고정이 풀려요.</div>
+
+    <div class="guide-section">
+      <div class="gs-title">🏅 벙주 인증 제도</div>
+      <ul>
+        <li><b>Lv.1 새싹 벙주</b> — 최대 4인, 낮 시간대·개방된 공공장소 번개만 개설</li>
+        <li><b>Lv.2 정식 벙주</b> — 인원 제한 없음, 저녁·음주 동반 모임 가능</li>
+        <li><b>Lv.3 시니어 벙주</b> — 누적 10회 이상·신고 0건, 정모 채택 제안 가능</li>
+        <li>인증 절차: 자격 확인 → 벙주 서약 동의 → 안전 수칙 체크 → 운영진 승인</li>
+      </ul>
+      <a href="#host-cert" data-guide-jump="1">자세히 보기 &rarr;</a>
+    </div>
+
+    <div class="guide-section">
+      <div class="gs-title">👥 번개 참석 규칙</div>
+      <ul>
+        <li>참석자 수 기준 최소 성비(소수:다수)를 지켜야 신청 확정 (예: 2:3, 3:5 등)</li>
+        <li>전원 동의 시 동성 번개는 성비 기준 예외</li>
+        <li>운동 중심 번개는 성비 기준 예외, 대신 <b>최대 16명</b></li>
+        <li>참석 확정 시 모임 전까지 <b>선입금 5만원</b> 필수</li>
+      </ul>
+      <a href="#flash-rules" data-guide-jump="1">자세히 보기 &rarr;</a>
+    </div>
+
+    <div class="guide-section">
+      <div class="gs-title">💳 벙비 자동정산</div>
+      <ul>
+        <li>벙주가 비용을 먼저 결제 &rarr; 항목별 대상자 체크 &rarr; 1/n 또는 차등으로 자동 계산</li>
+        <li>참석자에게 정산 요청이 자동으로 전달되어, 수기 계산·독촉이 필요 없음</li>
+      </ul>
+      <a href="#settlement" data-guide-jump="1">자세히 보기 &rarr;</a>
+    </div>
+  </div>
+</div>
 
 <button type="button" class="drawer-tab" id="drawerTab">번개 더보기 &raquo;</button>
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
@@ -3318,6 +3401,61 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeDrawer();
   });
+})();
+
+(function () {
+  // 모임 규정 안내 — 왼쪽 고정 바 (압정으로 고정하면 배경을 눌러도 닫히지 않음)
+  var tab = document.getElementById('guideTab');
+  var drawer = document.getElementById('guideDrawer');
+  var backdrop = document.getElementById('guideBackdrop');
+  var closeBtn = document.getElementById('guideClose');
+  var pinBtn = document.getElementById('guidePin');
+  var pinNote = document.getElementById('guidePinNote');
+  if (!tab || !drawer) return;
+
+  var PIN_KEY = 'dasibom-guide-pinned';
+  var pinned = localStorage.getItem(PIN_KEY) === '1';
+
+  function applyPinState() {
+    drawer.classList.toggle('pinned', pinned);
+    pinBtn.classList.toggle('active', pinned);
+    pinNote.hidden = !pinned;
+    if (pinned) backdrop.classList.remove('open');
+  }
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    if (!pinned) backdrop.classList.add('open');
+  }
+  function closeDrawer(force) {
+    if (pinned && !force) return;
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+  }
+
+  tab.addEventListener('click', openDrawer);
+  backdrop.addEventListener('click', function () { closeDrawer(); });
+  if (closeBtn) closeBtn.addEventListener('click', function () {
+    pinned = false;
+    localStorage.setItem(PIN_KEY, '0');
+    applyPinState();
+    closeDrawer(true);
+  });
+  pinBtn.addEventListener('click', function () {
+    pinned = !pinned;
+    localStorage.setItem(PIN_KEY, pinned ? '1' : '0');
+    applyPinState();
+    if (pinned) openDrawer();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
+  drawer.querySelectorAll('[data-guide-jump]').forEach(function (a) {
+    a.addEventListener('click', function () { closeDrawer(true); });
+  });
+
+  applyPinState();
+  if (pinned) openDrawer();
 })();
 
 (function () {

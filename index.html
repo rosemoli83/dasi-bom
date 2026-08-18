@@ -2060,11 +2060,11 @@
         </select>
       </div>
 
-      <div class="doc-note">회원가입은 서류 없이 바로 완료할 수 있습니다. 본인인증(서류 제출)은 가입 직후 또는 <b style="color:var(--fg)">가입 후 48시간 이내</b>에 언제든 진행하시면 됩니다. 인증 전에도 둘러보는 것은 자유지만, 모임 참여&middot;채팅&middot;마일리지 등 실제 서비스 이용은 인증 완료 후에만 가능합니다.</div>
+      <div class="doc-note">회원가입은 서류 없이 바로 완료할 수 있습니다. 가입 즉시 모임 참여&middot;채팅&middot;마일리지 등 모든 서비스를 바로 이용하실 수 있습니다.</div>
 
       <label class="check-row">
         <input type="checkbox" required>
-        <span>가입 후 48시간 이내에 서류(혼인관계증명서&middot;가족관계증명서&middot;신분증)로 무자녀 이혼 사실을 인증하고 무자녀 확인 각서에 서명하는 절차에 동의합니다.</span>
+        <span>무자녀 확인 각서에 서명하며, 허위 사실이 확인될 경우 즉시 영구정지될 수 있음에 동의합니다.</span>
       </label>
       <label class="check-row">
         <input type="checkbox" required>
@@ -2077,9 +2077,8 @@
     <div class="modal-success" id="joinSuccess" hidden>
       <div class="mark">&check;</div>
       <h2>가입이 완료되었습니다</h2>
-      <p>이제 홈페이지를 자유롭게 둘러볼 수 있어요. 다만 모임 참여&middot;채팅&middot;마일리지 같은 실제 서비스는 <b style="color:var(--fg)">본인인증(서류 제출)</b>을 마쳐야 이용할 수 있습니다. 지금 바로 하셔도 되고, 가입 후 48시간 이내에 나중에 하셔도 됩니다.</p>
-      <button type="button" class="btn" id="verifyNowBtn" style="width:100%; justify-content:center;">지금 바로 인증하기</button>
-      <button type="button" class="btn ghost" id="verifyLaterBtn" style="width:100%; justify-content:center; margin-top: var(--s-3);">48시간 이내 나중에 인증하기</button>
+      <p>이제 모임 참여&middot;채팅&middot;마일리지 등 모든 서비스를 바로 이용하실 수 있어요.</p>
+      <button type="button" class="btn" id="joinSuccessCloseBtn" style="width:100%; justify-content:center;">시작하기</button>
     </div>
       </div>
     </div>
@@ -2319,26 +2318,14 @@
       };
       localStorage.setItem('dasibom-account', JSON.stringify(account));
       localStorage.setItem('dasibom-joined', '1');
-      if (!localStorage.getItem('dasibom-verify-deadline')) {
-        localStorage.setItem('dasibom-verify-deadline', String(Date.now() + 48 * 3600 * 1000));
-      }
       document.querySelectorAll('.page.locked').forEach(function (p) { p.classList.remove('locked'); });
       var dt = document.getElementById('drawerTab');
       if (dt) dt.hidden = false;
-      if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();
       if (window.dasibomRefreshNavMileage) window.dasibomRefreshNavMileage();
     });
 
-    var verifyNowBtn = document.getElementById('verifyNowBtn');
-    var verifyLaterBtn = document.getElementById('verifyLaterBtn');
-    if (verifyNowBtn) verifyNowBtn.addEventListener('click', function () {
-      closeModal();
-      if (window.dasibomOpenVerifyModal) window.dasibomOpenVerifyModal();
-    });
-    if (verifyLaterBtn) verifyLaterBtn.addEventListener('click', function () {
-      closeModal();
-      if (window.dasibomRefreshVerifyBanner) window.dasibomRefreshVerifyBanner();
-    });
+    var joinSuccessCloseBtn = document.getElementById('joinSuccessCloseBtn');
+    if (joinSuccessCloseBtn) joinSuccessCloseBtn.addEventListener('click', closeModal);
   })();
 
   (function () {
@@ -2381,39 +2368,15 @@
   })();
 
   (function () {
-    // 인증 리마인드 배너 (48시간 카운트다운)
+    // 본인인증 절차 제거됨 — 가입(로그인)만 하면 모든 기능 이용 가능
     var banner = document.getElementById('verifyBanner');
-    var countdownEl = document.getElementById('verifyCountdown');
-    var bannerBtn = document.getElementById('verifyBannerBtn');
     if (!banner) return;
 
-    function isAdmin() { return localStorage.getItem('dasibom-admin') === '1'; }
-    function isVerified() { return localStorage.getItem('dasibom-verified') === '1'; }
-    function isJoined() { return localStorage.getItem('dasibom-joined') === '1' || sessionStorage.getItem('dasibom-joined') === '1'; }
-
-    function refresh() {
-      if (isAdmin() || isVerified() || !isJoined()) { banner.hidden = true; return; }
-      var deadline = parseInt(localStorage.getItem('dasibom-verify-deadline'), 10);
-      if (!deadline) { deadline = Date.now() + 48 * 3600 * 1000; localStorage.setItem('dasibom-verify-deadline', String(deadline)); }
-      var remain = deadline - Date.now();
-      if (remain <= 0) {
-        countdownEl.textContent = '기한이 지났어요';
-      } else {
-        var h = Math.floor(remain / 3600000);
-        var m = Math.floor((remain % 3600000) / 60000);
-        countdownEl.textContent = h + '시간 ' + m + '분';
-      }
-      banner.hidden = false;
-    }
+    function refresh() { banner.hidden = true; }
     window.dasibomRefreshVerifyBanner = refresh;
-    window.dasibomIsVerified = function () { return isAdmin() || isVerified(); };
-
-    if (bannerBtn) bannerBtn.addEventListener('click', function () {
-      if (window.dasibomOpenVerifyModal) window.dasibomOpenVerifyModal();
-    });
+    window.dasibomIsVerified = function () { return true; };
 
     refresh();
-    setInterval(refresh, 60000);
   })();
 
   (function () {

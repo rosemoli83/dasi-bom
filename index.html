@@ -812,6 +812,9 @@
   .doc-note { font-size: 11px; color: var(--fg-dim); line-height: 1.6; margin: calc(var(--s-3) * -1) 0 var(--s-5); }
   .check-row { display: flex; align-items: flex-start; gap: var(--s-3); font-size: var(--fs-xs); color: var(--fg-dim); line-height: 1.6; margin-bottom: var(--s-6); }
   .check-row input { margin-top: 3px; accent-color: var(--accent); flex: none; }
+  .check-row.bd-consent { font-size: calc(var(--fs-xs) * 1.5); color: var(--fg); margin-bottom: var(--s-3); }
+  .check-row.bd-consent input { margin-top: 5px; width: 18px; height: 18px; }
+  .bd-consent-hint { display: flex; align-items: center; gap: 6px; font-size: var(--fs-2xs); font-weight: 700; color: var(--accent); margin-bottom: var(--s-5); }
   .modal .btn { width: 100%; justify-content: center; padding: 12px 20px; }
   .modal-success { text-align: center; padding: var(--s-6) 0 var(--s-3); }
   .modal-success .mark { width: 44px; height: 44px; border-radius: 50%; background: var(--tag-bg); color: var(--tag-fg); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--s-5); font-size: 20px; }
@@ -1394,10 +1397,11 @@
         <div class="style-saved-note" id="styleSavedNote" hidden>&#10003; 저장되었습니다. 궁합 매칭 시 참고됩니다.</div>
       </div>
 
-      <label class="check-row">
+      <label class="check-row bd-consent">
         <input type="checkbox" id="bdConsent">
         <span>검사 결과를 바탕으로 한 <b>1:1 블라인드 데이트 매칭</b>에 참여하는 것에 동의합니다. 상대의 얼굴&middot;이름은 양쪽 모두 동의하기 전까지 공개되지 않습니다.</span>
       </label>
+      <div class="bd-consent-hint">&#9888; 위 항목에 동의해야 &ldquo;가장 잘 맞는 상대 찾기&rdquo;를 이용할 수 있어요.</div>
       <button type="button" class="btn" id="bdMatchBtn" disabled>가장 잘 맞는 상대 찾기</button>
 
       <div class="bd-loading" id="bdLoading" hidden><span class="bd-spinner"></span> 궁합이 잘 맞는 상대를 찾는 중&hellip;</div>
@@ -1874,7 +1878,7 @@
       <button type="button" class="btn sm join-btn" data-join="weekend-brunch" data-cap="4">참여하기</button>
     </div>
     </div>
-    <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>번개 열기</b>는 가입 후 1개월 이내 첫 번개 참석을 마친 정회원이라면 누구나 가능합니다.</div>
+    <div class="flash-open-card">번개는 주제&middot;일시&middot;장소&middot;예상 인원만 입력하면 바로 열립니다. 최소 2인이 모이면 성사되고, 비용은 벙주가 먼저 결제한 뒤 <a href="#settlement" style="color:var(--accent); font-weight:700;">벙비 자동정산</a>으로 나눠 받습니다. <b>번개 열기</b>는 가입 후 1개월 이내 첫 번개 참석을 마친 정회원이라면 누구나 가능합니다. 참여 신청은 <b>전날까지 자유롭게 취소</b>할 수 있으며(당일 확정 건 제외), 참여완료 버튼을 다시 누르면 &ldquo;취소하기&rdquo;로 바뀝니다.</div>
 
     <div class="mgroup-label"><h3>모임 사진 공유</h3><span class="line"></span><span class="price">참여 확정자만 열람</span></div>
     <div class="gallery">
@@ -3588,6 +3592,8 @@
   // 새로고침해도 유지되고, 정원이 차면 자동으로 마감 처리된다.
   var JOIN_PREFIX = 'dasibom-joined-';
   var BASE = {};
+  // 당일(오늘) 확정된 참여는 취소 기한(전날까지)이 지났으므로 취소 버튼을 막는다.
+  var TODAY_IDS = { 'weekday-cafe': true };
 
   function toastEl() {
     var t = document.getElementById('joinToast');
@@ -3634,9 +3640,14 @@
       var label = btn.getAttribute('data-label');
       btn.classList.remove('joined');
       if (joined) {
-        btn.disabled = true;
         btn.classList.add('joined');
-        btn.textContent = (label.indexOf('신청') !== -1 ? '신청' : '참여') + '완료 ✓';
+        if (TODAY_IDS[id]) {
+          btn.disabled = true;
+          btn.textContent = (label.indexOf('신청') !== -1 ? '신청' : '참여') + '완료 ✓';
+        } else {
+          btn.disabled = false;
+          btn.textContent = '취소하기';
+        }
       } else if (cap && displayed >= cap) {
         btn.disabled = true;
         btn.textContent = '마감';
@@ -3667,7 +3678,13 @@
       if (window.dasibomOpenVerifyModal) window.dasibomOpenVerifyModal();
       return;
     }
-    if (isJoined(id)) return;
+    if (isJoined(id)) {
+      if (TODAY_IDS[id]) return;
+      setJoined(id, false);
+      syncJoinId(id);
+      showJoinToast('참여가 취소되었습니다');
+      return;
+    }
     var cap = parseInt(btn.getAttribute('data-cap'), 10) || 0;
     if (cap && getBase(id) + 1 > cap) {
       showJoinToast('정원이 마감되었습니다');
@@ -3676,11 +3693,12 @@
     }
     setJoined(id, true);
     syncJoinId(id);
-    showJoinToast('참여 신청이 완료되었습니다');
+    showJoinToast('참여 신청이 완료되었습니다 (전날까지 취소 가능)');
   });
 
   window.dasibomSyncJoinId = syncJoinId;
   window.dasibomShowJoinToast = showJoinToast;
+  window.dasibomMarkJoinToday = function (id) { TODAY_IDS[id] = true; syncJoinId(id); };
 })();
 
 (function () {
@@ -3718,8 +3736,10 @@
   document.querySelectorAll('.events .join-btn[data-join]').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       if (btn.disabled) return;
-      e.stopImmediatePropagation();
       var id = btn.getAttribute('data-join');
+      // 이미 신청된 상태(취소하기)라면 모달을 열지 않고 공통 취소 처리로 넘긴다.
+      if (localStorage.getItem(JOIN_PREFIX + id) === '1') return;
+      e.stopImmediatePropagation();
       var cap = parseInt(btn.getAttribute('data-cap'), 10) || 0;
       var card = btn.closest('.card');
       var h3 = card ? card.querySelector('h3') : null;
@@ -3821,7 +3841,8 @@
   // 이전에 열어둔 번개 복원 (최신순으로 저장돼 있으므로 저장 순서 그대로 위에서부터 삽입)
   loadUserFlashes().forEach(function (item) {
     renderFlashCard(item);
-    if (window.dasibomSyncJoinId) window.dasibomSyncJoinId(item.id);
+    if (item.isToday && window.dasibomMarkJoinToday) window.dasibomMarkJoinToday(item.id);
+    else if (window.dasibomSyncJoinId) window.dasibomSyncJoinId(item.id);
   });
 
   submitBtn.addEventListener('click', function () {
@@ -3852,7 +3873,8 @@
     // 벙주 본인은 자동으로 참여 처리
     if (window.dasibomSyncJoinId) {
       localStorage.setItem('dasibom-joined-' + item.id, '1');
-      window.dasibomSyncJoinId(item.id);
+      if (item.isToday && window.dasibomMarkJoinToday) window.dasibomMarkJoinToday(item.id);
+      else window.dasibomSyncJoinId(item.id);
     }
     if (window.dasibomShowJoinToast) window.dasibomShowJoinToast('번개가 열렸습니다');
 

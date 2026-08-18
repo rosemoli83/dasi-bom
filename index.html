@@ -866,7 +866,7 @@
     border: 1px solid var(--rule); border-radius: 12px; padding: 10px 14px; resize: vertical; min-height: 70px;
   }
   .compose-panel .compose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); margin-bottom: var(--s-4); }
-  .compose-panel input, .compose-panel select {
+  .compose-panel input:not([type="checkbox"]), .compose-panel select {
     width: 100%; font: inherit; font-size: var(--fs-sm); color: var(--fg); background: var(--bg);
     border: 1px solid var(--rule); border-radius: 12px; padding: 9px 12px;
   }
@@ -874,6 +874,21 @@
   .compose-actions { display: flex; justify-content: space-between; align-items: center; margin-top: var(--s-4); gap: var(--s-3); flex-wrap: wrap; }
   .compose-hint { font-size: 11px; color: var(--fg-dim); }
   @media (max-width: 720px) { .compose-panel .compose-grid { grid-template-columns: 1fr; } }
+
+  /* 번개 열기: 벙규칙 자동 고지 */
+  .compose-rules { background: var(--bg); border: 1px dashed var(--rule); border-radius: 14px; padding: var(--s-4) var(--s-5); margin-bottom: var(--s-4); }
+  .compose-rules .cr-title { font-size: var(--fs-xs); font-weight: 700; margin-bottom: var(--s-2); }
+  .compose-rules ul { margin: 0; padding-left: 18px; font-size: var(--fs-2xs); line-height: 1.7; color: var(--fg-dim); }
+  .compose-rules .cr-agree { display: flex; align-items: flex-start; gap: 7px; margin-top: var(--s-3); font-size: var(--fs-2xs); font-weight: 700; }
+  .compose-rules .cr-agree input { margin-top: 2px; width: 15px; height: 15px; flex: none; }
+
+  /* 번개 오늘 뱃지 · 장소 링크 */
+  .flash-today-badge {
+    display: inline-flex; align-items: center; font-size: 10px; font-weight: 800; color: var(--accent-ink);
+    background: var(--accent); border-radius: 20px; padding: 2px 9px; margin-right: 6px; vertical-align: middle;
+  }
+  .flash-card .place-link { color: var(--accent); text-decoration: none; font-weight: 700; }
+  .flash-card .place-link:hover { text-decoration: underline; }
   @media (max-width: 860px) {
     .fs-grid { grid-template-columns: 1fr; }
     .fs-visual { display: none; }
@@ -1508,6 +1523,10 @@
               <span class="react-label">공감</span> <span class="react-count">12</span>
             </button>
             <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">2</span></button>
+            <button type="button" class="share-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><line x1="8.3" y1="10.7" x2="15.7" y2="6.3"/><line x1="8.3" y1="13.3" x2="15.7" y2="17.7"/></svg>
+              <span class="share-label">공유</span>
+            </button>
           </div>
         </div>
         <div class="bcomments" hidden>
@@ -1533,6 +1552,10 @@
               <span class="react-label">공감</span> <span class="react-count">21</span>
             </button>
             <button type="button" class="comment-toggle-btn"><span class="comment-label">댓글</span> <span class="comment-count">1</span></button>
+            <button type="button" class="share-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><line x1="8.3" y1="10.7" x2="15.7" y2="6.3"/><line x1="8.3" y1="13.3" x2="15.7" y2="17.7"/></svg>
+              <span class="share-label">공유</span>
+            </button>
           </div>
         </div>
         <div class="bcomments" hidden>
@@ -1763,6 +1786,25 @@
         <div><label for="fcCount">예상 인원</label><input type="text" id="fcCount" placeholder="예: 4명 (최소 2인)" maxlength="20"></div>
         <div><label for="fcTime">일시</label><input type="text" id="fcTime" placeholder="예: 8.20(목) 저녁 7시" maxlength="30"></div>
         <div><label for="fcPlace">장소</label><input type="text" id="fcPlace" placeholder="예: 홍대 스터디카페" maxlength="30"></div>
+        <div><label for="fcPlaceLink">장소 링크 <span style="font-weight:400; color:var(--fg-dim);">(선택)</span></label><input type="url" id="fcPlaceLink" placeholder="네이버 지도 공유 링크 (비워두면 장소명으로 자동 연결)"></div>
+        <div>
+          <label for="fcToday">개설일</label>
+          <label style="display:flex; align-items:center; gap:6px; height:38px; font-size:var(--fs-xs); font-weight:400; color:var(--fg); cursor:pointer;">
+            <input type="checkbox" id="fcToday" style="width:15px; height:15px; margin:0;">오늘 바로 여는 번개예요 (목록 맨 위에 고정)
+          </label>
+        </div>
+      </div>
+      <div class="compose-rules">
+        <div class="cr-title">&#128276; 번개 열기 전, 벙규칙을 꼭 확인해주세요</div>
+        <ul>
+          <li>참석자 수 기준 최소 성비(소수:다수)를 지켜야 신청이 확정됩니다. (예: 2:3, 3:5 등 — 운동 중심 번개·1:1 번개는 예외)</li>
+          <li>참석 확정자는 모임 전까지 벙주 계좌로 <b>선입금 5만원</b>을 입금해야 하며, 이후 벙비 자동정산으로 차액을 정산합니다.</li>
+          <li>새싹 벙주(Lv.1)는 최대 4인 · 낮 시간대 · 개방된 공공장소 번개만 열 수 있습니다.</li>
+        </ul>
+        <label class="cr-agree">
+          <input type="checkbox" id="fcAgreeRules">
+          <span>위 벙규칙을 확인했으며, 이를 준수하겠습니다.</span>
+        </label>
       </div>
       <div class="compose-actions">
         <span class="compose-hint">&#9888; 첫 번개 참석(가입 후 1개월 이내) 경험이 있어야 번개를 열 수 있어요.</span>
@@ -1770,10 +1812,10 @@
       </div>
     </div>
     <div class="flash-list" id="flashList">
-    <div class="flash-card">
+    <div class="flash-card" data-today="1">
       <div class="host">
         <div class="flash-avatar">J</div>
-        <div><h4>평일 저녁 카페 번개</h4><span class="sub">벙주 J.K. &middot; Lv.2 정식 벙주 &middot; 8.14(금) 저녁 7시 &middot; 홍대 스터디카페</span></div>
+        <div><h4><span class="flash-today-badge">오늘</span>평일 저녁 카페 번개</h4><span class="sub">벙주 J.K. &middot; Lv.2 정식 벙주 &middot; 오늘 저녁 7시 &middot; <a class="place-link" target="_blank" rel="noopener" href="https://map.naver.com/p/search/%ED%99%8D%EB%8C%80%20%EC%8A%A4%ED%84%B0%EB%94%94%EC%B9%B4%ED%8E%98">홍대 스터디카페</a></span></div>
       </div>
       <span class="pill open"><span class="jc" data-join="weekday-cafe">2/4명</span> &middot; 최소 2인 성사</span>
       <button type="button" class="btn sm join-btn" data-join="weekday-cafe" data-cap="4">참여하기</button>
@@ -1781,7 +1823,7 @@
     <div class="flash-card">
       <div class="host">
         <div class="flash-avatar">S</div>
-        <div><h4>주말 브런치 번개</h4><span class="sub">벙주 S.P. &middot; Lv.3 시니어 벙주 &middot; 8.16(일) 오전 11시 &middot; 성수동</span></div>
+        <div><h4>주말 브런치 번개</h4><span class="sub">벙주 S.P. &middot; Lv.3 시니어 벙주 &middot; 8.16(일) 오전 11시 &middot; <a class="place-link" target="_blank" rel="noopener" href="https://map.naver.com/p/search/%EC%84%B1%EC%88%98%EB%8F%99">성수동</a></span></div>
       </div>
       <span class="pill soon"><span class="jc" data-join="weekend-brunch">3/4명</span> &middot; 마감임박</span>
       <button type="button" class="btn sm join-btn" data-join="weekend-brunch" data-cap="4">참여하기</button>
@@ -3538,6 +3580,18 @@
     localStorage.setItem(STORE_KEY, JSON.stringify(items));
   }
 
+  function naverMapLink(place) { return 'https://map.naver.com/p/search/' + encodeURIComponent(place); }
+
+  function insertCard(card, isToday) {
+    if (isToday) {
+      card.setAttribute('data-today', '1');
+      list.insertBefore(card, list.firstChild);
+    } else {
+      var firstNonToday = list.querySelector('.flash-card:not([data-today="1"])');
+      list.insertBefore(card, firstNonToday || null);
+    }
+  }
+
   function renderFlashCard(item) {
     var card = document.createElement('div');
     card.className = 'flash-card';
@@ -3545,15 +3599,30 @@
       '<div class="host"><div class="flash-avatar">나</div><div><h4></h4><span class="sub"></span></div></div>' +
       '<span class="pill open"><span class="jc" data-join=""></span> &middot; 방금 개설</span>' +
       '<button type="button" class="btn sm join-btn" data-join="" data-cap="">참여하기</button>';
-    card.querySelector('h4').textContent = item.topic;
-    card.querySelector('.sub').textContent = '벙주 나 · Lv.1 새싹 벙주 · ' + item.time + ' · ' + item.place;
+    var h4 = card.querySelector('h4');
+    if (item.isToday) {
+      var badge = document.createElement('span');
+      badge.className = 'flash-today-badge';
+      badge.textContent = '오늘';
+      h4.appendChild(badge);
+    }
+    h4.appendChild(document.createTextNode(item.topic));
+    var sub = card.querySelector('.sub');
+    sub.textContent = '벙주 나 · Lv.1 새싹 벙주 · ' + item.time + ' · ';
+    var placeLink = document.createElement('a');
+    placeLink.className = 'place-link';
+    placeLink.target = '_blank';
+    placeLink.rel = 'noopener';
+    placeLink.href = item.placeLink || naverMapLink(item.place);
+    placeLink.textContent = item.place;
+    sub.appendChild(placeLink);
     var jc = card.querySelector('.jc');
     jc.setAttribute('data-join', item.id);
     jc.textContent = '0/' + item.cap;
     var btn = card.querySelector('.join-btn');
     btn.setAttribute('data-join', item.id);
     btn.setAttribute('data-cap', String(item.cap));
-    list.insertBefore(card, list.firstChild);
+    insertCard(card, item.isToday);
   }
 
   function openPanel() {
@@ -3577,12 +3646,20 @@
     var topic = document.getElementById('fcTopic').value.trim();
     var time = document.getElementById('fcTime').value.trim();
     var place = document.getElementById('fcPlace').value.trim();
+    var placeLink = document.getElementById('fcPlaceLink').value.trim();
     var countRaw = document.getElementById('fcCount').value.trim();
+    var isToday = document.getElementById('fcToday').checked;
+    var agreeEl = document.getElementById('fcAgreeRules');
     if (!topic || !time || !place) return;
+    if (!agreeEl.checked) {
+      if (window.dasibomShowJoinToast) window.dasibomShowJoinToast('벙규칙 확인 후 동의해주세요');
+      agreeEl.focus();
+      return;
+    }
 
     var capMatch = countRaw.match(/\d+/);
     var cap = capMatch ? Math.max(2, Math.min(20, parseInt(capMatch[0], 10))) : 4;
-    var item = { id: 'flash-user-' + Date.now(), topic: topic, time: time, place: place, cap: cap };
+    var item = { id: 'flash-user-' + Date.now(), topic: topic, time: time, place: place, placeLink: placeLink, cap: cap, isToday: isToday };
 
     renderFlashCard(item);
 
@@ -3600,7 +3677,10 @@
     document.getElementById('fcTopic').value = '';
     document.getElementById('fcTime').value = '';
     document.getElementById('fcPlace').value = '';
+    document.getElementById('fcPlaceLink').value = '';
     document.getElementById('fcCount').value = '';
+    document.getElementById('fcToday').checked = false;
+    agreeEl.checked = false;
     panel.classList.remove('open');
   });
 })();
